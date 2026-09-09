@@ -12,16 +12,17 @@
   a { color: #1E4FD8; text-decoration: none; } a:hover { color: #16308F; }
 
   /* рельс */
-  .rail { width: 68px; background: #16307C; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; padding: 15px 0; gap: 4px; position: relative; z-index: 30; }
-  .rail-item { width: 46px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: .55; }
+  .rail { width: 68px; background: #16307C; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; padding: 10px 0; gap: 1px; position: relative; z-index: 30; overflow-y: auto; scrollbar-width: none; }
+  .rail::-webkit-scrollbar { display: none; }
+  .rail-item { width: 46px; height: 33px; border-radius: 9px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: .55; }
   .rail-item:hover { opacity: 1; background: rgba(255,255,255,.12); }
   .rail-item.on { opacity: 1; background: rgba(255,255,255,.18); }
-  .rail-sep { width: 26px; height: 1px; background: rgba(255,255,255,.18); margin: 8px 0; }
-  .flyout { position: absolute; left: 68px; top: 0; bottom: 0; width: 232px; background: #FFFFFF; border-right: 1px solid #E4E8F0; box-shadow: 6px 0 24px rgba(22,24,29,.10); z-index: 29; padding: 14px 10px; overflow-y: auto; }
-  .fly-item { display: flex; align-items: center; gap: 11px; padding: 8px 11px; border-radius: 9px; font-size: 14px; color: #2A3142; cursor: pointer; }
+  .rail-sep { width: 26px; height: 1px; background: rgba(255,255,255,.18); margin: 6px 0; flex-shrink: 0; }
+  .flyout { position: absolute; left: 68px; top: 0; bottom: 0; width: 236px; background: #FFFFFF; border-right: 1px solid #E4E8F0; box-shadow: 6px 0 24px rgba(22,24,29,.10); z-index: 29; padding: 10px 10px; overflow-y: auto; }
+  .fly-item { display: flex; align-items: center; gap: 11px; padding: 6px 11px; border-radius: 9px; font-size: 14px; color: #2A3142; cursor: pointer; }
   .fly-item:hover { background: #F2F5FB; color: #1E4FD8; }
   .fly-item.on { background: #EEF3FE; color: #1E4FD8; font-weight: 600; }
-  .fly-h { font-size: 10.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #A6ACBB; padding: 14px 11px 6px; }
+  .fly-h { font-size: 10.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #A6ACBB; padding: 10px 11px 5px; }
 
   .main { flex: 1; display: flex; flex-direction: column; min-width: 0; position: relative; }
   .top { height: 60px; background: #FFFFFF; border-bottom: 1px solid #E4E8F0; display: flex; align-items: center; justify-content: space-between; padding: 0 26px; flex-shrink: 0; }
@@ -123,7 +124,7 @@
         </div>
         <div style="font-size: 11.5px; color: #A6ACBB; margin-bottom: 10px;">Нажмите на строку — раскрою</div>
         <div id="sum" style="flex: 1; overflow-y: auto;"></div>
-        <div style="padding-top: 8px;"><span class="lnk" onclick="openSheet('Аналитика','показатель «Вся аналитика»')">Вся аналитика →</span></div>
+        <div style="padding-top: 8px;"><span class="lnk" onclick="openSheet('Аналитика','вас привёл показатель «Вся аналитика»')">Вся аналитика →</span></div>
       </div>
     </div>
 
@@ -204,7 +205,7 @@ S.feed = [
   { kind:'event', icon:'chat', title:'Ответил Игорю', time:'20:09',
     body:'Спросил, можно ли вдвоём на гончарный круг. Назвал 7 000 ₽ за двоих, предложил субботу — 10:00 или 15:00.',
     done:'Записал на субботу, 10:00 · +7 000 ₽ к дню',
-    buttons:[ {t:'Открыть диалог', k:'ghost', a:function(){ openSheet('Диалоги','карточка «Ответил Игорю»'); }},
+    buttons:[ {t:'Открыть диалог', k:'ghost', a:function(){ openSheet('Диалоги','вас привела карточка «Ответил Игорю»'); }},
               {t:'Отменить запись', k:'quiet', a:function(it){ cancelBooking(it); }} ] },
   { kind:'decision', icon:'info', title:'Нужно ваше решение', time:'19:40',
     body:'Клиент пишет в WhatsApp — я туда не дотягиваюсь. Второй такой за сегодня.',
@@ -214,7 +215,7 @@ S.feed = [
   { kind:'sail', body:'Семеро спрашивали про субботу и не попали — им четверг подойдёт. Напишу всем, предложу 10:00 и 18:00. Скидку не даю.' },
   { kind:'event', icon:'back', title:'Вернул троих, кто пропал', time:'18:12',
     body:'Двое откликнулись, один записался на курс — 24 000 ₽.',
-    buttons:[ {t:'Показать переписку', k:'ghost', a:function(){ openSheet('Диалоги','карточка «Вернул троих»'); }} ] },
+    buttons:[ {t:'Показать переписку', k:'ghost', a:function(){ openSheet('Диалоги','вас привела карточка «Вернул троих»'); }} ] },
   { kind:'event', icon:'bell', title:'Напомнил о завтрашних занятиях', time:'17:00',
     body:'Написал пятерым, кто записан на завтра. Один перенёс на воскресенье — место освободил, оно уже в расписании.' }
 ];
@@ -298,7 +299,7 @@ function renderPulse() {
   var warn = S.loadSegs.indexOf(0.5) > -1;
 
   p.innerHTML =
-  '<div class="tile" onclick="openSheet(\'Аналитика\',\'плитка «Деньги сегодня»\')">' +
+  '<div class="tile" onclick="openSheet(\'Аналитика\',\'вас привела плитка «Деньги сегодня»\')">' +
     '<span class="tile-lbl">Деньги сегодня</span>' +
     '<div style="display:flex;align-items:flex-end;justify-content:space-between;gap:10px">' +
       '<span class="tile-val" id="vMoney">' + money(S.money) + '</span>' +
@@ -307,7 +308,7 @@ function renderPulse() {
       '</div></div>' +
     '<span class="tile-sub">За неделю ' + money(S.week) + ' · лучший день</span></div>' +
 
-  '<div class="tile"' + (warn ? ' style="border-color:#F2DFB8;background:#FDFBF6"' : '') + ' onclick="openSheet(\'Услуги\',\'плитка «Загрузка недели»\')">' +
+  '<div class="tile"' + (warn ? ' style="border-color:#F2DFB8;background:#FDFBF6"' : '') + ' onclick="openSheet(\'Услуги\',\'вас привела плитка «Загрузка недели»\')">' +
     '<span class="tile-lbl">Загрузка недели</span>' +
     '<div style="display:flex;align-items:flex-end;justify-content:space-between;gap:10px">' +
       '<span class="tile-val" id="vLoad">' + S.load + '<span style="font-size:15px;font-weight:600">%</span></span>' +
@@ -317,12 +318,12 @@ function renderPulse() {
       : '<span class="tile-sub" style="color:#216B35">Четверг закрыт · свободных дней нет</span>') +
   '</div>' +
 
-  '<div class="tile" onclick="openSheet(\'Диалоги\',\'плитка «Обращения сегодня»\')">' +
+  '<div class="tile" onclick="openSheet(\'Диалоги\',\'вас привела плитка «Обращения сегодня»\')">' +
     '<span class="tile-lbl">Обращения сегодня</span>' +
     '<span class="tile-val">' + S.msgs + '</span>' +
     '<span class="tile-sub">Без ответа 0 · отвечаю за 40 с</span></div>' +
 
-  '<div class="tile" onclick="openSheet(\'Диалоги\',\'плитка «Молчат»\')">' +
+  '<div class="tile" onclick="openSheet(\'Диалоги\',\'вас привела плитка «Молчат»\')">' +
     '<span class="tile-lbl">Молчат</span>' +
     '<span class="tile-val" id="vSilent">' + S.silent + '</span>' +
     (S.silent > 0
@@ -355,7 +356,7 @@ function fillThursday() {
     push({ kind:'win', icon:'ok', title:'Четверг закрыт', time:'сейчас',
       body:'Из семерых ответили четверо, записались двое: 10:00 и 18:00. Ещё двоим предложил субботу через неделю.',
       done:'+7 000 ₽ к дню · загрузка недели 62 % → 78 %',
-      buttons:[{t:'Показать записи', k:'ghost', a:function(){ openSheet('Услуги','карточка «Четверг закрыт»'); }}] }, true);
+      buttons:[{t:'Показать записи', k:'ghost', a:function(){ openSheet('Услуги','вас привела карточка «Четверг закрыт»'); }}] }, true);
 
     S.money += 7000; S.week += 7000; S.load = 78;
     S.loadSegs = [1,1,1,1,1,0,0];
@@ -415,7 +416,7 @@ function cancelBooking(it) {
 }
 function restoreBooking(it) {
   it.done = 'Записал на субботу, 10:00 · +7 000 ₽ к дню';
-  it.buttons = [ {t:'Открыть диалог', k:'ghost', a:function(){ openSheet('Диалоги','карточка «Ответил Игорю»'); }},
+  it.buttons = [ {t:'Открыть диалог', k:'ghost', a:function(){ openSheet('Диалоги','вас привела карточка «Ответил Игорю»'); }},
                  {t:'Отменить запись', k:'quiet', a:function(x){ cancelBooking(x); }} ];
   renderFeed();
   S.money += 7000; renderPulse(); bump('vMoney');
@@ -430,11 +431,11 @@ function renderReady() {
 var SUM = [
   { t:'Сегодня', rows:[
     { k:'Выручка', v:'18 500 ₽', hint:'+24 % к среднему четвергу', spark:[7,11,9,15,12,18,20],
-      parts:[['Мастер-классы','10 500 ₽'],['Курс','8 000 ₽']], go:['Аналитика','строка «Выручка сегодня»'],
+      parts:[['Мастер-классы','10 500 ₽'],['Курс','8 000 ₽']], go:['Аналитика','вас привела строка «Выручка сегодня»'],
       title:'Про выручку сегодня',
       ask:'Выручка сегодня 18 500 ₽ — на четверть выше среднего четверга. Больше всего дали мастер-классы: три записи из шести пришли из Telegram, две — от тех, кого я разбудил в августе. Показать этих людей?' },
     { k:'Записей', v:'6', hint:'Обычно по четвергам 4', spark:[8,6,11,9,13,10,16],
-      parts:[['На субботу','4'],['На воскресенье','2']], go:['Услуги','строка «Записей»'],
+      parts:[['На субботу','4'],['На воскресенье','2']], go:['Услуги','вас привела строка «Записей»'],
       title:'Про сегодняшние записи',
       ask:'Шесть записей за день — на две больше обычного четверга. Суббота почти заполнена: осталось одно место в 15:00. Придержать его или отдать листу ожидания?' },
     { k:'Средний чек', v:'3 083 ₽', hint:'Рос третий день подряд', spark:[10,12,11,14,13,17,19],
@@ -442,43 +443,43 @@ var SUM = [
       title:'Про средний чек',
       ask:'Чек 3 083 ₽ — растёт третий день. Тянут вверх парные записи: когда приходят вдвоём, выходит 7 000 ₽ вместо 3 500. Могу предлагать «приходите вдвоём» всем, кто пишет один. Пробуем?' },
     { k:'Новых клиентов', v:'4', hint:'Трое пришли из Telegram', spark:[5,9,7,12,10,11,15],
-      parts:[['Telegram','3'],['Сайт','1']], go:['Диалоги','строка «Новых клиентов»'],
+      parts:[['Telegram','3'],['Сайт','1']], go:['Диалоги','вас привела строка «Новых клиентов»'],
       title:'Про новых клиентов',
       ask:'Четверо новых, трое из Telegram — там же, где вы выкладывали видео с гончарным кругом. Могу собрать, какие посты приводят людей.' },
     { k:'Вернулись', v:'2', hint:'Оба были в июле', spark:[3,5,4,6,5,7,8],
-      parts:[['После мастер-класса','2'],['После курса','0']], go:['Диалоги','строка «Вернулись»'],
+      parts:[['После мастер-класса','2'],['После курса','0']], go:['Диалоги','вас привела строка «Вернулись»'],
       title:'Про вернувшихся',
       ask:'Двое вернулись — оба были на мастер-классе. После курса не возвращался никто: у выпускников нет повода прийти снова. Могу позвать их на свободный круг.' }
   ]},
   { t:'Неделя', rows:[
     { k:'Выручка', v:'96 400 ₽', hint:'Прошлая неделя — 81 200 ₽', spark:[9,12,10,14,16,15,19],
-      parts:[['Мастер-классы','58 400 ₽'],['Курсы','38 000 ₽']], go:['Аналитика','строка «Выручка за неделю»'],
+      parts:[['Мастер-классы','58 400 ₽'],['Курсы','38 000 ₽']], go:['Аналитика','вас привела строка «Выручка за неделю»'],
       title:'Про выручку недели',
       ask:'За неделю 96 400 ₽ против 81 200 ₽ на прошлой. Прибавка почти вся из курса — продали два места.' },
     { k:'Записей', v:'31', hint:'Из них 9 — повторные', spark:[11,9,13,12,16,14,18],
-      parts:[['Первый раз','22'],['Возвращались','9']], go:['Услуги','строка «Записей за неделю»'],
+      parts:[['Первый раз','22'],['Возвращались','9']], go:['Услуги','вас привела строка «Записей за неделю»'],
       title:'Про записи за неделю',
       ask:'Тридцать одна запись, девять от тех, кто уже был. Возвращаются после мастер-классов, а не после курса.' },
     { k:'Отмен', v:'2', hint:'Обе — за сутки до занятия', spark:[4,2,6,3,5,4,6],
-      parts:[['Без предоплаты','2'],['С предоплатой','0']], go:['Услуги','строка «Отмен»'],
+      parts:[['Без предоплаты','2'],['С предоплатой','0']], go:['Услуги','вас привела строка «Отмен»'],
       title:'Про отмены',
       ask:'Обе отмены — от тех, кто не вносил предоплату. У кого предоплата взята, за месяц не отменился никто. Это довод настроить приём предоплаты.' },
     { k:'Из обращения в запись', v:'38 %', hint:'Месяц назад было 29 %', spark:[7,8,10,12,11,15,17],
-      parts:[['Обращений','82'],['Записались','31']], go:['Аналитика','строка «Конверсия»'],
+      parts:[['Обращений','82'],['Записались','31']], go:['Аналитика','вас привела строка «Конверсия»'],
       title:'Про конверсию',
       ask:'Из восьмидесяти двух обращений записались тридцать один — 38 %, месяц назад было 29 %. Выросло после того, как я стал сразу называть цену и предлагать два конкретных времени.' },
     { k:'Загрузка мастеров', v:'62 %', hint:'Четверг пустой, суббота полная', spark:[12,14,11,3,15,17,9],
-      parts:[['Суббота','95 %'],['Четверг','0 %']], go:['Услуги','строка «Загрузка мастеров»'],
+      parts:[['Суббота','95 %'],['Четверг','0 %']], go:['Услуги','вас привела строка «Загрузка мастеров»'],
       title:'Про загрузку',
       ask:'Средняя загрузка обманчива: суббота забита на 95 %, а четверг пустой. Семеро спрашивали субботу и не попали — им четверг подойдёт. Написать им?' }
   ]},
   { t:'Как я отвечаю', rows:[
     { k:'Обращений', v:'14', hint:'Пик был в 19–20 часов', spark:[4,6,5,9,12,16,11],
-      parts:[['Telegram','11'],['Сайт','3']], go:['Диалоги','строка «Обращений»'],
+      parts:[['Telegram','11'],['Сайт','3']], go:['Диалоги','вас привела строка «Обращений»'],
       title:'Про обращения',
       ask:'Четырнадцать обращений, одиннадцать из Telegram. Пик — вечером, когда вы обычно ведёте занятие. Как раз тогда я и отвечаю за вас.' },
     { k:'Без ответа', v:'0', hint:'За неделю ни одного', spark:[2,1,0,1,0,0,0],
-      parts:[['Ждут сейчас','0'],['Ждали дольше 5 мин','0']], go:['Диалоги','строка «Без ответа»'],
+      parts:[['Ждут сейчас','0'],['Ждали дольше 5 мин','0']], go:['Диалоги','вас привела строка «Без ответа»'],
       title:'Про неотвеченные',
       ask:'Без ответа никого. Если я чего-то не знаю, я не молчу, а передаю вам: за неделю такое было один раз.' },
     { k:'Среднее время', v:'40 с', hint:'Дольше всего — про сертификаты', spark:[14,12,15,11,13,10,9],
@@ -486,7 +487,7 @@ var SUM = [
       title:'Про скорость ответа',
       ask:'В среднем отвечаю за 40 секунд. Дольше всего думаю над сертификатами — в базе знаний про них одна строка. Допишите пару подробностей, и станет быстрее.' },
     { k:'Передал вам', v:'1', hint:'Просили скидку', spark:[3,2,4,2,3,1,2],
-      parts:[['Скидки','1'],['Остальное','0']], go:['Диалоги','строка «Передал вам»'],
+      parts:[['Скидки','1'],['Остальное','0']], go:['Диалоги','вас привела строка «Передал вам»'],
       title:'Про переданное вам',
       ask:'За сутки передал вам одно обращение — просили скидку на курс. Скидки я не даю без вас: не знаю ваших границ. Скажете правило — буду решать сам.' }
   ]}
@@ -536,18 +537,23 @@ function askAbout(row) {
 function renderRail() {
   var r = document.getElementById('rail');
   r.innerHTML = '';
-  var shown = ['star','flow','chat','people','list','chart','table','tag'];
   var logo = document.createElement('div');
-  logo.style.cssText = 'color:#fff;margin-bottom:4px';
-  logo.innerHTML = svg('star', 26);
+  logo.style.cssText = 'color:#fff;margin-bottom:2px;flex-shrink:0';
+  logo.innerHTML = svg('star', 24);
   r.appendChild(logo);
-  var sep = document.createElement('div'); sep.className = 'rail-sep'; r.appendChild(sep);
-  shown.forEach(function (ic, i) {
+  var sep0 = document.createElement('div'); sep0.className = 'rail-sep'; r.appendChild(sep0);
+  SECTIONS.forEach(function (sec) {
+    if (sec[0] === '—') {
+      var sp = document.createElement('div'); sp.className = 'rail-sep'; r.appendChild(sp);
+      return;
+    }
+    var active = (S.section === sec[0]) || (!S.section && sec[0] === 'Обзор');
     var d = document.createElement('div');
-    d.className = 'rail-item' + (i === 0 && !S.section ? ' on' : '');
+    d.className = 'rail-item' + (active ? ' on' : '');
     d.style.color = '#fff';
-    d.innerHTML = svg(ic, 20);
-    d.onclick = function () { toggleFly(true); };
+    d.title = sec[0];
+    d.innerHTML = svg(sec[1], 19);
+    d.onclick = function (e) { e.stopPropagation(); toggleFly(false); pickSection(sec[0]); };
     r.appendChild(d);
   });
   r.onmouseenter = function () { toggleFly(true); };
@@ -573,7 +579,7 @@ function toggleFly(on) {
 function pickSection(name) {
   toggleFly(false);
   if (name === 'Обзор') { closeSheet(); return; }
-  openSheet(name, 'пункт меню «' + name + '»');
+  openSheet(name, 'вас привёл пункт меню «' + name + '»');
 }
 
 function openSheet(name, from) {
@@ -591,7 +597,7 @@ function openSheet(name, from) {
       'там видно, как это работает: Сейл оставляет след в разделе и сам ловит собственную неточность.</p></div>';
   }
   sh.innerHTML = '<div class="sheet">' +
-    '<div class="trail"><span>‹ <span class="lnk" onclick="closeSheet()">Вернуться в ленту</span> · сюда вас привела ' + from + '</span>' +
+    '<div class="trail"><span>‹ <span class="lnk" onclick="closeSheet()">Вернуться в ленту</span> · сюда ' + from + '</span>' +
     '<span style="font-size:13px;color:#5C6C99">Всё, что ниже, создал Сейл — можно править как обычно</span></div>' +
     '<div style="flex:1;overflow-y:auto">' + body + '</div></div>';
   renderRail();
@@ -630,7 +636,7 @@ var CAP = '1';
 function capValue() { return CAP; }
 function fixCapacity() {
   CAP = '2';
-  openSheet('Услуги', 'карточка «Собрал прайс»');
+  openSheet('Услуги', 'вас привела карточка «Собрал прайс»');
   push({ kind:'win', icon:'ok', title:'Поправил вместимость', time:'сейчас',
     body:'Мастер-класс теперь на двоих. Игорю ничего переделывать не нужно — его запись уже подходит.',
     closable:true }, true);
