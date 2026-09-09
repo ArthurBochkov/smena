@@ -1,0 +1,1522 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Смена — первый экран Salebot / Mavibot</title>
+<style>
+  :root {
+    --ink: #16181D; --muted: #5C6474; --faint: #8A90A2; --line: #E4E8F0;
+    --bg: #FBFCFD; --brand: #1E4FD8; --warn: #B4801F;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+    font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased; line-height: 1.6; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+  h1 { font-size: 44px; line-height: 1.1; letter-spacing: -.035em; margin: 0 0 14px; font-weight: 700; }
+  h2 { font-size: 27px; line-height: 1.2; letter-spacing: -.025em; margin: 0 0 14px; font-weight: 680; }
+  h3 { font-size: 19px; letter-spacing: -.015em; margin: 0 0 9px; font-weight: 660; }
+  p { margin: 0 0 14px; font-size: 16px; color: var(--muted); text-wrap: pretty; }
+  p strong, li strong { color: var(--ink); font-weight: 620; }
+  a { color: var(--brand); }
+  .lead { font-size: 19px; color: var(--muted); max-width: 760px; }
+  header.top { padding: 72px 0 40px; border-bottom: 1px solid var(--line); background: #FFFFFF; }
+  .kicker { font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--faint); margin-bottom: 16px; }
+  nav.toc { background: #FFFFFF; border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 5; }
+  nav.toc .wrap { display: flex; gap: 22px; flex-wrap: wrap; padding-top: 13px; padding-bottom: 13px; }
+  nav.toc a { font-size: 13.5px; text-decoration: none; color: var(--muted); font-weight: 550; }
+  nav.toc a:hover { color: var(--brand); }
+  section { padding: 56px 0; border-bottom: 1px solid var(--line); scroll-margin-top: 62px; }
+  section:nth-of-type(even) { background: #FFFFFF; }
+  .num { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--brand); background: #EDF2FE; border-radius: 6px; padding: 4px 10px; margin-bottom: 14px; }
+  .frame { position: relative; overflow: hidden; border: 1px solid var(--line); border-radius: 14px;
+    background: #FFFFFF; box-shadow: 0 2px 14px rgba(22,24,29,.06); margin: 22px 0 10px; }
+  .frame iframe { border: 0; transform-origin: top left; display: block; }
+  .frame-phone { width: 390px; }
+  .cap { font-size: 13.5px; color: var(--faint); margin: 0 0 26px; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
+  .cols3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .box { background: #FFFFFF; border: 1px solid var(--line); border-radius: 12px; padding: 20px 22px; }
+  .box.warn { background: #FDFBF6; border-color: #F2DFB8; }
+  .box h3 { margin-bottom: 7px; }
+  .box p { font-size: 14.5px; margin: 0; }
+  table { border-collapse: collapse; width: 100%; margin: 18px 0 8px; font-size: 15px; }
+  th { text-align: left; font-size: 11.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--faint); padding: 0 14px 9px 0; border-bottom: 1px solid var(--line); }
+  td { padding: 12px 14px 12px 0; border-bottom: 1px solid var(--line); vertical-align: top; color: var(--muted); }
+  td:first-child { color: var(--ink); font-weight: 600; width: 32%; }
+  blockquote { margin: 18px 0; padding: 14px 20px; background: #F3F6FD; border-radius: 10px;
+    font-size: 16px; color: #22304F; }
+  ul { margin: 0 0 14px; padding-left: 20px; color: var(--muted); font-size: 16px; }
+  li { margin-bottom: 7px; }
+  footer { padding: 48px 0 80px; color: var(--faint); font-size: 14px; }
+  @media (max-width: 1180px) {
+    .frame { width: 100% !important; }
+    .two, .cols3 { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="kicker">Концепция первого экрана · сентябрь 2026</div>
+    <h1>Смена</h1>
+    <p class="lead">Первый экран кабинета как рабочее место сотрудника, а не мастер настройки программы.
+    Экран показывает сделанное, а не невыполненное.</p>
+  </div>
+</header>
+
+<nav class="toc"><div class="wrap">
+  <a href="#task">Задача</a>
+  <a href="#idea">Идея</a>
+  <a href="#start">1 · Первые секунды</a>
+  <a href="#assembly">2 · Сборка</a>
+  <a href="#main">3 · Рабочий экран</a>
+  <a href="#report">4 · Отчёт смены</a>
+  <a href="#mobile">5 · Мобильный</a>
+  <a href="#check">6 · Проверка</a>
+  <a href="#biz">Разные бизнесы</a>
+  <a href="#criteria">Критерии</a>
+  <a href="#risks">Риски</a>
+</div></nav>
+
+<section id="task">
+  <div class="wrap">
+    <h2>Что не так сегодня</h2>
+    <p>Продукт продаёт <strong>ИИ-сотрудника</strong>, а интерфейс сделан как <strong>мастер настройки программы</strong>.
+    Это разные объекты и разные экраны. Мастер меряет тебя чек-листом. Сотрудник приходит и рассказывает, что сделал.</p>
+    <p>Четыре претензии к экрану — следствия одной подмены жанра, поэтому лечатся не четырьмя заплатками, а сменой жанра.</p>
+    <div class="cols3" style="margin-top: 24px">
+      <div class="box"><h3>Проверено руками</h3><p>Зарегистрировались, завели проект по легенде, подключили Telegram-бота, провели живой диалог. Все цифры в макетах — оттуда.</p></div>
+      <div class="box"><h3>Молчание 3 минуты</h3><p>Замерено: 3 м 21 с, 2 м 04 с, 3 м 19 с. Всё это время — серые скелетоны, хотя работа идёт настоящая.</p></div>
+      <div class="box"><h3>Экран не знает, что сделал ИИ</h3><p>Карточка советует «научить ассистента ценам», когда он уже час как их знает и ответил клиенту.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="idea">
+  <div class="wrap">
+    <h2>Идея</h2>
+    <p class="lead" style="margin-bottom: 26px">Экран — рабочий стол сотрудника, за которым ты смотришь через плечо.
+    Заходишь не «настраивать», а посмотреть, как дела.</p>
+    <div class="two">
+      <div>
+        <h3>Единица контента — сделанное действие</h3>
+        <p>Карточка отвечает по порядку: что произошло → что я из этого сделал → что нужно от вас.
+        Пользователь не работает, он утверждает или отменяет.</p>
+        <h3 style="margin-top: 22px">Чат и полотно — один поток</h3>
+        <p>Колонки чата нет. Реплики и события идут одной лентой, поэтому рассинхрон становится
+        невозможен технически, а не «исправлен».</p>
+      </div>
+      <div>
+        <h3>Работа показывается, а не прячется</h3>
+        <p>Три минуты сборки — самый ценный материал продукта. Показывать построчно и обязательно
+        с объектом: «Мастер-класс по гончарному кругу — 2 часа, 3 500 ₽», а не «Создаю товар».</p>
+        <h3 style="margin-top: 22px">Три уровня громкости</h3>
+        <p>Плитка кричит, лента говорит, сводка молчит. Плотность данных растёт, количество
+        требований к человеку — нет.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="start">
+  <div class="wrap">
+    <span class="num">Экран 1</span>
+    <h2>Первые десять секунд</h2>
+    <p>Обещание вынесено в подзаголовок: «дальше я всё соберу сам — вам останется посмотреть и сказать „да“».
+    Ни баннера про почту, ни угрозы отключения подписки.</p>
+    <div class="frame" style="width:1120px;height:700px">
+  <iframe loading="lazy" style="width:1440px;height:900px;transform:scale(0.7778)" srcdoc="<!doctype html>
+<html>
+<head>
+  <meta charset=&quot;utf-8&quot;>
+  
+</head>
+<body style=&quot;margin:0&quot;>
+
+
+  <style>
+    body { margin: 0; font-family: -apple-system, &quot;Segoe UI&quot;, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif; -webkit-font-smoothing: antialiased; color: #16181D; }
+    a { color: #1E4FD8; text-decoration: none; }
+    a:hover { color: #16308F; }
+    .chip { height: 38px; padding: 0 17px; border-radius: 10px; background: #FFFFFF; border: 1px solid #DFE4EE; font-size: 13.5px; font-weight: 500; color: #2A3142; display: inline-flex; align-items: center; cursor: pointer; }
+    .chip:hover { border-color: #B9C6E8; color: #1E4FD8; }
+  </style>
+
+
+<div style=&quot;width: 1440px; height: 900px; background: #F4F6FA; display: flex; flex-direction: column; overflow: hidden;&quot;>
+
+  <div style=&quot;height: 64px; display: flex; align-items: center; justify-content: space-between; padding: 0 32px; flex-shrink: 0;&quot;>
+    <div style=&quot;display: flex; align-items: center; gap: 9px;&quot;>
+      <svg width=&quot;22&quot; height=&quot;22&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><path d=&quot;M12 3l2.2 5.9L20 11l-5.8 2.1L12 19l-2.2-5.9L4 11l5.8-2.1z&quot; fill=&quot;#1E4FD8&quot;/></svg>
+      <span style=&quot;font-size: 17px; font-weight: 650; color: #1E4FD8; letter-spacing: -.02em;&quot;>salebot</span>
+    </div>
+    <a href=&quot;#&quot; style=&quot;font-size: 13.5px; color: #8A90A2;&quot;>Настроить самостоятельно</a>
+  </div>
+
+  <div style=&quot;flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding-bottom: 60px;&quot;>
+
+    <div style=&quot;width: 60px; height: 60px; border-radius: 17px; background: #1E4FD8; display: flex; align-items: center; justify-content: center; position: relative; margin-bottom: 26px;&quot;>
+      <svg width=&quot;30&quot; height=&quot;30&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><path d=&quot;M12 3l2.2 5.9L20 11l-5.8 2.1L12 19l-2.2-5.9L4 11l5.8-2.1z&quot; fill=&quot;#FFFFFF&quot;/></svg>
+      <span style=&quot;position: absolute; right: -3px; bottom: -3px; width: 15px; height: 15px; border-radius: 50%; background: #22C55E; border: 3px solid #F4F6FA;&quot;></span>
+    </div>
+
+    <h1 style=&quot;margin: 0 0 12px; font-size: 40px; font-weight: 680; letter-spacing: -.03em; line-height: 1.1;&quot;>Расскажите, чем занимаетесь</h1>
+    <p style=&quot;margin: 0 0 34px; font-size: 16.5px; line-height: 1.5; color: #5A6274; max-width: 620px; text-align: center; text-wrap: pretty;&quot;>Дальше я всё соберу сам — прайс, запись, ответы клиентам.<br>Вам останется посмотреть и сказать «да».</p>
+
+    <div style=&quot;width: 780px; background: #FFFFFF; border: 1px solid #DFE4EE; border-radius: 16px; padding: 22px 24px 16px; box-shadow: 0 2px 10px rgba(22,24,29,.045);&quot;>
+      <div style=&quot;font-size: 15.5px; line-height: 1.6; color: #A6ACBB; min-height: 96px;&quot;>Мастерская керамики в Казани. Мастер-классы по гончарному кругу для новичков, детские группы по выходным, курс из восьми занятий. Клиенты пишут в Telegram и WhatsApp…</div>
+      <div style=&quot;display: flex; align-items: center; justify-content: space-between; padding-top: 12px; border-top: 1px solid #F0F2F7;&quot;>
+        <span style=&quot;font-size: 12.5px; color: #9AA0B0;&quot;>Чем подробнее — тем меньше вопросов потом</span>
+        <div style=&quot;width: 38px; height: 38px; border-radius: 11px; background: #1E4FD8; display: flex; align-items: center; justify-content: center;&quot;>
+          <svg width=&quot;18&quot; height=&quot;18&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><path d=&quot;M12 19V6M6 11.5L12 5.5l6 6&quot; stroke=&quot;#FFFFFF&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;/></svg>
+        </div>
+      </div>
+    </div>
+
+    <div style=&quot;display: flex; gap: 10px; margin-top: 22px;&quot;>
+      <button class=&quot;chip&quot;>Онлайн-школа</button>
+      <button class=&quot;chip&quot;>Услуги и запись</button>
+      <button class=&quot;chip&quot;>Доставка</button>
+      <button class=&quot;chip&quot;>Заявки B2B</button>
+      <button class=&quot;chip&quot;>Поддержка</button>
+    </div>
+
+    <div style=&quot;display: flex; align-items: center; gap: 9px; margin-top: 40px; font-size: 13.5px; color: #8A90A2;&quot;>
+      <svg width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;8.3&quot; stroke=&quot;#8A90A2&quot; stroke-width=&quot;1.6&quot;/><path d=&quot;M12 7.6V12l3 1.9&quot; stroke=&quot;#8A90A2&quot; stroke-width=&quot;1.6&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;/></svg>
+      Обычно занимает три минуты — и вы увидите каждый шаг
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
+"></iframe>
+</div>
+    <p class="cap">Внизу — подводка к следующему экрану: «обычно занимает три минуты, и вы увидите каждый шаг».</p>
+  </div>
+</section>
+
+<section id="assembly">
+  <div class="wrap">
+    <span class="num">Экран 2</span>
+    <h2>Сборка на глазах</h2>
+    <p>Те самые три минуты, что сегодня закрыты скелетонами. Каждая строка называет объект и цену —
+    иначе это не зрелище. В конце — демонстрационный диалог: как бот заговорит голосом владельца
+    и по его прайсу.</p>
+    <div class="frame" style="width:1120px;height:700px">
+  <iframe loading="lazy" style="width:1440px;height:900px;transform:scale(0.7778)" srcdoc="<!doctype html>
+<html>
+<head>
+  <meta charset=&quot;utf-8&quot;>
+  
+</head>
+<body style=&quot;margin:0&quot;>
+
+
+  <style>
+    body { margin: 0; font-family: -apple-system, &quot;Segoe UI&quot;, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif; -webkit-font-smoothing: antialiased; color: #16181D; }
+    a { color: #1E4FD8; text-decoration: none; }
+    a:hover { color: #16308F; }
+    .line { display: flex; align-items: flex-start; gap: 12px; padding: 11px 0; border-bottom: 1px solid #F0F2F7; opacity: 0; transform: translateY(6px); animation: rise .5s ease-out forwards; }
+    @keyframes rise { to { opacity: 1; transform: none; } }
+    .l1 { animation-delay: .15s; } .l2 { animation-delay: .70s; } .l3 { animation-delay: 1.25s; }
+    .l4 { animation-delay: 1.80s; } .l5 { animation-delay: 2.35s; } .l6 { animation-delay: 2.90s; }
+    .l7 { animation-delay: 3.45s; }
+    .obj { font-size: 14.5px; font-weight: 600; color: #16181D; }
+    .det { font-size: 14.5px; color: #6C7488; }
+    .spin { width: 15px; height: 15px; border-radius: 50%; border: 2px solid #D5DCEB; border-top-color: #1E4FD8; animation: spin .8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+
+
+<div style=&quot;width: 1440px; height: 900px; background: #F4F6FA; display: flex; flex-direction: column; align-items: center; overflow: hidden;&quot;>
+
+  <div style=&quot;width: 100%; height: 64px; display: flex; align-items: center; padding: 0 32px; flex-shrink: 0;&quot;>
+    <div style=&quot;display: flex; align-items: center; gap: 9px;&quot;>
+      <svg width=&quot;22&quot; height=&quot;22&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><path d=&quot;M12 3l2.2 5.9L20 11l-5.8 2.1L12 19l-2.2-5.9L4 11l5.8-2.1z&quot; fill=&quot;#1E4FD8&quot;/></svg>
+      <span style=&quot;font-size: 17px; font-weight: 650; color: #1E4FD8; letter-spacing: -.02em;&quot;>salebot</span>
+    </div>
+  </div>
+
+  <div style=&quot;width: 820px; display: flex; flex-direction: column; align-items: center; padding-top: 24px;&quot;>
+
+    <h1 style=&quot;margin: 0 0 8px; font-size: 30px; font-weight: 680; letter-spacing: -.025em;&quot;>Собираю «Глину и Огонь»</h1>
+    <p style=&quot;margin: 0 0 30px; font-size: 15.5px; color: #6C7488;&quot;>Первая смена началась. Смотрите, что получается.</p>
+
+    <div style=&quot;width: 100%; background: #FFFFFF; border: 1px solid #E4E8F0; border-radius: 16px; padding: 8px 26px 20px; box-shadow: 0 2px 10px rgba(22,24,29,.045);&quot;>
+
+      <div class=&quot;line l1&quot;>
+        <svg width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; style=&quot;margin-top: 3px; flex-shrink: 0;&quot;><path d=&quot;M5 12.5l4.5 4.5L19 7&quot; stroke=&quot;#2A9245&quot; stroke-width=&quot;2.6&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;/></svg>
+        <div><span class=&quot;obj&quot;>Филиал «Глина и Огонь»</span> <span class=&quot;det&quot;>— Казань, часовой пояс GMT+3</span></div>
+      </div>
+
+      <div class=&quot;line l2&quot;>
+        <svg width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; style=&quot;margin-top: 3px; flex-shrink: 0;&quot;><path d=&quot;M5 12.5l4.5 4.5L19 7&quot; stroke=&quot;#2A9245&quot; stroke-width=&quot;2.6&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;/></svg>
+        <div><span class=&quot;obj&quot;>Три раздела прайса</span> <span class=&quot;det&quot;>— мастер-классы, детские группы, курсы</span></div>
+      </div>
+
+      <div class=&quot;line l3&quot;>
+        <svg width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; style=&quot;margin-top: 3px; flex-shrink: 0;&quot;><path d=&quot;M5 12.5l4.5 4.5L19 7&quot; stroke=&quot;#2A9245&quot; stroke-width=&quot;2.6&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;/></svg>
+        <div><span class=&quot;obj&quot;>Мастер-класс по гончарному кругу</span> <span class=&quot;det&quot;>— 2 часа, 3 500 ₽, до двух человек</span></div>
+      </div>
+
+      <div class=&quot;line l4&quot;>
+        <svg width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; style=&quot;margin-top: 3px; flex-shrink: 0;&quot;><path d=&quot;M5 12.5l4.5 4.5L19 7&quot; stroke=&quot;#2A9245&quot; stroke-width=&quot;2.6&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;/></svg>
+        <div><span class=&quot;obj&quot;>Курс из восьми занятий</span> <span class=&quot;det&quot;>— 24 000 ₽, набор группы по субботам</span></div>
+      </div>
+
+      <div class=&quot;line l5&quot;>
+        <svg width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; style=&quot;margin-top: 3px; flex-shrink: 0;&quot;><path d=&quot;M5 12.5l4.5 4.5L19 7&quot; stroke=&quot;#2A9245&quot; stroke-width=&quot;2.6&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;/></svg>
+        <div><span class=&quot;obj&quot;>Подарочные сертификаты</span> <span class=&quot;det&quot;>— 3 500 ₽, срок полгода</span></div>
+      </div>
+
+      <div class=&quot;line l6&quot;>
+        <svg width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; style=&quot;margin-top: 3px; flex-shrink: 0;&quot;><path d=&quot;M5 12.5l4.5 4.5L19 7&quot; stroke=&quot;#2A9245&quot; stroke-width=&quot;2.6&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;/></svg>
+        <div><span class=&quot;obj&quot;>Что я знаю о вашей мастерской</span> <span class=&quot;det&quot;>— семь фактов, включая «можно вдвоём»</span></div>
+      </div>
+
+      <div class=&quot;line l7&quot; style=&quot;border-bottom: none; padding-bottom: 4px;&quot;>
+        <div class=&quot;spin&quot; style=&quot;margin-top: 3px; flex-shrink: 0;&quot;></div>
+        <div><span class=&quot;obj&quot; style=&quot;color: #454C5E;&quot;>Учусь брать предоплату</span> <span class=&quot;det&quot;>— осталось выбрать, куда приходят деньги</span></div>
+      </div>
+
+    </div>
+
+    <div style=&quot;width: 100%; margin-top: 22px; background: #FFFFFF; border: 1px solid #E4E8F0; border-radius: 16px; padding: 20px 26px; opacity: 0; animation: rise .6s ease-out 4.1s forwards;&quot;>
+      <div style=&quot;font-size: 13px; font-weight: 650; letter-spacing: .06em; text-transform: uppercase; color: #8A90A2; margin-bottom: 14px;&quot;>Вот как я отвечу вашему клиенту</div>
+      <div style=&quot;display: flex; flex-direction: column; gap: 9px;&quot;>
+        <div style=&quot;align-self: flex-start; max-width: 62%; background: #F2F4F8; border-radius: 12px 12px 12px 3px; padding: 10px 13px; font-size: 13.5px; line-height: 1.5; color: #454C5E;&quot;>Здравствуйте! Хотим вдвоём на гончарный круг, сколько выйдет?</div>
+        <div style=&quot;align-self: flex-end; max-width: 66%; background: #EEF3FE; border-radius: 12px 12px 3px 12px; padding: 10px 13px; font-size: 13.5px; line-height: 1.5; color: #1C2C55;&quot;>Мастер-класс идёт 2 часа, 3 500 ₽ с человека — вдвоём 7 000 ₽. В субботу свободно 10:00 и 15:00. Записать?</div>
+      </div>
+    </div>
+
+    <div style=&quot;display: flex; align-items: center; gap: 10px; margin-top: 26px; opacity: 0; animation: rise .6s ease-out 4.6s forwards;&quot;>
+      <span style=&quot;font-size: 13.5px; color: #8A90A2;&quot;>Прошло 2 мин 47 с</span>
+      <span style=&quot;width: 3px; height: 3px; border-radius: 50%; background: #C6CBD8;&quot;></span>
+      <span style=&quot;font-size: 13.5px; color: #8A90A2;&quot;>Осталось подключить, куда клиенты пишут</span>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
+"></iframe>
+</div>
+    <p class="cap">Строки появляются по очереди. Человек с улицы через три минуты видит, как робот продаёт его услуги.</p>
+  </div>
+</section>
+
+<section id="main">
+  <div class="wrap">
+    <span class="num">Экран 3 · главный</span>
+    <h2>Смена — рабочий экран</h2>
+    <p>Сверху — <strong>пульс</strong>: громко и с кнопкой, только там, где Сейл что-то предлагает.
+    В центре — <strong>лента</strong> событий и реплик. Справа — <strong>сводка</strong>: тихо, плотно,
+    ни одной кнопки. Всего восемнадцать показателей.</p>
+    <div class="frame" style="width:1120px;height:700px">
+  <iframe loading="lazy" style="width:1440px;height:900px;transform:scale(0.7778)" srcdoc="<!doctype html>
+<html lang=&quot;ru&quot;>
+<head>
+<meta charset=&quot;utf-8&quot;>
+<style>
+  body { margin: 0; font-family: -apple-system, &quot;Segoe UI&quot;, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif; -webkit-font-smoothing: antialiased; color: #16181D; }
+  a { color: #1E4FD8; text-decoration: none; }
+  a:hover { color: #16308F; }
+  .rail-ic { opacity: .55; }
+  .card { background: #FFFFFF; border: 1px solid #E4E8F0; border-radius: 12px; padding: 15px 18px; }
+  .t-meta { font-size: 12.5px; color: #8A90A2; }
+  .t-title { font-size: 15px; font-weight: 650; letter-spacing: -.01em; }
+  .t-body { font-size: 13.5px; line-height: 1.55; color: #454C5E; }
+  .btn { height: 32px; padding: 0 14px; border-radius: 9px; font-size: 13px; font-weight: 550; display: inline-flex; align-items: center; gap: 7px; cursor: pointer; border: 1px solid transparent; }
+  .btn-primary { background: #1E4FD8; color: #FFFFFF; }
+  .btn-ghost { background: #FFFFFF; color: #2A3142; border-color: #DDE2EC; }
+  .btn-quiet { background: transparent; color: #8A90A2; }
+  .done { display: flex; align-items: center; gap: 8px; background: #F1F7F2; border: 1px solid #DCEBDF; border-radius: 9px; padding: 8px 11px; font-size: 13px; color: #216B35; font-weight: 550; }
+  .tile { background: #FFFFFF; border: 1px solid #E4E8F0; border-radius: 12px; padding: 13px 15px; display: flex; flex-direction: column; gap: 7px; }
+  .tile-lbl { font-size: 11px; font-weight: 650; letter-spacing: .07em; text-transform: uppercase; color: #9AA0B0; }
+  .tile-val { font-size: 24px; font-weight: 680; letter-spacing: -.03em; font-variant-numeric: tabular-nums; line-height: 1; }
+  .tile-sub { font-size: 12px; color: #8A90A2; }
+  .bar { width: 5px; border-radius: 2px; background: #C8D6F7; }
+  .seg { flex: 1; height: 7px; border-radius: 2px; background: #C8D6F7; }
+  .live { width: 7px; height: 7px; border-radius: 50%; background: #22C55E; animation: blip 2.2s ease-in-out infinite; }
+  @keyframes blip { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
+
+  .sum-h { font-size: 10.5px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: #A6ACBB; padding: 0 0 5px; }
+  .sum-row { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; padding: 5px 7px; margin: 0 -7px; border-radius: 7px; cursor: pointer; transition: background .12s; }
+  .sum-row:hover { background: #F4F6FB; }
+  .sum-row.on { background: #EEF3FE; }
+  .sum-k { font-size: 12.5px; color: #6C7488; }
+  .sum-v { font-size: 13.5px; font-weight: 640; color: #16181D; font-variant-numeric: tabular-nums; }
+  .sum-d { height: 1px; background: #EDF0F6; margin: 8px 0; }
+  .detail { background: #F7F9FD; border: 1px solid #E2E8F5; border-radius: 9px; padding: 10px 11px; margin: 3px 0 6px; }
+  .part { display: flex; align-items: baseline; justify-content: space-between; font-size: 12px; color: #6C7488; padding: 2px 0; }
+  .part-v { font-weight: 620; color: #2A3142; font-variant-numeric: tabular-nums; }
+  .links { display: flex; align-items: center; gap: 14px; margin-top: 8px; flex-wrap: wrap; }
+  .lnk { font-size: 12.5px; font-weight: 600; color: #1E4FD8; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; }
+  .lnk.grey { color: #6C7488; }
+  .fade { animation: fade .22s ease-out; }
+  @keyframes fade { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+</style>
+</head>
+<body>
+
+<div style=&quot;width: 1440px; height: 900px; display: flex; background: #F4F6FA; overflow: hidden;&quot;>
+
+  <div style=&quot;width: 68px; background: #16307C; display: flex; flex-direction: column; align-items: center; padding: 16px 0; gap: 18px; flex-shrink: 0;&quot;>
+    <svg width=&quot;26&quot; height=&quot;26&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><path d=&quot;M12 3l2.2 5.9L20 11l-5.8 2.1L12 19l-2.2-5.9L4 11l5.8-2.1z&quot; fill=&quot;#FFFFFF&quot;/></svg>
+    <div style=&quot;width: 26px; height: 1px; background: rgba(255,255,255,.18);&quot;></div>
+    <svg class=&quot;rail-ic&quot; width=&quot;20&quot; height=&quot;20&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><rect x=&quot;4&quot; y=&quot;4&quot; width=&quot;7&quot; height=&quot;7&quot; rx=&quot;2&quot; stroke=&quot;#fff&quot; stroke-width=&quot;1.6&quot;/><rect x=&quot;13&quot; y=&quot;4&quot; width=&quot;7&quot; height=&quot;7&quot; rx=&quot;2&quot; stroke=&quot;#fff&quot; stroke-width=&quot;1.6&quot;/><rect x=&quot;4&quot; y=&quot;13&quot; width=&quot;7&quot; height=&quot;7&quot; rx=&quot;2&quot; stroke=&quot;#fff&quot; stroke-width=&quot;1.6&quot;/><rect x=&quot;13&quot; y=&quot;13&quot; width=&quot;7&quot; height=&quot;7&quot; rx=&quot;2&quot; stroke=&quot;#fff&quot; stroke-width=&quot;1.6&quot;/></svg>
+    <svg class=&quot;rail-ic&quot; width=&quot;20&quot; height=&quot;20&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><path d=&quot;M4 6.5A2.5 2.5 0 016.5 4h11A2.5 2.5 0 0120 6.5v7A2.5 2.5 0 0117.5 16H9l-5 4z&quot; stroke=&quot;#fff&quot; stroke-width=&quot;1.6&quot; stroke-linejoin=&quot;round&quot;/></svg>
+    <svg class=&quot;rail-ic&quot; width=&quot;20&quot; height=&quot;20&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><circle cx=&quot;12&quot; cy=&quot;8&quot; r=&quot;3.4&quot; stroke=&quot;#fff&quot; stroke-width=&quot;1.6&quot;/><path d=&quot;M5 20c0-3.4 3.1-5.6 7-5.6s7 2.2 7 5.6&quot; stroke=&quot;#fff&quot; stroke-width=&quot;1.6&quot; stroke-linecap=&quot;round&quot;/></svg>
+    <svg class=&quot;rail-ic&quot; width=&quot;20&quot; height=&quot;20&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><path d=&quot;M5 7h14M5 12h14M5 17h9&quot; stroke=&quot;#fff&quot; stroke-width=&quot;1.6&quot; stroke-linecap=&quot;round&quot;/></svg>
+    <svg class=&quot;rail-ic&quot; width=&quot;20&quot; height=&quot;20&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><path d=&quot;M5 19V11M12 19V5M19 19v-5&quot; stroke=&quot;#fff&quot; stroke-width=&quot;1.7&quot; stroke-linecap=&quot;round&quot;/></svg>
+    <svg class=&quot;rail-ic&quot; width=&quot;20&quot; height=&quot;20&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><rect x=&quot;4&quot; y=&quot;5&quot; width=&quot;16&quot; height=&quot;15&quot; rx=&quot;2.5&quot; stroke=&quot;#fff&quot; stroke-width=&quot;1.6&quot;/><path d=&quot;M8 3.5v3M16 3.5v3M4 10h16&quot; stroke=&quot;#fff&quot; stroke-width=&quot;1.6&quot; stroke-linecap=&quot;round&quot;/></svg>
+  </div>
+
+  <div style=&quot;flex: 1; display: flex; flex-direction: column; min-width: 0;&quot;>
+
+    <div style=&quot;height: 60px; background: #FFFFFF; border-bottom: 1px solid #E4E8F0; display: flex; align-items: center; justify-content: space-between; padding: 0 26px; flex-shrink: 0;&quot;>
+      <div style=&quot;display: flex; align-items: center; gap: 11px;&quot;>
+        <div style=&quot;width: 30px; height: 30px; border-radius: 9px; background: #1E4FD8; display: flex; align-items: center; justify-content: center; position: relative;&quot;>
+          <svg width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><path d=&quot;M12 3l2.2 5.9L20 11l-5.8 2.1L12 19l-2.2-5.9L4 11l5.8-2.1z&quot; fill=&quot;#FFFFFF&quot;/></svg>
+          <span style=&quot;position: absolute; right: -2px; bottom: -2px; width: 9px; height: 9px; border-radius: 50%; background: #22C55E; border: 2px solid #FFFFFF;&quot;></span>
+        </div>
+        <span style=&quot;font-size: 15.5px; font-weight: 650; letter-spacing: -.015em;&quot;>Сейл на смене</span>
+        <span class=&quot;t-meta&quot;>4-й час · с 16:30</span>
+      </div>
+      <div style=&quot;display: flex; align-items: center; gap: 9px;&quot;>
+        <span class=&quot;t-meta&quot;>Глина и Огонь</span>
+        <div style=&quot;width: 27px; height: 27px; border-radius: 50%; background: #F0E4E4; color: #8A5A5A; font-size: 11px; font-weight: 650; display: flex; align-items: center; justify-content: center;&quot;>АБ</div>
+      </div>
+    </div>
+
+    <div style=&quot;padding: 14px 26px 0; flex-shrink: 0;&quot;>
+      <div style=&quot;display: flex; align-items: center; justify-content: space-between; margin-bottom: 9px;&quot;>
+        <div style=&quot;display: flex; align-items: center; gap: 8px;&quot;>
+          <span class=&quot;live&quot;></span>
+          <span style=&quot;font-size: 11.5px; font-weight: 650; letter-spacing: .07em; text-transform: uppercase; color: #8A90A2;&quot;>За чем я слежу</span>
+        </div>
+        <a href=&quot;#&quot; style=&quot;font-size: 12.5px; font-weight: 550;&quot;>+ Обучить Сейла</a>
+      </div>
+      <div style=&quot;display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 11px;&quot;>
+        <div class=&quot;tile&quot;>
+          <span class=&quot;tile-lbl&quot;>Деньги сегодня</span>
+          <div style=&quot;display: flex; align-items: flex-end; justify-content: space-between; gap: 10px;&quot;>
+            <span class=&quot;tile-val&quot;>18 500 ₽</span>
+            <div style=&quot;display: flex; align-items: flex-end; gap: 3px; height: 22px;&quot;>
+              <span class=&quot;bar&quot; style=&quot;height: 7px;&quot;></span><span class=&quot;bar&quot; style=&quot;height: 11px;&quot;></span><span class=&quot;bar&quot; style=&quot;height: 9px;&quot;></span><span class=&quot;bar&quot; style=&quot;height: 15px;&quot;></span><span class=&quot;bar&quot; style=&quot;height: 12px;&quot;></span><span class=&quot;bar&quot; style=&quot;height: 18px;&quot;></span><span class=&quot;bar&quot; style=&quot;height: 22px; background: #1E4FD8;&quot;></span>
+            </div>
+          </div>
+          <span class=&quot;tile-sub&quot;>За неделю 96 400 ₽ · лучший день</span>
+        </div>
+        <div class=&quot;tile&quot; style=&quot;border-color: #F2DFB8; background: #FDFBF6;&quot;>
+          <span class=&quot;tile-lbl&quot;>Загрузка недели</span>
+          <div style=&quot;display: flex; align-items: flex-end; justify-content: space-between; gap: 10px;&quot;>
+            <span class=&quot;tile-val&quot;>62<span style=&quot;font-size: 15px; font-weight: 600;&quot;>%</span></span>
+            <div style=&quot;display: flex; gap: 3px; width: 88px; align-items: flex-end;&quot;>
+              <span class=&quot;seg&quot;></span><span class=&quot;seg&quot;></span><span class=&quot;seg&quot;></span><span class=&quot;seg&quot; style=&quot;background: #EFC35B; height: 11px;&quot;></span><span class=&quot;seg&quot;></span><span class=&quot;seg&quot; style=&quot;background: #E6EAF2;&quot;></span><span class=&quot;seg&quot; style=&quot;background: #E6EAF2;&quot;></span>
+            </div>
+          </div>
+          <span class=&quot;tile-sub&quot; style=&quot;color: #8A6C24;&quot;>В четверг пусто · <a href=&quot;#&quot; style=&quot;color: #B4801F; font-weight: 600;&quot;>предложить окно семерым</a></span>
+        </div>
+        <div class=&quot;tile&quot;>
+          <span class=&quot;tile-lbl&quot;>Обращения сегодня</span>
+          <span class=&quot;tile-val&quot;>14</span>
+          <span class=&quot;tile-sub&quot;>Без ответа 0 · отвечаю за 40 с</span>
+        </div>
+        <div class=&quot;tile&quot;>
+          <span class=&quot;tile-lbl&quot;>Молчат</span>
+          <span class=&quot;tile-val&quot;>3</span>
+          <span class=&quot;tile-sub&quot;>Спрашивали в августе · <a href=&quot;#&quot; style=&quot;font-weight: 600;&quot;>разбудить</a></span>
+        </div>
+      </div>
+    </div>
+
+    <div style=&quot;flex: 1; display: flex; gap: 14px; padding: 14px 26px 0; min-height: 0;&quot;>
+
+      <div id=&quot;feed&quot; style=&quot;flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 10px; overflow: hidden;&quot;>
+
+        <div class=&quot;card&quot;>
+          <div style=&quot;display: flex; align-items: center; justify-content: space-between; margin-bottom: 7px;&quot;>
+            <div style=&quot;display: flex; align-items: center; gap: 9px;&quot;>
+              <svg width=&quot;17&quot; height=&quot;17&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><path d=&quot;M4 6.5A2.5 2.5 0 016.5 4h11A2.5 2.5 0 0120 6.5v7A2.5 2.5 0 0117.5 16H9l-5 4z&quot; stroke=&quot;#1E4FD8&quot; stroke-width=&quot;1.7&quot; stroke-linejoin=&quot;round&quot;/></svg>
+              <span class=&quot;t-title&quot;>Ответил Игорю</span>
+            </div>
+            <span class=&quot;t-meta&quot;>20:09</span>
+          </div>
+          <div class=&quot;t-body&quot; style=&quot;margin-bottom: 8px;&quot;>Спросил, можно ли вдвоём на гончарный круг. Назвал 7&amp;nbsp;000&amp;nbsp;₽ за двоих, предложил субботу — 10:00 или 15:00.</div>
+          <div class=&quot;done&quot; style=&quot;margin-bottom: 10px;&quot;>
+            <svg width=&quot;14&quot; height=&quot;14&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><path d=&quot;M5 12.5l4.5 4.5L19 7&quot; stroke=&quot;#2A9245&quot; stroke-width=&quot;2.4&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;/></svg>
+            Записал на субботу, 10:00 · +7 000 ₽ к дню
+          </div>
+          <div style=&quot;display: flex; gap: 8px;&quot;>
+            <button class=&quot;btn btn-ghost&quot;>Открыть диалог</button>
+            <button class=&quot;btn btn-quiet&quot;>Отменить запись</button>
+          </div>
+        </div>
+
+        <div class=&quot;card&quot; style=&quot;border-color: #C9D6F6; box-shadow: 0 1px 2px rgba(30,79,216,.06);&quot;>
+          <div style=&quot;display: flex; align-items: center; justify-content: space-between; margin-bottom: 7px;&quot;>
+            <div style=&quot;display: flex; align-items: center; gap: 9px;&quot;>
+              <svg width=&quot;17&quot; height=&quot;17&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;8.2&quot; stroke=&quot;#1E4FD8&quot; stroke-width=&quot;1.7&quot;/><path d=&quot;M12 11.2v5&quot; stroke=&quot;#1E4FD8&quot; stroke-width=&quot;1.9&quot; stroke-linecap=&quot;round&quot;/><circle cx=&quot;12&quot; cy=&quot;8.1&quot; r=&quot;1.05&quot; fill=&quot;#1E4FD8&quot;/></svg>
+              <span class=&quot;t-title&quot;>Нужно ваше решение</span>
+            </div>
+            <span class=&quot;t-meta&quot;>19:40</span>
+          </div>
+          <div class=&quot;t-body&quot; style=&quot;margin-bottom: 10px;&quot;>Клиент пишет в WhatsApp — я туда не дотягиваюсь. Второй такой за сегодня.</div>
+          <div style=&quot;display: flex; gap: 8px;&quot;>
+            <button class=&quot;btn btn-primary&quot;>Подключить WhatsApp</button>
+            <button class=&quot;btn btn-quiet&quot;>Не сейчас</button>
+          </div>
+        </div>
+
+        <div style=&quot;display: flex; flex-direction: column; gap: 8px; padding: 0 2px;&quot;>
+          <div style=&quot;display: flex; justify-content: flex-end;&quot;>
+            <div style=&quot;max-width: 440px; background: #1E4FD8; color: #FFFFFF; font-size: 13.5px; line-height: 1.5; border-radius: 12px 12px 4px 12px; padding: 9px 13px;&quot;>а четверг правда никак не заполнить?</div>
+          </div>
+          <div style=&quot;display: flex; gap: 9px; align-items: flex-start;&quot;>
+            <div style=&quot;width: 24px; height: 24px; border-radius: 7px; background: #1E4FD8; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px;&quot;>
+              <svg width=&quot;13&quot; height=&quot;13&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><path d=&quot;M12 3l2.2 5.9L20 11l-5.8 2.1L12 19l-2.2-5.9L4 11l5.8-2.1z&quot; fill=&quot;#FFFFFF&quot;/></svg>
+            </div>
+            <div class=&quot;t-body&quot; style=&quot;flex: 1;&quot;>Семеро спрашивали про субботу и не попали — им четверг подойдёт. Напишу всем, предложу 10:00 и 18:00. Скидку не даю.</div>
+          </div>
+        </div>
+
+        <div class=&quot;card&quot; style=&quot;padding: 13px 18px;&quot;>
+          <div style=&quot;display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;&quot;>
+            <div style=&quot;display: flex; align-items: center; gap: 9px;&quot;>
+              <svg width=&quot;17&quot; height=&quot;17&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><path d=&quot;M20 12a8 8 0 11-2.6-5.9&quot; stroke=&quot;#1E4FD8&quot; stroke-width=&quot;1.7&quot; stroke-linecap=&quot;round&quot;/><path d=&quot;M20 4v4.4h-4.4&quot; stroke=&quot;#1E4FD8&quot; stroke-width=&quot;1.7&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;/></svg>
+              <span class=&quot;t-title&quot;>Вернул троих, кто пропал</span>
+            </div>
+            <span class=&quot;t-meta&quot;>18:12</span>
+          </div>
+          <div class=&quot;t-body&quot;>Двое откликнулись, один записался на курс — 24 000 ₽.</div>
+        </div>
+
+        <div style=&quot;display: flex; align-items: center; justify-content: space-between; padding: 0 4px;&quot;>
+          <span class=&quot;t-meta&quot;>Сейл готов на 60% — не хватает WhatsApp и предоплаты</span>
+          <a href=&quot;#&quot; style=&quot;font-size: 12.5px; font-weight: 550;&quot;>Донастроить</a>
+        </div>
+
+      </div>
+
+      <div style=&quot;width: 306px; flex-shrink: 0; background: #FFFFFF; border: 1px solid #E4E8F0; border-radius: 12px; padding: 14px 17px; display: flex; flex-direction: column; overflow: hidden;&quot;>
+        <div style=&quot;display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 3px;&quot;>
+          <span style=&quot;font-size: 14px; font-weight: 650; letter-spacing: -.01em;&quot;>Сводка</span>
+          <span style=&quot;font-size: 11.5px; color: #A6ACBB;&quot;>обновлено сейчас</span>
+        </div>
+        <div style=&quot;font-size: 11.5px; color: #A6ACBB; margin-bottom: 10px;&quot;>Нажмите на строку — раскрою</div>
+        <div id=&quot;sum&quot; style=&quot;flex: 1;&quot;></div>
+        <div style=&quot;padding-top: 8px;&quot;><a href=&quot;#&quot; style=&quot;font-size: 12.5px; font-weight: 550;&quot;>Вся аналитика →</a></div>
+      </div>
+
+    </div>
+
+    <div style=&quot;height: 64px; display: flex; align-items: center; padding: 0 26px; flex-shrink: 0;&quot;>
+      <div style=&quot;flex: 1; margin-right: 320px; height: 46px; background: #FFFFFF; border: 1px solid #DDE2EC; border-radius: 13px; display: flex; align-items: center; padding: 0 7px 0 17px; gap: 12px;&quot;>
+        <span style=&quot;flex: 1; font-size: 13.5px; color: #9AA0B0;&quot;>Напишите Сейлу…</span>
+        <span style=&quot;font-size: 12px; color: #8A90A2; font-weight: 550;&quot;>Авто</span>
+        <div style=&quot;width: 33px; height: 33px; border-radius: 10px; background: #1E4FD8; display: flex; align-items: center; justify-content: center;&quot;>
+          <svg width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><path d=&quot;M12 19V6M6 11.5L12 5.5l6 6&quot; stroke=&quot;#FFFFFF&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;/></svg>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// Данные сводки. В работе их считает код (агрегаты), а формулировку даёт модель —
+// здесь тексты написаны руками как образец интонации.
+var GROUPS = [
+  { t: 'Сегодня', rows: [
+    { k: 'Выручка', v: '18 500 ₽', hint: '+24 % к среднему четвергу', spark: [7,11,9,15,12,18,20],
+      parts: [['Мастер-классы','10 500 ₽'],['Курс','8 000 ₽']], go: 'Открыть платежи',
+      title: 'Про выручку сегодня',
+      ask: 'Выручка сегодня 18 500 ₽ — на четверть выше среднего четверга. Больше всего дали мастер-классы: три записи из шести пришли из Telegram, две — от тех, кого я разбудил в августе. Показать этих людей?' },
+    { k: 'Записей', v: '6', hint: 'Обычно по четвергам 4', spark: [8,6,11,9,13,10,16],
+      parts: [['На субботу','4'],['На воскресенье','2']], go: 'Показать записи',
+      title: 'Про сегодняшние записи',
+      ask: 'Шесть записей за день — на две больше обычного четверга. Четыре на субботу, две на воскресенье. Суббота почти заполнена: осталось одно место в 15:00. Придержать его или отдать листу ожидания?' },
+    { k: 'Средний чек', v: '3 083 ₽', hint: 'Рос третий день подряд', spark: [10,12,11,14,13,17,19],
+      parts: [['Одиночные','3 500 ₽'],['Детские','2 500 ₽']], go: null,
+      title: 'Про средний чек',
+      ask: 'Чек 3 083 ₽ — растёт третий день. Тянут вверх парные записи: когда приходят вдвоём, выходит 7 000 ₽ вместо 3 500. Могу предлагать «приходите вдвоём» всем, кто пишет один. Пробуем?' },
+    { k: 'Новых клиентов', v: '4', hint: 'Трое пришли из Telegram', spark: [5,9,7,12,10,11,15],
+      parts: [['Telegram','3'],['Сайт','1']], go: 'Открыть их диалоги',
+      title: 'Про новых клиентов',
+      ask: 'Четверо новых, трое из Telegram — там же, где вы выкладывали видео с гончарным кругом. Сайт дал одного. Могу собрать, какие посты приводят людей.' },
+    { k: 'Вернулись', v: '2', hint: 'Оба были в июле', spark: [3,5,4,6,5,7,8],
+      parts: [['После мастер-класса','2'],['После курса','0']], go: 'Открыть их диалоги',
+      title: 'Про вернувшихся',
+      ask: 'Двое вернулись — оба были на мастер-классе в июле. После курса пока не возвращался никто: у выпускников нет повода прийти снова. Могу позвать их на свободный круг.' }
+  ]},
+  { t: 'Неделя', rows: [
+    { k: 'Выручка', v: '96 400 ₽', hint: 'Прошлая неделя — 81 200 ₽', spark: [9,12,10,14,16,15,19],
+      parts: [['Мастер-классы','58 400 ₽'],['Курсы','38 000 ₽']], go: 'Аналитика за неделю',
+      title: 'Про выручку недели',
+      ask: 'За неделю 96 400 ₽ против 81 200 ₽ на прошлой. Прибавка почти вся из курса — продали два места. Если заполним четверг, неделя закроется около 110 000 ₽.' },
+    { k: 'Записей', v: '31', hint: 'Из них 9 — повторные', spark: [11,9,13,12,16,14,18],
+      parts: [['Первый раз','22'],['Возвращались','9']], go: 'Показать записи',
+      title: 'Про записи за неделю',
+      ask: 'Тридцать одна запись, девять от тех, кто уже был. Возвращаются в основном после мастер-классов, а не после курса.' },
+    { k: 'Отмен', v: '2', hint: 'Обе — за сутки до занятия', spark: [4,2,6,3,5,4,6],
+      parts: [['Без предоплаты','2'],['С предоплатой','0']], go: 'Показать отмены',
+      title: 'Про отмены',
+      ask: 'Обе отмены — от тех, кто не вносил предоплату. У кого предоплата взята, за месяц не отменился никто. Это довод настроить приём предоплаты: подключим — и такие срывы почти уйдут.' },
+    { k: 'Из обращения в запись', v: '38 %', hint: 'Месяц назад было 29 %', spark: [7,8,10,12,11,15,17],
+      parts: [['Обращений','82'],['Записались','31']], go: 'Аналитика воронки',
+      title: 'Про конверсию',
+      ask: 'Из восьмидесяти двух обращений записались тридцать один — 38 %, месяц назад было 29 %. Выросло после того, как я стал сразу называть цену и предлагать два конкретных времени вместо «когда вам удобно».' },
+    { k: 'Загрузка мастеров', v: '62 %', hint: 'Четверг пустой, суббота полная', spark: [12,14,11,3,15,17,9],
+      parts: [['Суббота','95 %'],['Четверг','0 %']], go: 'Открыть расписание',
+      title: 'Про загрузку',
+      ask: 'Средняя загрузка 62 %, но она обманчива: суббота забита на 95 %, а четверг пустой совсем. Семеро на этой неделе спрашивали субботу и не попали — им четверг подойдёт. Написать им?' }
+  ]},
+  { t: 'Как я отвечаю', rows: [
+    { k: 'Обращений', v: '14', hint: 'Пик был в 19–20 часов', spark: [4,6,5,9,12,16,11],
+      parts: [['Telegram','11'],['Сайт','3']], go: 'Открыть диалоги',
+      title: 'Про обращения',
+      ask: 'Четырнадцать обращений, одиннадцать из Telegram. Пик — вечером с семи до восьми, когда вы обычно ведёте занятие. Как раз в это время я и отвечаю за вас.' },
+    { k: 'Без ответа', v: '0', hint: 'За неделю ни одного', spark: [2,1,0,1,0,0,0],
+      parts: [['Ждут сейчас','0'],['Ждали дольше 5 мин','0']], go: 'Открыть диалоги',
+      title: 'Про неотвеченные',
+      ask: 'Без ответа никого — ни сейчас, ни за неделю. Если я чего-то не знаю, я не молчу, а передаю вам: за неделю такое было один раз.' },
+    { k: 'Среднее время', v: '40 с', hint: 'Дольше всего — про сертификаты', spark: [14,12,15,11,13,10,9],
+      parts: [['Про цены','22 с'],['Про сертификаты','1 м 10 с']], go: null,
+      title: 'Про скорость ответа',
+      ask: 'В среднем отвечаю за 40 секунд. Дольше всего думаю над сертификатами — в базе знаний про них одна строка. Допишите пару подробностей, и станет быстрее.' },
+    { k: 'Передал вам', v: '1', hint: 'Просили скидку', spark: [3,2,4,2,3,1,2],
+      parts: [['Скидки','1'],['Остальное','0']], go: 'Открыть этот диалог',
+      title: 'Про переданное вам',
+      ask: 'За сутки передал вам одно обращение — просили скидку на курс. Скидки я не даю без вас: не знаю ваших границ. Скажете правило — буду решать сам.' }
+  ]}
+];
+
+var open = null, askedCard = null;
+
+function el(tag, cls, txt) {
+  var e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (txt != null) e.textContent = txt;
+  return e;
+}
+
+function detailFor(row) {
+  var d = el('div', 'detail fade');
+
+  var top = el('div');
+  top.style.cssText = 'display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin-bottom:8px';
+  var hint = el('span', null, row.hint);
+  hint.style.cssText = 'font-size:12px;color:#6C7488';
+  var spark = el('div');
+  spark.style.cssText = 'display:flex;align-items:flex-end;gap:2px;height:20px';
+  row.spark.forEach(function (h) {
+    var b = el('span');
+    b.style.cssText = 'width:4px;border-radius:2px;background:#B9CCF3;height:' + h + 'px';
+    spark.appendChild(b);
+  });
+  top.appendChild(hint); top.appendChild(spark); d.appendChild(top);
+
+  row.parts.forEach(function (p) {
+    var r = el('div', 'part');
+    r.appendChild(el('span', null, p[0]));
+    r.appendChild(el('span', 'part-v', p[1]));
+    d.appendChild(r);
+  });
+
+  var links = el('div', 'links');
+  var ask = el('span', 'lnk', '✦ Спросить Сейла');
+  ask.onclick = function (ev) { ev.stopPropagation(); pushCard(row); open = null; render(); };
+  links.appendChild(ask);
+  if (row.go) {
+    var go = el('span', 'lnk grey', row.go + ' →');
+    go.onclick = function (ev) { ev.stopPropagation(); };
+    links.appendChild(go);
+  }
+  d.appendChild(links);
+  return d;
+}
+
+function pushCard(row) {
+  if (askedCard) askedCard.remove();
+  var c = el('div', 'card fade');
+  c.style.cssText = 'border-color:#C9D6F6;background:#FBFCFF';
+
+  var head = el('div');
+  head.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-bottom:7px';
+  var left = el('div');
+  left.style.cssText = 'display:flex;align-items:center;gap:9px';
+  var ic = el('div');
+  ic.style.cssText = 'width:24px;height:24px;border-radius:7px;background:#1E4FD8;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px';
+  ic.textContent = '✦';
+  left.appendChild(ic);
+  left.appendChild(el('span', 't-title', row.title));
+  var close = el('span', 't-meta', 'Свернуть');
+  close.style.cursor = 'pointer';
+  close.onclick = function () { c.remove(); askedCard = null; };
+  head.appendChild(left); head.appendChild(close); c.appendChild(head);
+
+  c.appendChild(el('div', 't-body', row.ask));
+
+  var feed = document.getElementById('feed');
+  feed.insertBefore(c, feed.firstChild);
+  askedCard = c;
+}
+
+function render() {
+  var box = document.getElementById('sum');
+  box.innerHTML = '';
+  GROUPS.forEach(function (g, gi) {
+    box.appendChild(el('div', 'sum-h', g.t));
+    g.rows.forEach(function (row, ri) {
+      var key = gi + '-' + ri;
+      var r = el('div', 'sum-row' + (open === key ? ' on' : ''));
+      r.appendChild(el('span', 'sum-k', row.k));
+      r.appendChild(el('span', 'sum-v', row.v));
+      r.onclick = function () { open = (open === key ? null : key); render(); };
+      box.appendChild(r);
+      if (open === key) box.appendChild(detailFor(row));
+    });
+    if (gi < GROUPS.length - 1) box.appendChild(el('div', 'sum-d'));
+  });
+}
+
+render();
+</script>
+</body>
+</html>
+"></iframe>
+</div>
+    <div class="box" style="margin: 6px 0 18px; background:#EDF2FE; border-color:#C9D6F6">
+      <h3 style="margin-bottom:5px">Этот экран живой — нажимайте</h3>
+      <p>Любая строка в «Сводке» справа раскрывается: сравнение с прошлым периодом, столбики за неделю,
+      разбивка. Внутри — «Спросить Сейла»: показатель уходит в ленту репликой с объяснением, не графиком.
+      Рядом — переход в раздел с уже применённым фильтром. У «Среднего чека» и «Среднего времени»
+      перехода нет: адрес есть не у каждого числа.</p>
+    </div>
+    <p class="cap">Правило отбора: показатель попадает в громкую плитку, только если Сейл может на него
+    повлиять или обязан предупредить. Ориентиры живут в тихой сводке — им действия не нужны.</p>
+    <blockquote>Настройка не исчезла: она приходит поводом — «клиент пишет в WhatsApp, я туда не дотягиваюсь».
+    Общая готовность — одна тихая строка под лентой, без круговой диаграммы и замочков.</blockquote>
+  </div>
+</section>
+
+<section id="report">
+  <div class="wrap">
+    <span class="num">Экран 4</span>
+    <h2>Отчёт смены</h2>
+    <p>То, что скринят. Люди отправляют друзьям не интерфейс, а <strong>свою цифру</strong>.
+    Смысловой центр вынесен отдельным блоком — <strong>«1 раз вас разбудил»</strong>: это мера
+    не потребовавшегося участия, ради неё картинку и перешлют.</p>
+    <div class="frame" style="width:720px;height:802px">
+  <iframe loading="lazy" style="width:880px;height:980px;transform:scale(0.8182)" srcdoc="<!doctype html>
+<html>
+<head>
+  <meta charset=&quot;utf-8&quot;>
+  
+</head>
+<body style=&quot;margin:0&quot;>
+
+
+  <style>
+    body { margin: 0; font-family: -apple-system, &quot;Segoe UI&quot;, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif; -webkit-font-smoothing: antialiased; color: #16181D; }
+    a { color: #1E4FD8; text-decoration: none; }
+    a:hover { color: #16308F; }
+    .row { display: flex; align-items: baseline; gap: 18px; padding: 17px 0; border-bottom: 1px solid rgba(255,255,255,.10); }
+    .num { font-size: 42px; font-weight: 680; letter-spacing: -.035em; color: #FFFFFF; min-width: 168px; text-align: right; font-variant-numeric: tabular-nums; }
+    .lbl { font-size: 16.5px; line-height: 1.35; color: #A9BCEB; text-wrap: pretty; }
+    .btn { height: 44px; padding: 0 22px; border-radius: 11px; font-size: 14.5px; font-weight: 600; display: inline-flex; align-items: center; gap: 9px; cursor: pointer; border: 1px solid transparent; }
+  </style>
+
+
+<div style=&quot;width: 880px; height: 980px; background: #F4F6FA; display: flex; flex-direction: column; align-items: center; padding: 40px 40px 0; box-sizing: border-box; overflow: hidden;&quot;>
+
+  <div style=&quot;width: 100%; display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px;&quot;>
+    <span style=&quot;font-size: 15px; font-weight: 600; color: #454C5E;&quot;>Доброе утро, Артур</span>
+    <span style=&quot;font-size: 13.5px; color: #8A90A2;&quot;>10 сентября, 8:40</span>
+  </div>
+
+  <!-- герой-кадр: то, что скринят -->
+  <div style=&quot;width: 100%; background: #142561; border-radius: 22px; padding: 38px 44px 34px; box-sizing: border-box;&quot;>
+
+    <div style=&quot;display: flex; align-items: center; gap: 11px; margin-bottom: 30px;&quot;>
+      <div style=&quot;width: 30px; height: 30px; border-radius: 9px; background: rgba(255,255,255,.14); display: flex; align-items: center; justify-content: center;&quot;>
+        <svg width=&quot;17&quot; height=&quot;17&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><path d=&quot;M12 3l2.2 5.9L20 11l-5.8 2.1L12 19l-2.2-5.9L4 11l5.8-2.1z&quot; fill=&quot;#FFFFFF&quot;/></svg>
+      </div>
+      <span style=&quot;font-size: 16px; font-weight: 600; color: #FFFFFF;&quot;>Сейл</span>
+      <span style=&quot;font-size: 16px; color: #8FA5DD;&quot;>смена 9 сентября</span>
+    </div>
+
+    <div class=&quot;row&quot; style=&quot;padding-top: 0;&quot;>
+      <span class=&quot;num&quot;>14</span>
+      <span class=&quot;lbl&quot;>клиентам ответил</span>
+    </div>
+    <div class=&quot;row&quot;>
+      <span class=&quot;num&quot;>6</span>
+      <span class=&quot;lbl&quot;>человек записал</span>
+    </div>
+    <div class=&quot;row&quot;>
+      <span class=&quot;num&quot;>18 500 ₽</span>
+      <span class=&quot;lbl&quot;>предоплат принял</span>
+    </div>
+    <div class=&quot;row&quot; style=&quot;border-bottom: none;&quot;>
+      <span class=&quot;num&quot;>3</span>
+      <span class=&quot;lbl&quot;>клиента вернул — молчали две недели</span>
+    </div>
+
+    <div style=&quot;margin-top: 26px; padding: 22px 26px; background: rgba(255,255,255,.07); border-radius: 15px; display: flex; align-items: center; gap: 20px;&quot;>
+      <span style=&quot;font-size: 42px; font-weight: 680; letter-spacing: -.035em; color: #FFFFFF; min-width: 168px; text-align: right; font-variant-numeric: tabular-nums;&quot;>1</span>
+      <div>
+        <div style=&quot;font-size: 16.5px; font-weight: 600; color: #FFFFFF; margin-bottom: 3px;&quot;>раз вас разбудил</div>
+        <div style=&quot;font-size: 14px; color: #8FA5DD;&quot;>спросил про WhatsApp — вы ответили за минуту</div>
+      </div>
+    </div>
+
+    <div style=&quot;display: flex; align-items: center; justify-content: space-between; margin-top: 32px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.10);&quot;>
+      <span style=&quot;font-size: 15px; font-weight: 600; color: #FFFFFF;&quot;>Глина и Огонь<span style=&quot;color: #7E93CE; font-weight: 400;&quot;> · Казань</span></span>
+      <div style=&quot;display: flex; align-items: center; gap: 7px; opacity: .75;&quot;>
+        <svg width=&quot;15&quot; height=&quot;15&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><path d=&quot;M12 3l2.2 5.9L20 11l-5.8 2.1L12 19l-2.2-5.9L4 11l5.8-2.1z&quot; fill=&quot;#FFFFFF&quot;/></svg>
+        <span style=&quot;font-size: 13.5px; font-weight: 600; color: #FFFFFF; letter-spacing: -.01em;&quot;>salebot</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div style=&quot;display: flex; gap: 11px; margin-top: 26px;&quot;>
+    <button class=&quot;btn&quot; style=&quot;background: #1E4FD8; color: #FFFFFF;&quot;>
+      <svg width=&quot;17&quot; height=&quot;17&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><path d=&quot;M12 15V4M7.5 8.5L12 4l4.5 4.5&quot; stroke=&quot;#FFFFFF&quot; stroke-width=&quot;1.9&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;/><path d=&quot;M5 15v3.5A1.5 1.5 0 006.5 20h11a1.5 1.5 0 001.5-1.5V15&quot; stroke=&quot;#FFFFFF&quot; stroke-width=&quot;1.9&quot; stroke-linecap=&quot;round&quot;/></svg>
+      Поделиться сменой
+    </button>
+    <button class=&quot;btn&quot; style=&quot;background: #FFFFFF; color: #2A3142; border-color: #DDE2EC;&quot;>Открыть ленту</button>
+  </div>
+
+  <div style=&quot;margin-top: 20px; font-size: 13px; color: #9AA0B0; text-align: center; max-width: 460px; line-height: 1.5;&quot;>Сегодня уже два обращения — я отвечаю</div>
+
+</div>
+
+</body>
+</html>
+"></iframe>
+</div>
+    <p class="cap">Кнопка «Поделиться сменой» отдаёт готовое изображение с логотипом. Это и есть виральность при нулевом бюджете.</p>
+  </div>
+</section>
+
+<section id="mobile">
+  <div class="wrap">
+    <span class="num">Экран 5</span>
+    <h2>Мобильный</h2>
+    <p>Та же лента, уже. Верхняя полоса оставлена системе — свой статус-бар рисовать нельзя,
+    на реальном телефоне он задвоится.</p>
+    <div class="frame frame-phone" style="width:390px;height:844px">
+  <iframe loading="lazy" style="width:390px;height:844px" srcdoc="<!doctype html>
+<html>
+<head>
+  <meta charset=&quot;utf-8&quot;>
+  
+</head>
+<body style=&quot;margin:0&quot;>
+
+
+  <style>
+    body { margin: 0; font-family: -apple-system, &quot;Segoe UI&quot;, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif; -webkit-font-smoothing: antialiased; color: #16181D; }
+    a { color: #1E4FD8; text-decoration: none; }
+    a:hover { color: #16308F; }
+    .card { background: #FFFFFF; border: 1px solid #E4E8F0; border-radius: 14px; padding: 16px 17px; }
+    .t-meta { font-size: 12px; color: #8A90A2; }
+    .t-title { font-size: 15px; font-weight: 650; letter-spacing: -.01em; }
+    .t-body { font-size: 14px; line-height: 1.5; color: #454C5E; text-wrap: pretty; }
+    .btn { min-height: 44px; padding: 0 16px; border-radius: 11px; font-size: 14.5px; font-weight: 550; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; border: 1px solid transparent; }
+  </style>
+
+
+<div style=&quot;width: 390px; height: 844px; background: #F4F6FA; display: flex; flex-direction: column; overflow: hidden;&quot;>
+
+  <!-- верхнюю полосу оставляем системе: своей рисовать нечего -->
+  <div style=&quot;height: 52px; flex-shrink: 0;&quot;></div>
+
+  <div style=&quot;padding: 0 16px 12px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;&quot;>
+    <div style=&quot;display: flex; align-items: center; gap: 10px;&quot;>
+      <div style=&quot;width: 30px; height: 30px; border-radius: 9px; background: #1E4FD8; display: flex; align-items: center; justify-content: center; position: relative;&quot;>
+        <svg width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><path d=&quot;M12 3l2.2 5.9L20 11l-5.8 2.1L12 19l-2.2-5.9L4 11l5.8-2.1z&quot; fill=&quot;#FFFFFF&quot;/></svg>
+        <span style=&quot;position: absolute; right: -2px; bottom: -2px; width: 9px; height: 9px; border-radius: 50%; background: #22C55E; border: 2px solid #F4F6FA;&quot;></span>
+      </div>
+      <div>
+        <div style=&quot;font-size: 15px; font-weight: 650; letter-spacing: -.015em;&quot;>Сейл на смене</div>
+        <div class=&quot;t-meta&quot;>12 ответов · 3 записи · 18 500 ₽</div>
+      </div>
+    </div>
+    <div style=&quot;width: 30px; height: 30px; border-radius: 50%; background: #F0E4E4; color: #8A5A5A; font-size: 11px; font-weight: 650; display: flex; align-items: center; justify-content: center;&quot;>АБ</div>
+  </div>
+
+  <div style=&quot;flex: 1; overflow: hidden; padding: 4px 16px 0; display: flex; flex-direction: column; gap: 12px;&quot;>
+
+    <div class=&quot;card&quot;>
+      <div style=&quot;display: flex; align-items: center; justify-content: space-between; margin-bottom: 9px;&quot;>
+        <div style=&quot;display: flex; align-items: center; gap: 9px;&quot;>
+          <svg width=&quot;17&quot; height=&quot;17&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><path d=&quot;M4 6.5A2.5 2.5 0 016.5 4h11A2.5 2.5 0 0120 6.5v7A2.5 2.5 0 0117.5 16H9l-5 4z&quot; stroke=&quot;#1E4FD8&quot; stroke-width=&quot;1.7&quot; stroke-linejoin=&quot;round&quot;/></svg>
+          <span class=&quot;t-title&quot;>Ответил Игорю</span>
+        </div>
+        <span class=&quot;t-meta&quot;>20:09</span>
+      </div>
+      <div class=&quot;t-body&quot; style=&quot;margin-bottom: 11px;&quot;>Спросил, можно ли вдвоём. Назвал 7 000 ₽ за двоих, предложил субботу.</div>
+      <div style=&quot;display: flex; align-items: center; gap: 8px; background: #F1F7F2; border: 1px solid #DCEBDF; border-radius: 10px; padding: 9px 11px; font-size: 13.5px; color: #216B35; font-weight: 550; margin-bottom: 12px;&quot;>
+        <svg width=&quot;14&quot; height=&quot;14&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; style=&quot;flex-shrink: 0;&quot;><path d=&quot;M5 12.5l4.5 4.5L19 7&quot; stroke=&quot;#2A9245&quot; stroke-width=&quot;2.6&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;/></svg>
+        Записал на субботу, 10:00
+      </div>
+      <button class=&quot;btn&quot; style=&quot;width: 100%; background: #FFFFFF; color: #2A3142; border-color: #DDE2EC;&quot;>Открыть диалог</button>
+    </div>
+
+    <div class=&quot;card&quot; style=&quot;border-color: #C9D6F6;&quot;>
+      <div style=&quot;display: flex; align-items: center; justify-content: space-between; margin-bottom: 9px;&quot;>
+        <div style=&quot;display: flex; align-items: center; gap: 9px;&quot;>
+          <svg width=&quot;17&quot; height=&quot;17&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;8.2&quot; stroke=&quot;#1E4FD8&quot; stroke-width=&quot;1.7&quot;/><path d=&quot;M12 11.2v5&quot; stroke=&quot;#1E4FD8&quot; stroke-width=&quot;1.9&quot; stroke-linecap=&quot;round&quot;/><circle cx=&quot;12&quot; cy=&quot;8.1&quot; r=&quot;1.05&quot; fill=&quot;#1E4FD8&quot;/></svg>
+          <span class=&quot;t-title&quot;>Нужно ваше решение</span>
+        </div>
+        <span class=&quot;t-meta&quot;>19:40</span>
+      </div>
+      <div class=&quot;t-body&quot; style=&quot;margin-bottom: 13px;&quot;>Клиент пишет в WhatsApp — я туда не дотягиваюсь.</div>
+      <div style=&quot;display: flex; gap: 9px;&quot;>
+        <button class=&quot;btn&quot; style=&quot;flex: 1; background: #1E4FD8; color: #FFFFFF;&quot;>Подключить</button>
+        <button class=&quot;btn&quot; style=&quot;background: transparent; color: #8A90A2;&quot;>Не сейчас</button>
+      </div>
+    </div>
+
+    <div style=&quot;display: flex; justify-content: flex-end;&quot;>
+      <div style=&quot;max-width: 250px; background: #1E4FD8; color: #FFFFFF; font-size: 14px; line-height: 1.45; border-radius: 12px 12px 4px 12px; padding: 10px 13px;&quot;>покажи, как отвечаешь про сертификаты</div>
+    </div>
+
+    <div class=&quot;card&quot;>
+      <div style=&quot;display: flex; align-items: center; justify-content: space-between; margin-bottom: 9px;&quot;>
+        <div style=&quot;display: flex; align-items: center; gap: 9px;&quot;>
+          <svg width=&quot;17&quot; height=&quot;17&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><path d=&quot;M20 12a8 8 0 11-2.6-5.9&quot; stroke=&quot;#1E4FD8&quot; stroke-width=&quot;1.7&quot; stroke-linecap=&quot;round&quot;/><path d=&quot;M20 4v4.4h-4.4&quot; stroke=&quot;#1E4FD8&quot; stroke-width=&quot;1.7&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;/></svg>
+          <span class=&quot;t-title&quot;>Вернул троих</span>
+        </div>
+        <span class=&quot;t-meta&quot;>18:12</span>
+      </div>
+      <div class=&quot;t-body&quot; style=&quot;margin-bottom: 12px;&quot;>Написал тем, кто спрашивал в августе. Двое откликнулись, один записался на курс.</div>
+      <button class=&quot;btn&quot; style=&quot;width: 100%; background: #FFFFFF; color: #2A3142; border-color: #DDE2EC;&quot;>Показать переписку</button>
+    </div>
+
+    <div style=&quot;display: flex; align-items: center; justify-content: space-between; padding: 0 2px;&quot;>
+      <span class=&quot;t-meta&quot;>Сейл готов на 60%</span>
+      <a href=&quot;#&quot; style=&quot;font-size: 12.5px; font-weight: 550;&quot;>Донастроить</a>
+    </div>
+
+  </div>
+
+  <div style=&quot;padding: 12px 16px 20px; flex-shrink: 0;&quot;>
+    <div style=&quot;height: 48px; background: #FFFFFF; border: 1px solid #DDE2EC; border-radius: 13px; display: flex; align-items: center; padding: 0 6px 0 16px; gap: 10px;&quot;>
+      <span style=&quot;flex: 1; font-size: 14px; color: #9AA0B0;&quot;>Напишите Сейлу…</span>
+      <div style=&quot;width: 36px; height: 36px; border-radius: 10px; background: #1E4FD8; display: flex; align-items: center; justify-content: center;&quot;>
+        <svg width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><path d=&quot;M12 19V6M6 11.5L12 5.5l6 6&quot; stroke=&quot;#FFFFFF&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;/></svg>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
+"></iframe>
+</div>
+    <p class="cap">Сегодня на телефоне чат занимает весь экран и полотна не видно вовсе — в новой рамке это становится нормой, а не деградацией.</p>
+  </div>
+</section>
+
+<section id="check">
+  <div class="wrap">
+    <span class="num">Экран 6</span>
+    <h2>Проверка — разделы никуда не делись</h2>
+    <p>Сайдбар и разделы остаются. Ассистент их не заменяет, а <strong>приводит в них</strong>:
+    сверху — след ленты, видно, откуда пришёл и что это сделал Сейл.</p>
+    <div class="frame" style="width:1120px;height:700px">
+  <iframe loading="lazy" style="width:1440px;height:900px;transform:scale(0.7778)" srcdoc="<!doctype html>
+<html>
+<head>
+  <meta charset=&quot;utf-8&quot;>
+  
+</head>
+<body style=&quot;margin:0&quot;>
+
+
+  <style>
+    body { margin: 0; font-family: -apple-system, &quot;Segoe UI&quot;, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif; -webkit-font-smoothing: antialiased; color: #16181D; }
+    a { color: #1E4FD8; text-decoration: none; }
+    a:hover { color: #16308F; }
+    .rail-ic { opacity: .55; }
+    .th { font-size: 11.5px; font-weight: 650; letter-spacing: .07em; text-transform: uppercase; color: #9AA0B0; }
+    .td { font-size: 14px; color: #16181D; }
+    .grp { background: #FFFFFF; border: 1px solid #E4E8F0; border-radius: 12px; overflow: hidden; }
+    .grp-head { display: flex; align-items: center; justify-content: space-between; padding: 13px 20px; border-bottom: 1px solid #F0F2F7; }
+    .btn { height: 34px; padding: 0 15px; border-radius: 9px; font-size: 13.5px; font-weight: 550; display: inline-flex; align-items: center; gap: 7px; cursor: pointer; border: 1px solid transparent; }
+    .btn-primary { background: #1E4FD8; color: #FFFFFF; }
+    .btn-ghost { background: #FFFFFF; color: #2A3142; border-color: #DDE2EC; }
+    .tog { display: inline-block; width: 34px; height: 20px; border-radius: 10px; background: #1E4FD8; position: relative; }
+    .tog::after { content: &quot;&quot;; position: absolute; right: 2px; top: 2px; width: 16px; height: 16px; border-radius: 50%; background: #FFFFFF; }
+    .cols { display: grid; grid-template-columns: 1fr 150px 170px 130px 140px 130px; gap: 16px; align-items: center; padding: 12px 20px; }
+  </style>
+
+
+<div style=&quot;width: 1440px; height: 900px; display: flex; background: #F4F6FA; overflow: hidden;&quot;>
+
+  <div style=&quot;width: 68px; background: #16307C; display: flex; flex-direction: column; align-items: center; padding: 16px 0; gap: 18px; flex-shrink: 0;&quot;>
+    <svg width=&quot;26&quot; height=&quot;26&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><path d=&quot;M12 3l2.2 5.9L20 11l-5.8 2.1L12 19l-2.2-5.9L4 11l5.8-2.1z&quot; fill=&quot;#FFFFFF&quot;/></svg>
+    <div style=&quot;width: 26px; height: 1px; background: rgba(255,255,255,.18);&quot;></div>
+    <svg class=&quot;rail-ic&quot; width=&quot;20&quot; height=&quot;20&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><rect x=&quot;4&quot; y=&quot;4&quot; width=&quot;7&quot; height=&quot;7&quot; rx=&quot;2&quot; stroke=&quot;#fff&quot; stroke-width=&quot;1.6&quot;/><rect x=&quot;13&quot; y=&quot;4&quot; width=&quot;7&quot; height=&quot;7&quot; rx=&quot;2&quot; stroke=&quot;#fff&quot; stroke-width=&quot;1.6&quot;/><rect x=&quot;4&quot; y=&quot;13&quot; width=&quot;7&quot; height=&quot;7&quot; rx=&quot;2&quot; stroke=&quot;#fff&quot; stroke-width=&quot;1.6&quot;/><rect x=&quot;13&quot; y=&quot;13&quot; width=&quot;7&quot; height=&quot;7&quot; rx=&quot;2&quot; stroke=&quot;#fff&quot; stroke-width=&quot;1.6&quot;/></svg>
+    <svg class=&quot;rail-ic&quot; width=&quot;20&quot; height=&quot;20&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><path d=&quot;M4 6.5A2.5 2.5 0 016.5 4h11A2.5 2.5 0 0120 6.5v7A2.5 2.5 0 0117.5 16H9l-5 4z&quot; stroke=&quot;#fff&quot; stroke-width=&quot;1.6&quot; stroke-linejoin=&quot;round&quot;/></svg>
+    <svg class=&quot;rail-ic&quot; width=&quot;20&quot; height=&quot;20&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><circle cx=&quot;12&quot; cy=&quot;8&quot; r=&quot;3.4&quot; stroke=&quot;#fff&quot; stroke-width=&quot;1.6&quot;/><path d=&quot;M5 20c0-3.4 3.1-5.6 7-5.6s7 2.2 7 5.6&quot; stroke=&quot;#fff&quot; stroke-width=&quot;1.6&quot; stroke-linecap=&quot;round&quot;/></svg>
+    <svg class=&quot;rail-ic&quot; width=&quot;20&quot; height=&quot;20&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><path d=&quot;M5 7h14M5 12h14M5 17h9&quot; stroke=&quot;#fff&quot; stroke-width=&quot;1.6&quot; stroke-linecap=&quot;round&quot;/></svg>
+    <svg class=&quot;rail-ic&quot; width=&quot;20&quot; height=&quot;20&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><path d=&quot;M5 19V11M12 19V5M19 19v-5&quot; stroke=&quot;#fff&quot; stroke-width=&quot;1.7&quot; stroke-linecap=&quot;round&quot;/></svg>
+    <!-- активный пункт: Услуги -->
+    <div style=&quot;width: 44px; height: 36px; border-radius: 10px; background: rgba(255,255,255,.16); display: flex; align-items: center; justify-content: center;&quot;>
+      <svg width=&quot;20&quot; height=&quot;20&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><path d=&quot;M11.4 3.6H5.2a1.6 1.6 0 00-1.6 1.6v6.2c0 .42.17.83.47 1.13l7.6 7.6a1.6 1.6 0 002.26 0l6.2-6.2a1.6 1.6 0 000-2.26l-7.6-7.6a1.6 1.6 0 00-1.13-.47z&quot; stroke=&quot;#fff&quot; stroke-width=&quot;1.6&quot;/><circle cx=&quot;8&quot; cy=&quot;8&quot; r=&quot;1.3&quot; fill=&quot;#fff&quot;/></svg>
+    </div>
+  </div>
+
+  <div style=&quot;flex: 1; display: flex; flex-direction: column; min-width: 0;&quot;>
+
+    <div style=&quot;height: 60px; background: #FFFFFF; border-bottom: 1px solid #E4E8F0; display: flex; align-items: center; justify-content: space-between; padding: 0 28px; flex-shrink: 0;&quot;>
+      <div style=&quot;display: flex; align-items: baseline; gap: 10px;&quot;>
+        <span style=&quot;font-size: 13.5px; color: #8A90A2;&quot;>Филиал:</span>
+        <span style=&quot;font-size: 15.5px; font-weight: 650; letter-spacing: -.015em;&quot;>Глина и Огонь</span>
+        <span style=&quot;font-size: 13.5px; color: #8A90A2;&quot;>Казань</span>
+      </div>
+      <div style=&quot;display: flex; align-items: center; gap: 14px;&quot;>
+        <button class=&quot;btn btn-ghost&quot;>Виджеты</button>
+        <div style=&quot;display: flex; align-items: center; gap: 8px; height: 34px; padding: 0 13px; border-radius: 999px; background: #FFFFFF; border: 1px solid #DDE2EC;&quot;>
+          <div style=&quot;width: 18px; height: 18px; border-radius: 6px; background: #1E4FD8; display: flex; align-items: center; justify-content: center;&quot;>
+            <svg width=&quot;11&quot; height=&quot;11&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><path d=&quot;M12 3l2.2 5.9L20 11l-5.8 2.1L12 19l-2.2-5.9L4 11l5.8-2.1z&quot; fill=&quot;#FFFFFF&quot;/></svg>
+          </div>
+          <span style=&quot;font-size: 13.5px; font-weight: 600;&quot;>Сейл</span>
+        </div>
+        <div style=&quot;width: 28px; height: 28px; border-radius: 50%; background: #F0E4E4; color: #8A5A5A; font-size: 11.5px; font-weight: 650; display: flex; align-items: center; justify-content: center;&quot;>АБ</div>
+      </div>
+    </div>
+
+    <!-- след ленты: видно, откуда пришёл и кто это сделал -->
+    <div style=&quot;background: #EEF3FE; border-bottom: 1px solid #DCE5FA; padding: 11px 28px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;&quot;>
+      <div style=&quot;display: flex; align-items: center; gap: 11px;&quot;>
+        <svg width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><path d=&quot;M15 6l-6 6 6 6&quot; stroke=&quot;#1E4FD8&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;/></svg>
+        <span style=&quot;font-size: 13.5px; color: #1C2C55;&quot;><a href=&quot;#&quot; style=&quot;font-weight: 600;&quot;>Вернуться в ленту</a> · сюда вас привела карточка «Собрал прайс» от 18:04</span>
+      </div>
+      <span style=&quot;font-size: 13px; color: #5C6C99;&quot;>Всё, что ниже, создал Сейл — можно править как обычно</span>
+    </div>
+
+    <div style=&quot;padding: 20px 28px 0; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;&quot;>
+      <div style=&quot;display: flex; gap: 24px;&quot;>
+        <span style=&quot;font-size: 14.5px; font-weight: 600; color: #1E4FD8; padding-bottom: 9px; border-bottom: 2px solid #1E4FD8;&quot;>Услуги</span>
+        <span style=&quot;font-size: 14.5px; color: #6C7488; padding-bottom: 9px;&quot;>Группы</span>
+        <span style=&quot;font-size: 14.5px; color: #6C7488; padding-bottom: 9px;&quot;>Уведомления</span>
+      </div>
+      <div style=&quot;display: flex; gap: 9px;&quot;>
+        <button class=&quot;btn btn-ghost&quot;>Создать категорию</button>
+        <button class=&quot;btn btn-primary&quot;>Создать услугу</button>
+      </div>
+    </div>
+
+    <div style=&quot;flex: 1; overflow: hidden; padding: 18px 28px 0; display: flex; flex-direction: column; gap: 14px;&quot;>
+
+      <div class=&quot;grp&quot;>
+        <div class=&quot;grp-head&quot;>
+          <div style=&quot;display: flex; align-items: center; gap: 10px;&quot;>
+            <span style=&quot;font-size: 14.5px; font-weight: 650;&quot;>Мастер-классы</span>
+            <span style=&quot;font-size: 12px; color: #8A90A2; background: #F2F4F8; border-radius: 6px; padding: 2px 7px;&quot;>1</span>
+          </div>
+          <button class=&quot;btn btn-ghost&quot; style=&quot;height: 30px;&quot;>+ Услуга</button>
+        </div>
+        <div class=&quot;cols th&quot; style=&quot;padding-top: 10px; padding-bottom: 6px;&quot;>
+          <span>Название</span><span>Длительность</span><span>Стоимость услуги</span><span>Группы</span><span>Онлайн запись</span><span>Вместимость</span>
+        </div>
+        <div class=&quot;cols&quot; style=&quot;padding-bottom: 8px;&quot;>
+          <span class=&quot;td&quot;>Мастер-класс по гончарному кругу</span>
+          <span class=&quot;td&quot;>02:00</span>
+          <span class=&quot;td&quot; style=&quot;color: #1E4FD8;&quot;>3 500</span>
+          <a href=&quot;#&quot; class=&quot;td&quot;>Привязать</a>
+          <span><span class=&quot;tog&quot;></span></span>
+          <span style=&quot;display: inline-flex; align-items: center; gap: 8px;&quot;>
+            <span class=&quot;td&quot; style=&quot;background: #FDF4E3; border: 1px solid #F2DFB8; border-radius: 7px; padding: 3px 9px;&quot;>1</span>
+          </span>
+        </div>
+        <!-- Сейл дотягивается и в раздел: ловит собственную неточность -->
+        <div style=&quot;display: flex; align-items: center; gap: 11px; margin: 0 20px 16px; padding: 11px 14px; background: #FDF9F1; border: 1px solid #F2E4C8; border-radius: 10px;&quot;>
+          <div style=&quot;width: 22px; height: 22px; border-radius: 7px; background: #B4801F; display: flex; align-items: center; justify-content: center; flex-shrink: 0;&quot;>
+            <svg width=&quot;13&quot; height=&quot;13&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><path d=&quot;M12 3l2.2 5.9L20 11l-5.8 2.1L12 19l-2.2-5.9L4 11l5.8-2.1z&quot; fill=&quot;#FFFFFF&quot;/></svg>
+          </div>
+          <span style=&quot;flex: 1; font-size: 13.5px; color: #6A5320; line-height: 1.45;&quot;>Вы писали, что клиенты приходят вдвоём, а я поставил вместимость 1 — и уже пообещал Игорю место для двоих. Исправить на 2?</span>
+          <button class=&quot;btn btn-primary&quot; style=&quot;height: 32px;&quot;>Поставить 2</button>
+          <button class=&quot;btn&quot; style=&quot;height: 32px; background: transparent; color: #8A7748;&quot;>Оставить 1</button>
+        </div>
+      </div>
+
+      <div class=&quot;grp&quot;>
+        <div class=&quot;grp-head&quot;>
+          <div style=&quot;display: flex; align-items: center; gap: 10px;&quot;>
+            <span style=&quot;font-size: 14.5px; font-weight: 650;&quot;>Детские группы</span>
+            <span style=&quot;font-size: 12px; color: #8A90A2; background: #F2F4F8; border-radius: 6px; padding: 2px 7px;&quot;>1</span>
+          </div>
+          <button class=&quot;btn btn-ghost&quot; style=&quot;height: 30px;&quot;>+ Услуга</button>
+        </div>
+        <div class=&quot;cols th&quot; style=&quot;padding-top: 10px; padding-bottom: 6px;&quot;>
+          <span>Название</span><span>Длительность</span><span>Стоимость услуги</span><span>Группы</span><span>Онлайн запись</span><span>Вместимость</span>
+        </div>
+        <div class=&quot;cols&quot; style=&quot;padding-bottom: 14px;&quot;>
+          <span class=&quot;td&quot;>Детская группа (выходные)</span>
+          <span class=&quot;td&quot;>01:30</span>
+          <span class=&quot;td&quot; style=&quot;color: #1E4FD8;&quot;>2 500</span>
+          <a href=&quot;#&quot; class=&quot;td&quot;>Привязать</a>
+          <span><span class=&quot;tog&quot;></span></span>
+          <span class=&quot;td&quot;>6</span>
+        </div>
+      </div>
+
+      <div class=&quot;grp&quot;>
+        <div class=&quot;grp-head&quot;>
+          <div style=&quot;display: flex; align-items: center; gap: 10px;&quot;>
+            <span style=&quot;font-size: 14.5px; font-weight: 650;&quot;>Курсы</span>
+            <span style=&quot;font-size: 12px; color: #8A90A2; background: #F2F4F8; border-radius: 6px; padding: 2px 7px;&quot;>1</span>
+          </div>
+          <button class=&quot;btn btn-ghost&quot; style=&quot;height: 30px;&quot;>+ Услуга</button>
+        </div>
+        <div class=&quot;cols th&quot; style=&quot;padding-top: 10px; padding-bottom: 6px;&quot;>
+          <span>Название</span><span>Длительность</span><span>Стоимость услуги</span><span>Группы</span><span>Онлайн запись</span><span>Вместимость</span>
+        </div>
+        <div class=&quot;cols&quot; style=&quot;padding-bottom: 14px;&quot;>
+          <span class=&quot;td&quot;>Курс из 8 занятий</span>
+          <span class=&quot;td&quot;>02:00</span>
+          <span class=&quot;td&quot; style=&quot;color: #1E4FD8;&quot;>24 000</span>
+          <a href=&quot;#&quot; class=&quot;td&quot;>Привязать</a>
+          <span><span class=&quot;tog&quot;></span></span>
+          <span class=&quot;td&quot;>1</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
+"></iframe>
+</div>
+    <p class="cap">Здесь же видно, зачем разделы нужны при проактивном ассистенте: Сейл сам ловит свою неточность —
+    поставил вместимость 1, хотя владелец писал «приходят вдвоём», и уже пообещал клиенту место для двоих.
+    Это настоящий дефект, найденный на стенде.</p>
+  </div>
+</section>
+
+<section id="biz">
+  <div class="wrap">
+    <h2>Один экран — разные бизнесы</h2>
+    <p>Скелет один. Меняются состав пульса, состав сводки и голос Сейла. Состав берётся из
+    <strong>уже существующей анкеты проекта</strong>: ось «что настроить» задаёт числа, ось «чем занимаетесь» — язык.
+    Восемь отраслей на восемь инструментов — это 64 сочетания, поэтому экранов на каждый бизнес не делаем:
+    складываются навыки, а не размножаются макеты.</p>
+    <div class="frame" style="width:1120px;height:544px">
+  <iframe loading="lazy" style="width:1440px;height:700px;transform:scale(0.7778)" srcdoc="<!doctype html>
+<html>
+<head>
+  <meta charset=&quot;utf-8&quot;>
+  
+</head>
+<body style=&quot;margin:0&quot;>
+
+
+  <style>
+    body { margin: 0; font-family: -apple-system, &quot;Segoe UI&quot;, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif; -webkit-font-smoothing: antialiased; color: #16181D; }
+    a { color: #1E4FD8; text-decoration: none; }
+    a:hover { color: #16308F; }
+    .card { background: #FFFFFF; border: 1px solid #E4E8F0; border-radius: 12px; padding: 15px 18px; }
+    .t-meta { font-size: 12.5px; color: #8A90A2; }
+    .t-title { font-size: 15px; font-weight: 650; letter-spacing: -.01em; }
+    .t-body { font-size: 13.5px; line-height: 1.55; color: #454C5E; text-wrap: pretty; }
+    .done { display: flex; align-items: center; gap: 8px; background: #F1F7F2; border: 1px solid #DCEBDF; border-radius: 9px; padding: 8px 11px; font-size: 13px; color: #216B35; font-weight: 550; }
+    .tile { background: #FFFFFF; border: 1px solid #E4E8F0; border-radius: 12px; padding: 13px 15px; display: flex; flex-direction: column; gap: 7px; }
+    .tile-lbl { font-size: 11px; font-weight: 650; letter-spacing: .07em; text-transform: uppercase; color: #9AA0B0; }
+    .tile-val { font-size: 24px; font-weight: 680; letter-spacing: -.03em; font-variant-numeric: tabular-nums; line-height: 1; }
+    .tile-sub { font-size: 12px; color: #8A90A2; }
+    .bar { width: 5px; border-radius: 2px; background: #C8D6F7; }
+    .step { flex: 1; height: 7px; border-radius: 2px; background: #C8D6F7; }
+    .live { width: 7px; height: 7px; border-radius: 50%; background: #22C55E; animation: blip 2.2s ease-in-out infinite; }
+    @keyframes blip { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
+    .kind { font-size: 11.5px; font-weight: 650; color: #4A5875; background: #E8EEFB; border-radius: 6px; padding: 3px 9px; }
+    .sum-h { font-size: 10.5px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: #A6ACBB; padding: 0 0 5px; }
+    .sum-r { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; padding: 4px 0; }
+    .sum-k { font-size: 12.5px; color: #6C7488; }
+    .sum-v { font-size: 13.5px; font-weight: 640; color: #16181D; font-variant-numeric: tabular-nums; }
+    .sum-d { height: 1px; background: #EDF0F6; margin: 8px 0; }
+  </style>
+
+
+<div style=&quot;width: 1440px; height: 700px; display: flex; background: #F4F6FA; overflow: hidden;&quot;>
+
+  <div style=&quot;width: 68px; background: #16307C; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; padding: 16px 0; gap: 18px;&quot;>
+    <svg width=&quot;26&quot; height=&quot;26&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><path d=&quot;M12 3l2.2 5.9L20 11l-5.8 2.1L12 19l-2.2-5.9L4 11l5.8-2.1z&quot; fill=&quot;#FFFFFF&quot;/></svg>
+    <div style=&quot;width: 26px; height: 1px; background: rgba(255,255,255,.18);&quot;></div>
+    <svg style=&quot;opacity:.5&quot; width=&quot;20&quot; height=&quot;20&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><rect x=&quot;4&quot; y=&quot;4&quot; width=&quot;7&quot; height=&quot;7&quot; rx=&quot;2&quot; stroke=&quot;#fff&quot; stroke-width=&quot;1.6&quot;/><rect x=&quot;13&quot; y=&quot;4&quot; width=&quot;7&quot; height=&quot;7&quot; rx=&quot;2&quot; stroke=&quot;#fff&quot; stroke-width=&quot;1.6&quot;/><rect x=&quot;4&quot; y=&quot;13&quot; width=&quot;7&quot; height=&quot;7&quot; rx=&quot;2&quot; stroke=&quot;#fff&quot; stroke-width=&quot;1.6&quot;/><rect x=&quot;13&quot; y=&quot;13&quot; width=&quot;7&quot; height=&quot;7&quot; rx=&quot;2&quot; stroke=&quot;#fff&quot; stroke-width=&quot;1.6&quot;/></svg>
+    <svg style=&quot;opacity:.5&quot; width=&quot;20&quot; height=&quot;20&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><path d=&quot;M4 6.5A2.5 2.5 0 016.5 4h11A2.5 2.5 0 0120 6.5v7A2.5 2.5 0 0117.5 16H9l-5 4z&quot; stroke=&quot;#fff&quot; stroke-width=&quot;1.6&quot; stroke-linejoin=&quot;round&quot;/></svg>
+    <svg style=&quot;opacity:.5&quot; width=&quot;20&quot; height=&quot;20&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><path d=&quot;M5 7h14M5 12h14M5 17h9&quot; stroke=&quot;#fff&quot; stroke-width=&quot;1.6&quot; stroke-linecap=&quot;round&quot;/></svg>
+  </div>
+
+  <div style=&quot;flex: 1; display: flex; flex-direction: column; min-width: 0;&quot;>
+
+    <div style=&quot;height: 58px; background: #FFFFFF; border-bottom: 1px solid #E4E8F0; display: flex; align-items: center; justify-content: space-between; padding: 0 26px; flex-shrink: 0;&quot;>
+      <div style=&quot;display: flex; align-items: center; gap: 11px;&quot;>
+        <div style=&quot;width: 29px; height: 29px; border-radius: 9px; background: #1E4FD8; display: flex; align-items: center; justify-content: center; position: relative;&quot;>
+          <svg width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><path d=&quot;M12 3l2.2 5.9L20 11l-5.8 2.1L12 19l-2.2-5.9L4 11l5.8-2.1z&quot; fill=&quot;#FFFFFF&quot;/></svg>
+          <span style=&quot;position: absolute; right: -2px; bottom: -2px; width: 9px; height: 9px; border-radius: 50%; background: #22C55E; border: 2px solid #FFFFFF;&quot;></span>
+        </div>
+        <span style=&quot;font-size: 15px; font-weight: 650; letter-spacing: -.015em;&quot;>Сейл на смене</span>
+        <span class=&quot;t-meta&quot;>2-й час</span>
+      </div>
+      <div style=&quot;display: flex; align-items: center; gap: 10px;&quot;>
+        <span class=&quot;kind&quot;>Образование · онлайн-курс</span>
+        <span class=&quot;t-meta&quot;>Нейросети с нуля</span>
+      </div>
+    </div>
+
+    <div style=&quot;padding: 14px 26px 0; flex-shrink: 0;&quot;>
+      <div style=&quot;display: flex; align-items: center; justify-content: space-between; margin-bottom: 9px;&quot;>
+        <div style=&quot;display: flex; align-items: center; gap: 8px;&quot;>
+          <span class=&quot;live&quot;></span>
+          <span style=&quot;font-size: 11.5px; font-weight: 650; letter-spacing: .07em; text-transform: uppercase; color: #8A90A2;&quot;>За чем я слежу</span>
+        </div>
+        <a href=&quot;#&quot; style=&quot;font-size: 12.5px; font-weight: 550;&quot;>+ Обучить Сейла</a>
+      </div>
+      <div style=&quot;display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 11px;&quot;>
+        <div class=&quot;tile&quot;>
+          <span class=&quot;tile-lbl&quot;>Продажи сегодня</span>
+          <div style=&quot;display: flex; align-items: flex-end; justify-content: space-between; gap: 10px;&quot;>
+            <span class=&quot;tile-val&quot;>64 200 ₽</span>
+            <div style=&quot;display: flex; align-items: flex-end; gap: 3px; height: 22px;&quot;>
+              <span class=&quot;bar&quot; style=&quot;height: 10px;&quot;></span><span class=&quot;bar&quot; style=&quot;height: 8px;&quot;></span><span class=&quot;bar&quot; style=&quot;height: 14px;&quot;></span><span class=&quot;bar&quot; style=&quot;height: 11px;&quot;></span><span class=&quot;bar&quot; style=&quot;height: 18px;&quot;></span><span class=&quot;bar&quot; style=&quot;height: 15px;&quot;></span><span class=&quot;bar&quot; style=&quot;height: 22px; background: #1E4FD8;&quot;></span>
+            </div>
+          </div>
+          <span class=&quot;tile-sub&quot;>6 мест из 30 · поток стартует 15-го</span>
+        </div>
+        <div class=&quot;tile&quot; style=&quot;border-color: #F2DFB8; background: #FDFBF6;&quot;>
+          <span class=&quot;tile-lbl&quot;>Доходимость потока</span>
+          <div style=&quot;display: flex; align-items: flex-end; justify-content: space-between; gap: 10px;&quot;>
+            <span class=&quot;tile-val&quot;>41<span style=&quot;font-size: 15px; font-weight: 600;&quot;>%</span></span>
+            <div style=&quot;display: flex; gap: 3px; width: 88px; align-items: flex-end;&quot;>
+              <span class=&quot;step&quot;></span><span class=&quot;step&quot;></span><span class=&quot;step&quot; style=&quot;background: #EFC35B; height: 11px;&quot;></span><span class=&quot;step&quot; style=&quot;background: #E6EAF2;&quot;></span><span class=&quot;step&quot; style=&quot;background: #E6EAF2;&quot;></span><span class=&quot;step&quot; style=&quot;background: #E6EAF2;&quot;></span>
+            </div>
+          </div>
+          <span class=&quot;tile-sub&quot; style=&quot;color: #8A6C24;&quot;>На 3-м модуле застряли 11 · <a href=&quot;#&quot; style=&quot;color: #B4801F; font-weight: 600;&quot;>напомнить им</a></span>
+        </div>
+        <div class=&quot;tile&quot;>
+          <span class=&quot;tile-lbl&quot;>Обращения сегодня</span>
+          <span class=&quot;tile-val&quot;>22</span>
+          <span class=&quot;tile-sub&quot;>Без ответа 0 · чаще про рассрочку</span>
+        </div>
+        <div class=&quot;tile&quot;>
+          <span class=&quot;tile-lbl&quot;>Не оплатили</span>
+          <span class=&quot;tile-val&quot;>5</span>
+          <span class=&quot;tile-sub&quot;>Оставили заявку вчера · <a href=&quot;#&quot; style=&quot;font-weight: 600;&quot;>дожать</a></span>
+        </div>
+      </div>
+    </div>
+
+    <div style=&quot;flex: 1; display: flex; gap: 14px; padding: 14px 26px 20px; min-height: 0;&quot;>
+
+      <div style=&quot;flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 10px; overflow: hidden;&quot;>
+        <div class=&quot;card&quot;>
+          <div style=&quot;display: flex; align-items: center; justify-content: space-between; margin-bottom: 7px;&quot;>
+            <div style=&quot;display: flex; align-items: center; gap: 9px;&quot;>
+              <svg width=&quot;17&quot; height=&quot;17&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><path d=&quot;M4 6.5A2.5 2.5 0 016.5 4h11A2.5 2.5 0 0120 6.5v7A2.5 2.5 0 0117.5 16H9l-5 4z&quot; stroke=&quot;#1E4FD8&quot; stroke-width=&quot;1.7&quot; stroke-linejoin=&quot;round&quot;/></svg>
+              <span class=&quot;t-title&quot;>Ответил Марине</span>
+            </div>
+            <span class=&quot;t-meta&quot;>14:26</span>
+          </div>
+          <div class=&quot;t-body&quot; style=&quot;margin-bottom: 8px;&quot;>Спросила, можно ли платить частями. Объяснил рассрочку на три месяца и что доступ открывается сразу после первого платежа.</div>
+          <div class=&quot;done&quot;>
+            <svg width=&quot;14&quot; height=&quot;14&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><path d=&quot;M5 12.5l4.5 4.5L19 7&quot; stroke=&quot;#2A9245&quot; stroke-width=&quot;2.4&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;/></svg>
+            Оформила рассрочку · +10 700 ₽ первый платёж
+          </div>
+        </div>
+
+        <div class=&quot;card&quot; style=&quot;padding: 13px 18px;&quot;>
+          <div style=&quot;display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;&quot;>
+            <div style=&quot;display: flex; align-items: center; gap: 9px;&quot;>
+              <svg width=&quot;17&quot; height=&quot;17&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><path d=&quot;M4 7.5l8-3.5 8 3.5-8 3.5z&quot; stroke=&quot;#1E4FD8&quot; stroke-width=&quot;1.7&quot; stroke-linejoin=&quot;round&quot;/><path d=&quot;M7 9.6V15c0 1.4 2.2 2.6 5 2.6s5-1.2 5-2.6V9.6&quot; stroke=&quot;#1E4FD8&quot; stroke-width=&quot;1.7&quot; stroke-linecap=&quot;round&quot;/></svg>
+              <span class=&quot;t-title&quot;>Открыл доступ четверым</span>
+            </div>
+            <span class=&quot;t-meta&quot;>11:05</span>
+          </div>
+          <div class=&quot;t-body&quot;>Оплатили ночью — выдал доступ к первому модулю и прислал расписание вебинаров.</div>
+        </div>
+      </div>
+
+      <div style=&quot;width: 296px; flex-shrink: 0; background: #FFFFFF; border: 1px solid #E4E8F0; border-radius: 12px; padding: 14px 17px; display: flex; flex-direction: column; overflow: hidden;&quot;>
+        <div style=&quot;display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 11px;&quot;>
+          <span style=&quot;font-size: 14px; font-weight: 650; letter-spacing: -.01em;&quot;>Сводка</span>
+          <span style=&quot;font-size: 11.5px; color: #A6ACBB;&quot;>обновлено сейчас</span>
+        </div>
+        <div class=&quot;sum-h&quot;>Сегодня</div>
+        <div class=&quot;sum-r&quot;><span class=&quot;sum-k&quot;>Продажи</span><span class=&quot;sum-v&quot;>64 200 ₽</span></div>
+        <div class=&quot;sum-r&quot;><span class=&quot;sum-k&quot;>Оплат</span><span class=&quot;sum-v&quot;>6</span></div>
+        <div class=&quot;sum-r&quot;><span class=&quot;sum-k&quot;>Средний чек</span><span class=&quot;sum-v&quot;>10 700 ₽</span></div>
+        <div class=&quot;sum-r&quot;><span class=&quot;sum-k&quot;>Новых заявок</span><span class=&quot;sum-v&quot;>9</span></div>
+        <div class=&quot;sum-d&quot;></div>
+        <div class=&quot;sum-h&quot;>Поток</div>
+        <div class=&quot;sum-r&quot;><span class=&quot;sum-k&quot;>Учеников</span><span class=&quot;sum-v&quot;>30</span></div>
+        <div class=&quot;sum-r&quot;><span class=&quot;sum-k&quot;>Средний прогресс</span><span class=&quot;sum-v&quot;>2,4 модуля</span></div>
+        <div class=&quot;sum-r&quot;><span class=&quot;sum-k&quot;>Дошли до конца</span><span class=&quot;sum-v&quot;>41 %</span></div>
+        <div class=&quot;sum-r&quot;><span class=&quot;sum-k&quot;>Перестали заходить</span><span class=&quot;sum-v&quot;>4</span></div>
+        <div class=&quot;sum-r&quot;><span class=&quot;sum-k&quot;>Сдали домашку</span><span class=&quot;sum-v&quot;>19</span></div>
+        <div class=&quot;sum-d&quot;></div>
+        <div class=&quot;sum-h&quot;>Как я отвечаю</div>
+        <div class=&quot;sum-r&quot;><span class=&quot;sum-k&quot;>Обращений</span><span class=&quot;sum-v&quot;>22</span></div>
+        <div class=&quot;sum-r&quot;><span class=&quot;sum-k&quot;>Среднее время</span><span class=&quot;sum-v&quot;>35 с</span></div>
+        <div class=&quot;sum-r&quot;><span class=&quot;sum-k&quot;>Передал вам</span><span class=&quot;sum-v&quot;>2</span></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
+"></iframe>
+</div>
+    <p class="cap">Онлайн-школа: вместо загрузки расписания — доходимость потока и застрявшие на модуле.
+    В сводке — средний прогресс, «перестали заходить», «сдали домашку». Загрузки мастеров здесь нет вовсе:
+    плитка не пустует, такого понятия для курса просто не существует.</p>
+    <div class="frame" style="width:1120px;height:544px">
+  <iframe loading="lazy" style="width:1440px;height:700px;transform:scale(0.7778)" srcdoc="<!doctype html>
+<html>
+<head>
+  <meta charset=&quot;utf-8&quot;>
+  
+</head>
+<body style=&quot;margin:0&quot;>
+
+
+  <style>
+    body { margin: 0; font-family: -apple-system, &quot;Segoe UI&quot;, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif; -webkit-font-smoothing: antialiased; color: #16181D; }
+    a { color: #1E4FD8; text-decoration: none; }
+    a:hover { color: #16308F; }
+    .card { background: #FFFFFF; border: 1px solid #E4E8F0; border-radius: 12px; padding: 15px 18px; }
+    .t-meta { font-size: 12.5px; color: #8A90A2; }
+    .t-title { font-size: 15px; font-weight: 650; letter-spacing: -.01em; }
+    .t-body { font-size: 13.5px; line-height: 1.55; color: #454C5E; text-wrap: pretty; }
+    .done { display: flex; align-items: center; gap: 8px; background: #F1F7F2; border: 1px solid #DCEBDF; border-radius: 9px; padding: 8px 11px; font-size: 13px; color: #216B35; font-weight: 550; }
+    .tile { background: #FFFFFF; border: 1px solid #E4E8F0; border-radius: 12px; padding: 13px 15px; display: flex; flex-direction: column; gap: 7px; }
+    .tile-lbl { font-size: 11px; font-weight: 650; letter-spacing: .07em; text-transform: uppercase; color: #9AA0B0; }
+    .tile-val { font-size: 24px; font-weight: 680; letter-spacing: -.03em; font-variant-numeric: tabular-nums; line-height: 1; }
+    .tile-sub { font-size: 12px; color: #8A90A2; }
+    .bar { width: 5px; border-radius: 2px; background: #C8D6F7; }
+    .live { width: 7px; height: 7px; border-radius: 50%; background: #22C55E; animation: blip 2.2s ease-in-out infinite; }
+    @keyframes blip { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
+    .kind { font-size: 11.5px; font-weight: 650; color: #4A5875; background: #E8EEFB; border-radius: 6px; padding: 3px 9px; }
+    .sum-h { font-size: 10.5px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: #A6ACBB; padding: 0 0 5px; }
+    .sum-r { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; padding: 4px 0; }
+    .sum-k { font-size: 12.5px; color: #6C7488; }
+    .sum-v { font-size: 13.5px; font-weight: 640; color: #16181D; font-variant-numeric: tabular-nums; }
+    .sum-d { height: 1px; background: #EDF0F6; margin: 8px 0; }
+  </style>
+
+
+<div style=&quot;width: 1440px; height: 700px; display: flex; background: #F4F6FA; overflow: hidden;&quot;>
+
+  <div style=&quot;width: 68px; background: #16307C; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; padding: 16px 0; gap: 18px;&quot;>
+    <svg width=&quot;26&quot; height=&quot;26&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><path d=&quot;M12 3l2.2 5.9L20 11l-5.8 2.1L12 19l-2.2-5.9L4 11l5.8-2.1z&quot; fill=&quot;#FFFFFF&quot;/></svg>
+    <div style=&quot;width: 26px; height: 1px; background: rgba(255,255,255,.18);&quot;></div>
+    <svg style=&quot;opacity:.5&quot; width=&quot;20&quot; height=&quot;20&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><rect x=&quot;4&quot; y=&quot;4&quot; width=&quot;7&quot; height=&quot;7&quot; rx=&quot;2&quot; stroke=&quot;#fff&quot; stroke-width=&quot;1.6&quot;/><rect x=&quot;13&quot; y=&quot;4&quot; width=&quot;7&quot; height=&quot;7&quot; rx=&quot;2&quot; stroke=&quot;#fff&quot; stroke-width=&quot;1.6&quot;/><rect x=&quot;4&quot; y=&quot;13&quot; width=&quot;7&quot; height=&quot;7&quot; rx=&quot;2&quot; stroke=&quot;#fff&quot; stroke-width=&quot;1.6&quot;/><rect x=&quot;13&quot; y=&quot;13&quot; width=&quot;7&quot; height=&quot;7&quot; rx=&quot;2&quot; stroke=&quot;#fff&quot; stroke-width=&quot;1.6&quot;/></svg>
+    <svg style=&quot;opacity:.5&quot; width=&quot;20&quot; height=&quot;20&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><path d=&quot;M4 6.5A2.5 2.5 0 016.5 4h11A2.5 2.5 0 0120 6.5v7A2.5 2.5 0 0117.5 16H9l-5 4z&quot; stroke=&quot;#fff&quot; stroke-width=&quot;1.6&quot; stroke-linejoin=&quot;round&quot;/></svg>
+    <svg style=&quot;opacity:.5&quot; width=&quot;20&quot; height=&quot;20&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><path d=&quot;M5 7h14M5 12h14M5 17h9&quot; stroke=&quot;#fff&quot; stroke-width=&quot;1.6&quot; stroke-linecap=&quot;round&quot;/></svg>
+  </div>
+
+  <div style=&quot;flex: 1; display: flex; flex-direction: column; min-width: 0;&quot;>
+
+    <div style=&quot;height: 58px; background: #FFFFFF; border-bottom: 1px solid #E4E8F0; display: flex; align-items: center; justify-content: space-between; padding: 0 26px; flex-shrink: 0;&quot;>
+      <div style=&quot;display: flex; align-items: center; gap: 11px;&quot;>
+        <div style=&quot;width: 29px; height: 29px; border-radius: 9px; background: #1E4FD8; display: flex; align-items: center; justify-content: center; position: relative;&quot;>
+          <svg width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><path d=&quot;M12 3l2.2 5.9L20 11l-5.8 2.1L12 19l-2.2-5.9L4 11l5.8-2.1z&quot; fill=&quot;#FFFFFF&quot;/></svg>
+          <span style=&quot;position: absolute; right: -2px; bottom: -2px; width: 9px; height: 9px; border-radius: 50%; background: #22C55E; border: 2px solid #FFFFFF;&quot;></span>
+        </div>
+        <span style=&quot;font-size: 15px; font-weight: 650; letter-spacing: -.015em;&quot;>Сейл на смене</span>
+        <span class=&quot;t-meta&quot;>весь день</span>
+      </div>
+      <div style=&quot;display: flex; align-items: center; gap: 10px;&quot;>
+        <span class=&quot;kind&quot;>E-commerce · сайт и магазин</span>
+        <span class=&quot;t-meta&quot;>Тёплый плед</span>
+      </div>
+    </div>
+
+    <div style=&quot;padding: 14px 26px 0; flex-shrink: 0;&quot;>
+      <div style=&quot;display: flex; align-items: center; justify-content: space-between; margin-bottom: 9px;&quot;>
+        <div style=&quot;display: flex; align-items: center; gap: 8px;&quot;>
+          <span class=&quot;live&quot;></span>
+          <span style=&quot;font-size: 11.5px; font-weight: 650; letter-spacing: .07em; text-transform: uppercase; color: #8A90A2;&quot;>За чем я слежу</span>
+        </div>
+        <a href=&quot;#&quot; style=&quot;font-size: 12.5px; font-weight: 550;&quot;>+ Обучить Сейла</a>
+      </div>
+      <div style=&quot;display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 11px;&quot;>
+        <div class=&quot;tile&quot;>
+          <span class=&quot;tile-lbl&quot;>Деньги сегодня</span>
+          <div style=&quot;display: flex; align-items: flex-end; justify-content: space-between; gap: 10px;&quot;>
+            <span class=&quot;tile-val&quot;>41 300 ₽</span>
+            <div style=&quot;display: flex; align-items: flex-end; gap: 3px; height: 22px;&quot;>
+              <span class=&quot;bar&quot; style=&quot;height: 13px;&quot;></span><span class=&quot;bar&quot; style=&quot;height: 9px;&quot;></span><span class=&quot;bar&quot; style=&quot;height: 17px;&quot;></span><span class=&quot;bar&quot; style=&quot;height: 20px;&quot;></span><span class=&quot;bar&quot; style=&quot;height: 12px;&quot;></span><span class=&quot;bar&quot; style=&quot;height: 15px;&quot;></span><span class=&quot;bar&quot; style=&quot;height: 18px; background: #1E4FD8;&quot;></span>
+            </div>
+          </div>
+          <span class=&quot;tile-sub&quot;>Средний чек 2 430 ₽ · выше вчерашнего</span>
+        </div>
+        <div class=&quot;tile&quot;>
+          <span class=&quot;tile-lbl&quot;>Заказы сегодня</span>
+          <span class=&quot;tile-val&quot;>17</span>
+          <span class=&quot;tile-sub&quot;>3 ждут оплаты · напомнил всем троим</span>
+        </div>
+        <div class=&quot;tile&quot; style=&quot;border-color: #F2DFB8; background: #FDFBF6;&quot;>
+          <span class=&quot;tile-lbl&quot;>Брошенные корзины</span>
+          <span class=&quot;tile-val&quot;>6</span>
+          <span class=&quot;tile-sub&quot; style=&quot;color: #8A6C24;&quot;>Все споткнулись о доставку · <a href=&quot;#&quot; style=&quot;color: #B4801F; font-weight: 600;&quot;>спросить, что не так</a></span>
+        </div>
+        <div class=&quot;tile&quot;>
+          <span class=&quot;tile-lbl&quot;>Обращения сегодня</span>
+          <span class=&quot;tile-val&quot;>9</span>
+          <span class=&quot;tile-sub&quot;>Без ответа 0 · отвечаю за 25 с</span>
+        </div>
+      </div>
+    </div>
+
+    <div style=&quot;flex: 1; display: flex; gap: 14px; padding: 14px 26px 20px; min-height: 0;&quot;>
+
+      <div style=&quot;flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 10px; overflow: hidden;&quot;>
+        <div class=&quot;card&quot;>
+          <div style=&quot;display: flex; align-items: center; justify-content: space-between; margin-bottom: 7px;&quot;>
+            <div style=&quot;display: flex; align-items: center; gap: 9px;&quot;>
+              <svg width=&quot;17&quot; height=&quot;17&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><path d=&quot;M5 7h13l-1.3 8.4a2 2 0 01-2 1.7H8.3a2 2 0 01-2-1.7z&quot; stroke=&quot;#1E4FD8&quot; stroke-width=&quot;1.7&quot; stroke-linejoin=&quot;round&quot;/><path d=&quot;M9 7V5.6A2.6 2.6 0 0111.6 3h.8A2.6 2.6 0 0115 5.6V7&quot; stroke=&quot;#1E4FD8&quot; stroke-width=&quot;1.7&quot;/></svg>
+              <span class=&quot;t-title&quot;>Дособрал заказ Ольге</span>
+            </div>
+            <span class=&quot;t-meta&quot;>19:52</span>
+          </div>
+          <div class=&quot;t-body&quot; style=&quot;margin-bottom: 8px;&quot;>Брала плед в подарок — предложил наволочку из той же коллекции и подарочную упаковку. Согласилась на упаковку.</div>
+          <div class=&quot;done&quot;>
+            <svg width=&quot;14&quot; height=&quot;14&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><path d=&quot;M5 12.5l4.5 4.5L19 7&quot; stroke=&quot;#2A9245&quot; stroke-width=&quot;2.4&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;/></svg>
+            Заказ оплачен · +1 900 ₽ к чеку
+          </div>
+        </div>
+
+        <div class=&quot;card&quot; style=&quot;padding: 13px 18px;&quot;>
+          <div style=&quot;display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;&quot;>
+            <div style=&quot;display: flex; align-items: center; gap: 9px;&quot;>
+              <svg width=&quot;17&quot; height=&quot;17&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><path d=&quot;M3 8h11v7H3z&quot; stroke=&quot;#1E4FD8&quot; stroke-width=&quot;1.7&quot; stroke-linejoin=&quot;round&quot;/><path d=&quot;M14 11h3.6l2.4 2.6V15H14z&quot; stroke=&quot;#1E4FD8&quot; stroke-width=&quot;1.7&quot; stroke-linejoin=&quot;round&quot;/><circle cx=&quot;7&quot; cy=&quot;17&quot; r=&quot;1.6&quot; stroke=&quot;#1E4FD8&quot; stroke-width=&quot;1.7&quot;/><circle cx=&quot;17&quot; cy=&quot;17&quot; r=&quot;1.6&quot; stroke=&quot;#1E4FD8&quot; stroke-width=&quot;1.7&quot;/></svg>
+              <span class=&quot;t-title&quot;>Разослал трек-номера</span>
+            </div>
+            <span class=&quot;t-meta&quot;>16:30</span>
+          </div>
+          <div class=&quot;t-body&quot;>Двенадцать заказов уехали — каждому написал номер и срок. Двое сразу спросили про самовывоз, ответил.</div>
+        </div>
+      </div>
+
+      <div style=&quot;width: 296px; flex-shrink: 0; background: #FFFFFF; border: 1px solid #E4E8F0; border-radius: 12px; padding: 14px 17px; display: flex; flex-direction: column; overflow: hidden;&quot;>
+        <div style=&quot;display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 11px;&quot;>
+          <span style=&quot;font-size: 14px; font-weight: 650; letter-spacing: -.01em;&quot;>Сводка</span>
+          <span style=&quot;font-size: 11.5px; color: #A6ACBB;&quot;>обновлено сейчас</span>
+        </div>
+        <div class=&quot;sum-h&quot;>Сегодня</div>
+        <div class=&quot;sum-r&quot;><span class=&quot;sum-k&quot;>Выручка</span><span class=&quot;sum-v&quot;>41 300 ₽</span></div>
+        <div class=&quot;sum-r&quot;><span class=&quot;sum-k&quot;>Заказов</span><span class=&quot;sum-v&quot;>17</span></div>
+        <div class=&quot;sum-r&quot;><span class=&quot;sum-k&quot;>Средний чек</span><span class=&quot;sum-v&quot;>2 430 ₽</span></div>
+        <div class=&quot;sum-r&quot;><span class=&quot;sum-k&quot;>Новых покупателей</span><span class=&quot;sum-v&quot;>11</span></div>
+        <div class=&quot;sum-d&quot;></div>
+        <div class=&quot;sum-h&quot;>Неделя</div>
+        <div class=&quot;sum-r&quot;><span class=&quot;sum-k&quot;>Выручка</span><span class=&quot;sum-v&quot;>214 000 ₽</span></div>
+        <div class=&quot;sum-r&quot;><span class=&quot;sum-k&quot;>Заказов</span><span class=&quot;sum-v&quot;>88</span></div>
+        <div class=&quot;sum-r&quot;><span class=&quot;sum-k&quot;>Из корзины в заказ</span><span class=&quot;sum-v&quot;>54 %</span></div>
+        <div class=&quot;sum-r&quot;><span class=&quot;sum-k&quot;>Возвратов</span><span class=&quot;sum-v&quot;>2</span></div>
+        <div class=&quot;sum-r&quot;><span class=&quot;sum-k&quot;>Доставок в пути</span><span class=&quot;sum-v&quot;>23</span></div>
+        <div class=&quot;sum-d&quot;></div>
+        <div class=&quot;sum-h&quot;>Как я отвечаю</div>
+        <div class=&quot;sum-r&quot;><span class=&quot;sum-k&quot;>Обращений</span><span class=&quot;sum-v&quot;>9</span></div>
+        <div class=&quot;sum-r&quot;><span class=&quot;sum-k&quot;>Среднее время</span><span class=&quot;sum-v&quot;>25 с</span></div>
+        <div class=&quot;sum-r&quot;><span class=&quot;sum-k&quot;>Передал вам</span><span class=&quot;sum-v&quot;>0</span></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
+"></iframe>
+</div>
+    <p class="cap">Магазин: заказы, брошенные корзины, доставки в пути, возвраты. Обратите внимание на подпись —
+    не «6 корзин», а «все споткнулись о доставку». Число уже разобрано, и это разница между дашбордом и сотрудником.</p>
+    <div class="box" style="margin-top: 20px">
+      <h3>Деньги — единственное, что есть всегда</h3>
+      <p>Всё остальное появляется и исчезает вместе с инструментом. Потолок громких плиток — четыре-пять.
+      Включено шесть инструментов — Сейл выбирает, что показать, по тому, где сейчас движение.</p>
+    </div>
+  </div>
+</section>
+
+<section id="criteria">
+  <div class="wrap">
+    <h2>Как закрываются четыре критерия</h2>
+    <table>
+      <tr><th>Критерий</th><th>Чем закрывается</th></tr>
+      <tr><td>Эффект вау, «нанокостюм»</td><td>Стриминг работы построчно с объектами и живой пульс: мощь показывается действием, а не оформлением</td></tr>
+      <tr><td>Диалог и экран живут отдельно</td><td>Одна лента вместо «полотно + колонка». Рассинхрон невозможен, а не исправлен</td></tr>
+      <tr><td>Нет ощущения проактивности</td><td>Единица контента — сделанное действие с одной кнопкой решения. Настройка приходит поводом, а не списком</td></tr>
+      <tr><td>«Заскринь меня друзьям»</td><td>Отчёт смены со своей цифрой и строкой «разбудил вас 1 раз»</td></tr>
+    </table>
+    <h3 style="margin-top: 30px">Почему это дёшево принять</h3>
+    <p>Аргумент защиты — не «построим новое», а <strong>«у вас это уже написано, вы это прячете»</strong>:</p>
+    <ul>
+      <li>движок уже действует — создаёт филиалы, услуги, мастеров, базу знаний, отвечает клиентам, умеет создавать записи;</li>
+      <li>интонация отчёта уже написана — на нагруженном аккаунте шапка сама говорит «Добрый вечер, Артур. За сутки было 2 входящих» и рядом стоит плитка метрик;</li>
+      <li>связь чата с полотном уже начата — скелетоны, «Сейл обновляет страницу», карточка «Думаю…»;</li>
+      <li>анкета типа бизнеса уже собирается и уже влияет на шаблоны.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="risks">
+  <div class="wrap">
+    <h2>Что не трогаем и чего опасаемся</h2>
+    <div class="two">
+      <div>
+        <h3>Не трогаем</h3>
+        <ul>
+          <li><strong>Визуальный язык</strong> — их синий, скругления, шрифт. Меняем логику экрана, а не палитру.</li>
+          <li><strong>Сайдбар и разделы</strong> — ассистент их не заменяет. Чат плох в работе с массивом, а проверяемость — условие делегирования.</li>
+          <li><strong>Функции, которых нет</strong> — всё описанное движок умеет сегодня.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Риски, которые вижу сам</h3>
+        <ul>
+          <li><strong>Пропадает ощущение «когда я закончил»</strong>. Тихая строка готовности компенсирует частично. Считаю приемлемым: страх «я ничего не сделал» вреднее.</li>
+          <li><strong>Отчёт смены пуст на мёртвом проекте</strong>. Нужен режим, где вместо нулей — «клиентов не было, разбудить старых?».</li>
+          <li><strong>Соблазн добавить десятую плитку</strong>. Правило отбора надо записать явно, иначе через месяц это дашборд.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="box warn" style="margin-top: 22px">
+      <h3>Архитектурная оговорка</h3>
+      <p>Числа считает код, а не модель. Слой счётчиков и слой правил тревог — обычные запросы, детерминированные и мгновенные.
+      Модель вызывается <strong>по событию, а не по показу экрана</strong>: подняли флаг — она один раз сформулировала реплику,
+      текст сохранился. Иначе экран стоил бы денег на каждом открытии, а цифры «плавали» бы между заходами.</p>
+    </div>
+  </div>
+</section>
+
+<footer><div class="wrap">
+  Экраны — интерактивные копии макетов, а не картинки. Легенда, цифры и дефекты взяты из реального прогона
+  продукта на тестовом стенде.
+</div></footer>
+
+</body>
+</html>
