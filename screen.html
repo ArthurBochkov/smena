@@ -73,6 +73,8 @@
     border:1px solid var(--line2);background:rgba(255,255,255,.04);color:var(--ink);
     font-size:13px;font-weight:620;cursor:pointer}
   .share:hover{border-color:var(--acc);color:var(--acc)}
+  .share.accept{border-color:rgba(63,224,208,.32);color:var(--acc)}
+  .share.accept[disabled]{border-color:rgba(74,222,128,.4);color:var(--ok);cursor:default;opacity:1}
 
   .lede{font-size:13px;color:var(--mut);margin-bottom:7px}
   .figs{display:flex;align-items:flex-end;gap:26px;flex-wrap:wrap}
@@ -91,6 +93,7 @@
   @keyframes halo{0%,100%{box-shadow:0 0 0 0 rgba(255,182,72,.16)}50%{box-shadow:0 0 22px 0 rgba(255,182,72,.16)}}
   .tl{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:3px}
   .tl span{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--faint);font-weight:700}
+  .tl span i{font-style:normal;font-weight:600;opacity:.62}
   .tv{font-size:24px;font-weight:720;letter-spacing:-.03em;line-height:1.15}
   .tdelta{font-size:11.5px;font-weight:650;color:var(--ok)}
   .spark{height:22px;margin:5px 0 7px;width:100%}
@@ -216,23 +219,27 @@
         <div class="ava"><svg viewBox="0 0 24 24" fill="#06121A"><path d="M12 2l2.6 6.8L21.4 12l-6.8 3.2L12 22l-2.6-6.8L2.6 12l6.8-3.2z"/></svg></div>
         <div>
           <div class="who">Сейл</div>
-          <div class="onair"><i class="dot"></i> на смене 6 ч 12 мин</div>
+          <div class="onair" id="onair" title="Смена — это время, пока вас не было"><i class="dot"></i> смена идёт 18 ч 00 мин</div>
         </div>
         <svg class="wave" viewBox="0 0 104 22" preserveAspectRatio="none">
           <path class="base" d="M0 11h12l4-8 5 16 5-12 4 4h13l4-7 5 14 5-11 4 4h13l4-6 5 12 3-6h15"/>
           <path class="live" d="M0 11h12l4-8 5 16 5-12 4 4h13l4-7 5 14 5-11 4 4h13l4-6 5 12 3-6h15"/>
         </svg>
         <div class="spacer"></div>
+        <button class="share accept" id="acceptBtn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 12.5l5.5 5.5L20 7"/></svg>
+          Принять смену
+        </button>
         <button class="share" id="shareBtn">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 16V4M8 8l4-4 4 4M4 16v3a1 1 0 001 1h14a1 1 0 001-1v-3"/></svg>
           Поделиться сменой
         </button>
       </div>
-      <div class="lede">Пока вас не было — с 22:00 до 16:00</div>
+      <div class="lede" id="lede">Пока вас не было — с 22:00 вчера до 16:00 сегодня</div>
       <div class="figs">
         <div class="fig"><b id="fAns">41</b><span>ОТВЕТИЛ</span></div>
         <div class="fig"><b id="fPay">6</b><span>ОПЛАТ ПРИНЯЛ</span></div>
-        <div class="fig hero"><b id="fRub">128 400 ₽</b><span>ВЫРУЧКА ЗА СУТКИ</span></div>
+        <div class="fig hero"><b id="fRub">128 400 ₽</b><span>ПРИНЯЛ ЗА СМЕНУ</span></div>
         <div class="fig"><b id="fBack">3</b><span>ВЕРНУЛ УШЕДШИХ</span></div>
         <div class="fig wake"><b>1</b><span>РАЗ РАЗБУДИЛ ВАС</span></div>
       </div>
@@ -240,8 +247,8 @@
 
     <section class="pulse">
       <div class="tile">
-        <div class="tl"><span>Деньги</span><b class="tdelta">+18%</b></div>
-        <div class="tv" id="tRub">128 400 ₽</div>
+        <div class="tl"><span>Деньги <i>· сутки</i></span><b class="tdelta">+18% к прошлой неделе</b></div>
+        <div class="tv" id="tRub">141 200 ₽</div>
         <svg class="spark" viewBox="0 0 120 22" preserveAspectRatio="none">
           <path class="fillp" d="M0 18L15 16L30 17L45 11L60 13L75 8L90 9L105 4L120 3V22H0z"/>
           <path d="M0 18L15 16L30 17L45 11L60 13L75 8L90 9L105 4L120 3"/>
@@ -251,7 +258,7 @@
       </div>
 
       <div class="tile">
-        <div class="tl"><span>Доходимость</span><b class="tdelta">63%</b></div>
+        <div class="tl"><span>Доходимость <i>· поток</i></span><b class="tdelta">63%</b></div>
         <div class="tv">11 <span style="font-size:14px;color:var(--faint);font-weight:500">застряли</span></div>
         <svg class="spark" viewBox="0 0 120 22" preserveAspectRatio="none">
           <path class="fillp" d="M0 4L20 5L40 9L60 8L80 14L100 13L120 17V22H0z"/>
@@ -262,18 +269,18 @@
       </div>
 
       <div class="tile">
-        <div class="tl"><span>Обращения</span><b class="tdelta" style="color:var(--faint)">41 за сутки</b></div>
+        <div class="tl"><span>Обращения <i>· сутки</i></span><b class="tdelta" style="color:var(--faint)">47</b></div>
         <div class="tv">0 <span style="font-size:14px;color:var(--faint);font-weight:500">без ответа</span></div>
         <svg class="spark" viewBox="0 0 120 22" preserveAspectRatio="none">
           <path class="fillp" d="M0 14L20 10L40 12L60 6L80 9L100 5L120 8V22H0z"/>
           <path d="M0 14L20 10L40 12L60 6L80 9L100 5L120 8"/>
         </svg>
-        <div class="tsay">Среднее время до ответа — <b>9 секунд</b>. Ночью было 14 обращений, все закрыты.</div>
+        <div class="tsay">Среднее время до ответа — <b>9 секунд</b>. Из сорока семи сорок один пришлись на смену, все закрыты.</div>
         <div class="tquiet">Делать нечего — и это хорошо</div>
       </div>
 
       <div class="tile alert">
-        <div class="tl"><span>Молчат</span><b class="tdelta" style="color:var(--warn)">9</b></div>
+        <div class="tl"><span>Молчат <i>· сейчас</i></span><b class="tdelta" style="color:var(--warn)">9 всего</b></div>
         <div class="tv">6 <span style="font-size:14px;color:var(--faint);font-weight:500">осталось</span></div>
         <svg class="spark" viewBox="0 0 120 22" preserveAspectRatio="none">
           <path class="fillp" style="fill:rgba(255,182,72,.13)" d="M0 8L20 9L40 7L60 11L80 10L100 14L120 15V22H0z"/>
@@ -376,13 +383,13 @@
     <button class="close" id="closeBtn">×</button>
     <div class="ph">
       <div class="ava"><svg viewBox="0 0 24 24" fill="#06121A"><path d="M12 2l2.6 6.8L21.4 12l-6.8 3.2L12 22l-2.6-6.8L2.6 12l6.8-3.2z"/></svg></div>
-      <div><b>Сейл</b> <span>· смена 14 сентября</span></div>
+      <div><b>Сейл</b> <span>· смена 13→14 сентября, 18 часов</span></div>
     </div>
-    <div class="prow"><b>41</b><span>клиенту ответил</span></div>
-    <div class="prow"><b>6</b><span>оплат провёл</span></div>
-    <div class="prow" style="border:0"><b style="color:var(--acc)">128 400 ₽</b><span>принял за сутки</span></div>
+    <div class="prow"><b id="pAns">41</b><span>клиенту ответил</span></div>
+    <div class="prow"><b id="pPay">6</b><span>оплат провёл</span></div>
+    <div class="prow" style="border:0"><b id="pRub" style="color:var(--acc)">128 400 ₽</b><span>принял за смену</span></div>
     <div class="pwake"><b>1</b><span>раз вас разбудил<i>три сделки просили скидку сверх регламента</i></span></div>
-    <div class="pf"><span>Онлайн-школа · второй поток</span><span>salebot</span></div>
+    <div class="pf"><span>18 часов без вас · онлайн-школа</span><span>salebot</span></div>
   </div>
 </div>
 
@@ -392,15 +399,21 @@
   const inp  = document.getElementById('inp');
 
   // ── деньги тикают: экран живёт без вас ───────────────────
-  const rub = [document.getElementById('fRub'), document.getElementById('tRub')];
-  let money = 128400;
+  // Шапка считает смену (18 ч без вас), плитка — календарные сутки.
+  // Это разные окна, поэтому и числа разные; прирост общий.
+  const elShift = document.getElementById('fRub');
+  const elDay   = document.getElementById('tRub');
+  let mShift = 128400, mDay = 141200;
   const fmt = n => n.toLocaleString('ru-RU') + ' ₽';
   function bump(add){
-    const to = money + add, step = Math.max(1, Math.round(add/18));
+    const toS = mShift + add, toD = mDay + add, step = Math.max(1, Math.round(add/18));
     const t = setInterval(() => {
-      money = Math.min(to, money + step);
-      rub.forEach(e => e.textContent = fmt(money));
-      if (money >= to) clearInterval(t);
+      mShift = Math.min(toS, mShift + step);
+      mDay   = Math.min(toD, mDay + step);
+      elShift.textContent = fmt(mShift);
+      elDay.textContent   = fmt(mDay);
+      document.getElementById('pRub').textContent = fmt(mShift);
+      if (mShift >= toS) clearInterval(t);
     }, 28);
   }
 
@@ -526,9 +539,29 @@
   document.getElementById('sendBtn').addEventListener('click', send);
   inp.addEventListener('keydown', e => { if (e.key === 'Enter') send(); });
 
+  // ── сдача смены: она закрывается, когда вы приняли дела ──
+  document.getElementById('acceptBtn').addEventListener('click', function(){
+    if (this.disabled) return;
+    this.disabled = true;
+    this.innerHTML = '&#10003; смена сдана';
+    document.getElementById('lede').innerHTML =
+      '<b style="color:var(--ink);font-weight:620">Смена сдана в 16:04.</b> ' +
+      'Итог за 18 ч 04 мин — ниже. Дальше работаю при вас: буду спрашивать сразу, а не копить в отчёт.';
+    document.getElementById('onair').innerHTML =
+      '<i class="dot" style="background:var(--ok);animation:none"></i> с вами с 16:04';
+    document.querySelectorAll('.fig span').forEach(e => { e.style.opacity = .62; });
+    addEv('Смена сдана',
+      'Принял. Новую смену открою, когда вы уйдёте, — а до тех пор всё показываю сразу, без отчёта.');
+  });
+
   // ── постер ───────────────────────────────────────────────
   const veil = document.getElementById('veil');
-  document.getElementById('shareBtn').addEventListener('click', () => veil.classList.add('on'));
+  document.getElementById('shareBtn').addEventListener('click', () => {
+    // постер — снимок текущей смены, а не заготовка
+    document.getElementById('pAns').textContent = document.getElementById('fAns').textContent;
+    document.getElementById('pPay').textContent = document.getElementById('fPay').textContent;
+    veil.classList.add('on');
+  });
   document.getElementById('closeBtn').addEventListener('click', () => veil.classList.remove('on'));
   veil.addEventListener('click', e => { if (e.target === veil) veil.classList.remove('on'); });
 
