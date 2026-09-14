@@ -223,7 +223,7 @@
     <a class="ric" href="dialogs.html?p=shop&amp;from=rail" title="Диалоги"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12a8 8 0 11-3-6.2L21 4v8z"/></svg><i class="bdg">7</i></a>
     <a class="ric" href="orders.html?p=shop&amp;from=rail" title="Заказы"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4.5 7.5h15l-1.2 11a1.5 1.5 0 01-1.5 1.3H7.2a1.5 1.5 0 01-1.5-1.3z"/><path d="M9 7.5V6a3 3 0 016 0v1.5"/></svg><i class="bdg">2</i></a>
     <div class="ric" data-note="«Склад» мы не переделывали. Именно его мне не хватает: без него я не вижу остатки сразу и узнаю о нуле постфактум." title="Склад"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9.5L12 4l9 5.5V20H3z"/><path d="M9 20v-6h6v6"/></svg></div>
-    <div class="ric" data-note="Раздел «Оплаты» остаётся ровно таким, какой есть сейчас. В прототипе его нет, поэтому показать нечего." title="Оплаты"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.5" y="5.5" width="19" height="13" rx="2.5"/><path d="M2.5 10h19"/></svg></div>
+    <a class="ric" href="payments.html?p=shop&from=rail" title="Оплаты"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.5" y="5.5" width="19" height="13" rx="2.5"/><path d="M2.5 10h19"/></svg></a>
     <div class="ric" data-note="«Аналитика» остаётся как есть — конструктор виджетов с периодом. Переделывать её мы не предлагаем." title="Аналитика"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 19V9M12 19V5M19 19v-7"/></svg></div>
     <div class="rsep"></div>
     <div class="ric" data-note="«Каналы» не трогаем." title="Каналы"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg></div>
@@ -277,7 +277,7 @@
           <path d="M0 17L15 14L30 16L45 10L60 12L75 9L90 6L105 7L120 4"/>
         </svg>
         <div class="tsay">Три оплаты по СБП <b>не долетели до заказов</b> — свёл руками по сумме и времени.</div>
-        <button class="tact" data-say="покажи три оплаты, которые ты свёл руками">Показать три →</button>
+        <button class="tact" data-go="payments.html?p=shop&from=sbp#sbp">Показать три →</button>
       </div>
 
       <div class="tile">
@@ -447,10 +447,21 @@
   }
 
   function scrollTop(){ feed.scrollTop = 0; }
+
+  // К какому сообщению крепим следующее. Задаётся вопросом пользователя,
+  // сбрасывается на любом новом клике и на событиях, пришедших самим по себе.
+  let replyTo = null;
+  document.addEventListener('click', () => { replyTo = null; }, true);
+
   function insertTop(el){
-    const pin = feed.querySelector('.ev.need');
-    if (pin && pin.parentNode === feed) feed.insertBefore(el, pin.nextSibling);
-    else feed.insertBefore(el, feed.firstChild);
+    if (replyTo && replyTo.parentNode === feed) {
+      feed.insertBefore(el, replyTo.nextSibling);   // ответ идёт под своим вопросом
+      replyTo = el;                                  // цепочка строк не рассыпается
+    } else {
+      const pin = feed.querySelector('.ev.need');    // закреплённое решение остаётся сверху
+      if (pin && pin.parentNode === feed) feed.insertBefore(el, pin.nextSibling);
+      else feed.insertBefore(el, feed.firstChild);
+    }
     scrollTop();
   }
   function addEv(name, body, extra){
@@ -474,6 +485,8 @@
     el.className = 'me';
     el.innerHTML = '<div>' + text + '</div>';
     insertTop(el);
+    replyTo = el;
+    return el;
   }
 
   const answers = {
@@ -699,6 +712,7 @@
 
   // экран живёт сам
   setTimeout(() => {
+    replyTo = null;
     addEv('Пришёл заказ', 'Набор «Глазури, 6 цветов» — <b>5 900 ₽</b>. Собрал, упаковал, трек-номер ушёл покупателю.');
     bump(5900);
     document.getElementById('fPay').textContent =

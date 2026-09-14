@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Оплаты — Онлайн-школа</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231E4FD8'/%3E%3Crect x='6' y='9' width='20' height='14' rx='2.5' fill='none' stroke='white' stroke-width='2.4'/%3E%3Cpath d='M6 14h20' stroke='white' stroke-width='2.4'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="sections.css">
+</head>
+<body>
+<div class="app">
+
+  <aside class="rail">
+    <div class="logo">salebot</div>
+    <a class="ric" data-nav="shift" href="screen.html" title="Смена"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h4l2 6 4-14 2 8h6"/></svg></a>
+    <a class="ric" data-nav="dialogs.html" href="dialogs.html" title="Диалоги"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12a8 8 0 11-3-6.2L21 4v8z"/></svg><i class="bdg">5</i></a>
+    <a class="ric" data-p="school" data-nav="tasks.html" href="tasks.html" title="Задачи"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6h16M4 12h16M4 18h10"/></svg><i class="bdg">12</i></a>
+    <a class="ric" data-p="school" data-nav="services.html" href="services.html" title="Услуги"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7l9-4 9 4-9 4-9-4zM5 11v5l7 3 7-3v-5"/></svg></a>
+    <a class="ric" data-p="shop" data-nav="orders.html" href="orders.html" title="Заказы"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4.5 7.5h15l-1.2 11a1.5 1.5 0 01-1.5 1.3H7.2a1.5 1.5 0 01-1.5-1.3z"/><path d="M9 7.5V6a3 3 0 016 0v1.5"/></svg><i class="bdg">2</i></a>
+    <div class="ric" data-p="shop" title="Склад"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9.5L12 4l9 5.5V20H3z"/><path d="M9 20v-6h6v6"/></svg></div>
+    <a class="ric on" href="#" title="Оплаты"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.5" y="5.5" width="19" height="13" rx="2.5"/><path d="M2.5 10h19"/></svg></a>
+    <div class="ric" title="Аналитика"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 19V9M12 19V5M19 19v-7"/></svg></div>
+    <div class="rsep"></div>
+    <div class="ric" title="Каналы"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg></div>
+    <div class="ric" title="Настройки"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3"/></svg></div>
+  </aside>
+
+  <main class="stage">
+
+    <div class="trace">
+      <a href="screen.html" data-back="label">← Вернуться в смену</a>
+      <span class="dot"></span>
+      <span data-trace="сюда вас привела карточка «Разобрал выручку смены»"></span>
+      <span class="who">Фильтр поставил <b>Сейл</b>: <span data-filter>оплаты за смену</span></span>
+    </div>
+
+    <div class="top">
+      <h1>Оплаты</h1>
+      <span class="tag gray" data-project>Онлайн-школа</span>
+      <div class="sp"></div>
+      <button class="btn">Экспорт</button>
+      <button class="btn pri">Выставить счёт</button>
+    </div>
+
+    <div class="body">
+
+      <!-- ── Онлайн-школа ─────────────────────────────────────── -->
+      <div class="tabs" data-p="school">
+        <a class="on" href="#">За смену · 6</a>
+        <a href="#zavisli">Зависли · 2</a>
+        <a href="#rassrochki">Рассрочки · 11</a>
+        <a href="#">Все · 486</a>
+      </div>
+
+      <div class="hint" data-p="school">
+        <b>За смену пришло 128 400 ₽ — шесть оплат.</b> Доступы по всем шести выданы сразу,
+        письма ушли, кураторы назначены. Отдельно ниже — две оплаты, которые не дошли:
+        деньги не списались, и это единственное место, где смена потеряла выручку.
+      </div>
+
+      <div class="card" data-p="school">
+        <div class="hd"><h2>Оплаты за смену</h2><span class="cnt">6</span>
+          <div class="sp"></div><span class="tag ai">провёл Сейл</span></div>
+        <div class="tw"><table>
+          <tr><th>Время</th><th>Ученик</th><th>Тариф</th><th>Сумма</th><th>Способ</th><th>Что сделал Сейл</th></tr>
+          <tr><td class="n">22:02</td><td>Каринэ С.</td><td>С разбором</td><td>19 900 ₽</td><td>Карта</td><td>Доступ выдал, куратора назначил</td></tr>
+          <tr><td class="n">19:47</td><td>Пётр Ш.</td><td>Базовый</td><td>14 900 ₽</td><td>Карта</td><td>Доступ, письмо с планом</td></tr>
+          <tr><td class="n">14:10</td><td>Лилия М.</td><td>С разбором</td><td>19 900 ₽</td><td>Карта</td><td>Доступ, записал на разбор в среду</td></tr>
+          <tr><td class="n">11:36</td><td>Егор Б.</td><td>Базовый</td><td>14 900 ₽</td><td>Карта</td><td>Доступ, письмо с планом</td></tr>
+          <tr><td class="n">09:20</td><td>Вера Н.</td><td>С разбором, рассрочка</td><td>6 600 ₽<div class="mini">1-й из 3</div></td><td>Рассрочка</td><td>Доступ, следующий платёж 14.10</td></tr>
+          <tr><td class="n">06:55</td><td>Тимур А.</td><td>Базовый, рассрочка</td><td>5 000 ₽<div class="mini">1-й из 3</div></td><td>Рассрочка</td><td>Доступ, следующий платёж 14.10</td></tr>
+        </table></div>
+      </div>
+
+      <div class="card" data-p="school" id="zavisli">
+        <div class="hd"><h2>Зависли на эквайринге</h2><span class="cnt">2</span>
+          <div class="sp"></div><span class="tag amber">14 900 ₽ не дошли</span></div>
+        <div class="tw"><table>
+          <tr><th>Время</th><th>Кто</th><th>Что произошло</th><th>Сумма</th><th></th></tr>
+          <tr>
+            <td class="n">17:12</td><td>Ксения Р.</td>
+            <td>Открыла форму оплаты, ушла на шаге подтверждения. Деньги не списались<div class="mini">Сейл: «ссылка живая 24 часа, написал бы в тот же канал — но WhatsApp не подключён»</div></td>
+            <td>9 900 ₽</td>
+            <td><button class="btn pri">Отправить ссылку</button></td>
+          </tr>
+          <tr>
+            <td class="n">13:41</td><td>Аноним</td>
+            <td>Форма закрыта до ввода карты, контакта нет вовсе</td>
+            <td>5 000 ₽</td>
+            <td><button class="btn">Нечего сделать</button></td>
+          </tr>
+        </table></div>
+      </div>
+
+      <div class="card" data-p="school" id="rassrochki">
+        <div class="hd"><h2>Рассрочки в работе</h2><span class="cnt">11</span>
+          <div class="sp"></div><span class="tag ai">три просрочены, написал всем</span></div>
+        <div class="tw"><table>
+          <tr><th>Ученик</th><th>Остаток</th><th>Следующий платёж</th><th>Состояние</th><th>Что сделал Сейл</th></tr>
+          <tr><td class="n">Марат К.</td><td>13 200 ₽</td><td>09.09 — просрочен</td><td><span class="tag green">оплатил сегодня</span></td><td>Написал, оплатил через час — 6 300 ₽ в выручке</td></tr>
+          <tr><td class="n">Алина Т.</td><td>9 900 ₽</td><td>10.09 — просрочен</td><td><span class="tag amber">сдвинул дату</span></td><td>Попросила пять дней, сдвинул — это в регламенте</td></tr>
+          <tr><td class="n">Роман Д.</td><td>19 800 ₽</td><td>02.09 — просрочен</td><td><span class="tag red">молчит 2 недели</span></td><td>Написал дважды. Дальше — закрывать доступ или ждать, решать вам</td></tr>
+          <tr><td class="n">…ещё 8</td><td>171 700 ₽</td><td>по графику</td><td><span class="tag green">без просрочек</span></td><td></td></tr>
+        </table></div>
+      </div>
+
+      <!-- ── Лавка ────────────────────────────────────────────── -->
+      <div class="tabs" data-p="shop">
+        <a class="on" href="#">За смену · 14</a>
+        <a href="#sbp">СБП свёл вручную · 3</a>
+        <a href="#vozvraty">Возвраты · 4</a>
+        <a href="#">Все · 1 902</a>
+      </div>
+
+      <div class="hint" data-p="shop">
+        <b>За смену пришло 96 300 ₽ — четырнадцать оплат.</b> Три из них по СБП не привязались
+        к заказам автоматически: Сейл свёл их руками по сумме и минуте. Если хоть одна сведена
+        неверно — отменяется в один клик, ничего не удалено.
+      </div>
+
+      <div class="card" data-p="shop">
+        <div class="hd"><h2>Оплаты за смену</h2><span class="cnt">14</span>
+          <div class="sp"></div><span class="tag ai">провёл Сейл</span></div>
+        <div class="tw"><table>
+          <tr><th>Время</th><th>Покупатель</th><th>Заказ</th><th>Сумма</th><th>Способ</th><th>Состояние</th></tr>
+          <tr><td class="n">23:35</td><td>Каринэ С.</td><td>№ 1197</td><td>5 900 ₽</td><td>Карта</td><td><span class="tag green">привязана</span></td></tr>
+          <tr><td class="n">21:14</td><td>Ольга Р.</td><td>№ 1196</td><td>24 800 ₽</td><td>Карта</td><td><span class="tag green">привязана</span></td></tr>
+          <tr><td class="n">18:02</td><td>Анна К.</td><td>№ 1194</td><td>8 200 ₽</td><td>Карта</td><td><span class="tag green">привязана</span></td></tr>
+          <tr><td class="n">…ещё 8</td><td></td><td></td><td>43 940 ₽</td><td>Карта</td><td><span class="tag green">привязаны</span></td></tr>
+          <tr><td class="n">07:02</td><td>Павел Т.</td><td>№ 1195</td><td>3 260 ₽</td><td>СБП</td><td><span class="tag amber">свёл вручную</span></td></tr>
+          <tr><td class="n">05:40</td><td>Ирина В.</td><td>№ 1188</td><td>6 900 ₽</td><td>СБП</td><td><span class="tag amber">свёл вручную</span></td></tr>
+          <tr><td class="n">02:14</td><td>Сергей М.</td><td>№ 1191</td><td>4 180 ₽</td><td>СБП</td><td><span class="tag amber">свёл вручную</span></td></tr>
+        </table></div>
+      </div>
+
+      <div class="card" data-p="shop" id="sbp">
+        <div class="hd"><h2>СБП: не долетели до заказов</h2><span class="cnt">3</span>
+          <div class="sp"></div><span class="tag ai">свёл по сумме и минуте</span></div>
+        <div class="tw"><table>
+          <tr><th>Оплата</th><th>Сумма</th><th>К какому заказу привязал</th><th>Почему уверен</th><th></th></tr>
+          <tr><td class="n">02:14, СБП</td><td>4 180 ₽</td><td>№ 1191, Сергей М.</td><td>Сумма совпала до копейки, заказ оформлен за минуту до оплаты, других на эту сумму в сутках нет</td><td><button class="btn">Отменить привязку</button></td></tr>
+          <tr><td class="n">05:40, СБП</td><td>6 900 ₽</td><td>№ 1188, Ирина В.</td><td>То же; плюс совпал телефон плательщика</td><td><button class="btn">Отменить привязку</button></td></tr>
+          <tr><td class="n">07:02, СБП</td><td>3 260 ₽</td><td>№ 1195, Павел Т.</td><td>То же</td><td><button class="btn">Отменить привязку</button></td></tr>
+        </table></div>
+      </div>
+
+      <div class="card" data-p="shop" id="vozvraty">
+        <div class="hd"><h2>Возвраты за неделю</h2><span class="cnt">4</span>
+          <div class="sp"></div><span class="tag ai">оформил Сейл</span></div>
+        <div class="tw"><table>
+          <tr><th>Покупатель</th><th>Сумма</th><th>Причина</th><th>Срок возврата</th></tr>
+          <tr><td class="n">Юлия С.</td><td>4 900 ₽</td><td>Отмена из-за задержки доставки</td><td><span class="tag green">4 минуты</span></td></tr>
+          <tr><td class="n">Никита Л.</td><td>2 300 ₽</td><td><b style="color:var(--ink)">Брак глазури</b> — партия отмечена</td><td><span class="tag green">в тот же день</span></td></tr>
+          <tr><td class="n">Дарья П.</td><td>2 300 ₽</td><td><b style="color:var(--ink)">Брак глазури</b> — та же партия</td><td><span class="tag green">в тот же день</span></td></tr>
+          <tr><td class="n">Олег В.</td><td>5 900 ₽</td><td>Передумал, в срок</td><td><span class="tag green">в тот же день</span></td></tr>
+        </table></div>
+      </div>
+
+    </div>
+  </main>
+</div>
+<script src="sections.js"></script>
+</body>
+</html>
