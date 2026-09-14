@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Дефекты Salebot — журнал прохождения</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23101828'/%3E%3Cpath d='M16 5l11 20H5z' fill='%23FFB648'/%3E%3C/svg%3E">
+<style>
+  :root{
+    --bg:#080B11; --surf:#121724; --surf2:#0E1420;
+    --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.14);
+    --ink:#EEF2FA; --mut:#96A1B6; --faint:#626C7E;
+    --acc:#3FE0D0; --acc2:#7FA5FF; --warn:#FFB648; --bad:#F87171;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:16px/1.62 -apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+  body::before{content:"";position:fixed;inset:-10% -10% auto -10%;height:640px;
+    background:radial-gradient(55% 100% at 50% 0%,rgba(255,182,72,.07),transparent 70%),
+               radial-gradient(45% 90% at 85% 0%,rgba(127,165,255,.08),transparent 70%);
+    pointer-events:none;z-index:0}
+  .wrap{position:relative;z-index:1;max-width:940px;margin:0 auto;padding:0 24px}
+  h1{font-size:clamp(30px,5vw,44px);line-height:1.06;letter-spacing:-.035em;margin:0 0 14px;font-weight:740}
+  h2{font-size:clamp(22px,3vw,27px);letter-spacing:-.025em;margin:0 0 6px;font-weight:700}
+  h3{font-size:19px;letter-spacing:-.015em;margin:0 0 12px;font-weight:660;line-height:1.3}
+  p{margin:0 0 13px;color:var(--mut);text-wrap:pretty}
+  strong{color:var(--ink);font-weight:640}
+  em{color:var(--mut)}
+  a{color:var(--acc)}
+  code{background:rgba(255,255,255,.07);padding:1px 6px;border-radius:5px;
+    font-size:.88em;color:var(--acc2);font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+  header.top{padding:60px 0 30px}
+  .kicker{font-size:11.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--warn);margin-bottom:16px}
+  .lead{font-size:18px;color:var(--mut);max-width:680px}
+  .meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px}
+  .chip{font-size:12.5px;color:var(--mut);background:var(--surf);border:1px solid var(--line);
+    border-radius:8px;padding:6px 11px}
+  .chip b{color:var(--ink);font-weight:620}
+  section{padding:34px 0 8px;border-top:1px solid var(--line);margin-top:30px}
+  section:first-of-type{border-top:0;margin-top:0}
+  section > h2{margin-bottom:18px}
+  .def{background:var(--surf);border:1px solid var(--line);border-radius:14px;
+    padding:20px 22px;margin:0 0 16px}
+  .def h3{margin-bottom:14px}
+  .def h3 .num{display:inline-block;font-size:12.5px;font-weight:800;letter-spacing:.06em;
+    color:var(--warn);background:rgba(255,182,72,.12);border:1px solid rgba(255,182,72,.28);
+    border-radius:7px;padding:3px 8px;margin-right:8px;vertical-align:1px}
+  .def p:last-child{margin-bottom:0}
+  .tw{overflow-x:auto;margin:14px 0}
+  table{border-collapse:collapse;width:100%;font-size:14.5px;min-width:440px}
+  th{text-align:left;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--faint);padding:0 14px 9px 0;border-bottom:1px solid var(--line);white-space:nowrap}
+  td{padding:11px 14px 11px 0;border-bottom:1px solid var(--line);vertical-align:top;color:var(--mut)}
+  td:first-child{color:var(--ink);white-space:nowrap}
+  blockquote{margin:14px 0;padding:13px 18px;background:rgba(127,165,255,.07);
+    border-left:2px solid var(--acc2);border-radius:0 10px 10px 0;color:#C9D6EE;font-size:15px}
+  pre{background:var(--surf2);border:1px solid var(--line);border-radius:10px;
+    padding:14px 16px;overflow-x:auto;margin:14px 0}
+  pre code{background:none;padding:0;color:#BFD3FF;font-size:13px;line-height:1.55}
+  ol{margin:12px 0;padding-left:22px;color:var(--mut)}
+  ol li{margin-bottom:7px}
+  figure{margin:16px 0 4px;border:1px solid var(--line);border-radius:12px;overflow:hidden;
+    background:var(--surf2);box-shadow:0 14px 40px rgba(0,0,0,.4)}
+  figure img{display:block;width:100%;height:auto}
+  footer{padding:44px 0 70px;color:var(--faint);font-size:14px;border-top:1px solid var(--line);margin-top:34px}
+  @media (max-width:640px){
+    .def{padding:16px 15px;border-radius:12px}
+    td:first-child{white-space:normal}
+  }
+</style>
+</head>
+<body>
+
+<header class="top"><div class="wrap">
+  <div class="kicker">Журнал прохождения · сентябрь 2026</div>
+  <h1>Дефекты Salebot</h1>
+  <p class="lead">То, на что натыкаешься, проходя продукт как обычный пользователь с улицы:
+  регистрация, проект по легенде, подключение канала, живой диалог с «клиентом».</p>
+  <div class="meta">
+    <span class="chip">Стенд <b>salebot.zmservice.ru</b></span>
+    <span class="chip">Проект <b>1002</b></span>
+    <span class="chip">Обновлено <b>14.09.2026</b></span>
+  </div>
+</div></header>
+
+<main class="wrap">
+<p><strong>Где найдено:</strong> тестовый стенд <code>salebot.zmservice.ru</code>, проект <code>1002</code>, аккаунт тестовый. Билд на стенде совпадает с боевым (дайджесты ассетов идентичны), поэтому почти всё воспроизводимо и на <code>salebot.pro</code> / <code>mavibot.ai</code>.</p>
+<p><strong>Нумерация:</strong> сквозная, <code>D-N</code>. Номер закрепляется за дефектом навсегда — если запись уходит из журнала, её номер не переиспользуется, поэтому в списке есть пропуски.</p>
+<p><strong>Легенда статусов:</strong> 🔴 баг · 🟡 спорно / вопрос к продукту · ⚪️ не подтверждено</p>
+<section>
+<h2>Сводка</h2>
+<div class="tw"><table>
+<tr><th>Дефект</th><th>Что</th><th>Где</th><th>Статус</th></tr>
+<tr><td><a href="#d-4">D-4</a></td><td>Молчание 2–3,5 минуты без промежуточного вывода</td><td>Обзор, «Собрать»</td><td>🔴</td></tr>
+<tr><td><a href="#d-6">D-6</a></td><td>Прогресс не пересчитывается после работы ассистента</td><td>Обзор</td><td>🔴</td></tr>
+<tr><td><a href="#d-7">D-7</a></td><td>Шкала прогресса плавает, числитель уменьшается</td><td>Обзор, Услуги</td><td>🔴</td></tr>
+<tr><td><a href="#d-8">D-8</a></td><td>Лог действий подписан без объекта</td><td>Чат Сейла</td><td>🔴</td></tr>
+<tr><td><a href="#d-10">D-10</a></td><td>Вместимость 1 при явном «придём вдвоём»</td><td>Услуги</td><td>🔴</td></tr>
+<tr><td><a href="#d-11">D-11</a></td><td>Цена детской группы выдумана</td><td>Услуги</td><td>🟡</td></tr>
+<tr><td><a href="#d-12">D-12</a></td><td>ИИ-ассистент после онбординга пуст и выключен</td><td>ИИ-ассистент</td><td>🔴</td></tr>
+<tr><td><a href="#d-13">D-13</a></td><td>Конструктор не знает контекста онбординга</td><td>Конструктор</td><td>🔴</td></tr>
+<tr><td><a href="#d-15">D-15</a></td><td>Мобильная версия содержательнее десктопной</td><td>Мобильный</td><td>🔴</td></tr>
+<tr><td><a href="#d-16">D-16</a></td><td>«Показать сводку» недоступна для нажатия</td><td>Чат Сейла</td><td>🟡</td></tr>
+<tr><td><a href="#d-17">D-17</a></td><td>Кнопка «Подключить бота» залипла в «Загрузке»</td><td>Каналы</td><td>🔴</td></tr>
+<tr><td><a href="#d-18">D-18</a></td><td>Виджет «Тестирование бота» не показывает ответ</td><td>ИИ-ассистент</td><td>🔴</td></tr>
+<tr><td><a href="#d-19">D-19</a></td><td>Имя и телефон из диалога не попали в CRM</td><td>Диалоги</td><td>🔴</td></tr>
+<tr><td><a href="#d-20">D-20</a></td><td>Карточки-рекомендации сообщают неправду</td><td>Обзор</td><td>🔴</td></tr>
+<tr><td><a href="#d-22">D-22</a></td><td>Гео-баннер «Salebot доступен только в РФ» на входе</td><td>Логин</td><td>🟡</td></tr>
+<tr><td><a href="#d-23">D-23</a></td><td><code>docs.salebot.pro</code> отдаёт 502</td><td>Документация</td><td>🔴</td></tr>
+<tr><td><a href="#d-25">D-25</a></td><td>Расписание пустое: все семь дней «Выходной»</td><td>Услуги · Календарь</td><td>🔴</td></tr>
+<tr><td><a href="#d-26">D-26</a></td><td>«Подписка заканчивается через 3 дня» после того, как она закончилась</td><td>Обзор</td><td>🔴</td></tr>
+<tr><td><a href="#d-28">D-28</a></td><td>Расписание на неделю спрятано за безымянной иконкой</td><td>Услуги</td><td>🟡</td></tr>
+<tr><td><a href="#d-29">D-29</a></td><td>Подключение WhatsApp виснет навсегда: сервер отдаёт 500</td><td>Каналы</td><td>🔴</td></tr>
+</table></div>
+</section>
+<section>
+<h2>Обзор проекта</h2>
+<article class="def" id="d-4">
+<h3><span class="num">D-4</span> Молчание 2–3,5 минуты без промежуточного вывода</h3>
+<p><strong>🔴 Баг (UX).</strong></p>
+<p>Замеренные тайминги на кнопке «Собрать» и на запросе в чат:</p>
+<div class="tw"><table>
+<tr><th>Действие</th><th>Время</th></tr>
+<tr><td>«Собрать» → Онлайн-запись</td><td><strong>3 м 21 с</strong></td></tr>
+<tr><td>«Создать мастеров»</td><td>2 м 4 с</td></tr>
+<tr><td>Запрос в чат «заполни базу знаний»</td><td><strong>3 м 19 с</strong></td></tr>
+</table></div>
+<p>Всё это время — серые скелетоны и надпись «Сверяю данные…». Ни одной строки о том, что именно сейчас происходит. Работа при этом идёт настоящая, но пользователь этого не видит и решит, что всё зависло.</p>
+<figure><img loading="lazy" src="img/bugs/06-assemble-skeletons.png" alt=""></figure>
+</article>
+<article class="def" id="d-6">
+<h3><span class="num">D-6</span> Прогресс не пересчитывается после работы ассистента</h3>
+<p><strong>🔴 Баг.</strong></p>
+<p><strong>Шаги:</strong> нажать «Создать мастеров» в чате → дождаться ответа «Готово! Создал двух мастеров-гончаров».</p>
+<p><strong>Ожидалось:</strong> счётчик шагов вырос. <strong>Получилось:</strong> слева по-прежнему «3 из 11», 27 %. Проверено программно, значение не менялось.</p>
+<figure><img loading="lazy" src="img/bugs/09-masters-created.png" alt=""></figure>
+</article>
+<article class="def" id="d-7">
+<h3><span class="num">D-7</span> Шкала прогресса плавает, числитель уменьшается</h3>
+<p><strong>🔴 Баг.</strong></p>
+<p>Замеры одного и того же проекта за одну сессию:</p>
+<div class="tw"><table>
+<tr><th>Момент</th><th>Показания</th></tr>
+<tr><td>Сразу после создания</td><td>0 из <strong>11</strong>, 0 %</td></tr>
+<tr><td>После сборки онлайн-записи</td><td>3 из <strong>11</strong>, 27 %</td></tr>
+<tr><td>После заполнения базы знаний</td><td>4 из <strong>11</strong>, 36 %</td></tr>
+<tr><td>После перезагрузки страницы</td><td>3 из <strong>5</strong>, 60 %</td></tr>
+<tr><td>После подключения Telegram</td><td>5 из <strong>10</strong>, 50 %</td></tr>
+</table></div>
+<p>Знаменатель успел побывать 11, 5 и 10. Числитель один раз <strong>уменьшился</strong> с 4 до 3, хотя пользователь ничего не удалял. От ширины окна не зависит — проверено на 1440 и 390 px и после явного reload.</p>
+<p>Плюс отдельная шкала в шапке раздела «Услуги»: «Готовность 3/5» — не совпадает с обзорной.</p>
+<p>Для новичка это разрушает единственный ориентир, который у него есть.</p>
+</article>
+<article class="def" id="d-8">
+<h3><span class="num">D-8</span> Лог действий подписан без объекта</h3>
+<p><strong>🔴 Баг (текст).</strong></p>
+<p>В блоке «Выполнено» строки называются «<strong>Создаю</strong>», «<strong>Создаю товар</strong>», «<strong>Создаю точку</strong>» — без указания, что именно создано. Пользователь видит, что что-то произошло, но не понимает что.</p>
+<figure><img loading="lazy" src="img/bugs/08-services-done-chat.png" alt=""></figure>
+</article>
+<article class="def" id="d-20">
+<h3><span class="num">D-20</span> Карточки-рекомендации сообщают неправду</h3>
+<p><strong>🔴 Баг. Самый показательный из всех.</strong></p>
+<p>На нагруженном аккаунте под метриками появляются три карточки-рекомендации. Две из трёх противоречат тому, что уже произошло в этом же проекте:</p>
+<div class="tw"><table>
+<tr><th>Карточка</th><th>Что говорит</th><th>Как на самом деле</th></tr>
+<tr><td>«Запись пока ведётся вручную»</td><td>«Клиенты спрашивают свободное время, цены и можно ли вдвоём. <strong>Сейчас на это отвечаешь ты сам</strong>»</td><td>На это только что ответил ассистент, без участия человека</td></tr>
+<tr><td>«Научить ассистента ценам и расписанию»</td><td>«Ассистент <strong>ещё не знает ваши цены</strong>… Добавим базу знаний — и он сам ответит про свободное время и „можно ли вдвоём“»</td><td>База знаний заполнена часом ранее, ответ про «вдвоём» уже отдан клиенту</td></tr>
+</table></div>
+<p>Экран уговаривает сделать то, что уже сделано.</p>
+<figure><img loading="lazy" src="img/bugs/20-overview-loaded-mid.png" alt=""></figure>
+<figure><img loading="lazy" src="img/bugs/21-overview-loaded-bottom.png" alt=""></figure>
+</article>
+</section>
+<section>
+<h2>Онлайн-запись и услуги</h2>
+<article class="def" id="d-10">
+<h3><span class="num">D-10</span> Вместимость 1 при явном «придём вдвоём»</h3>
+<p><strong>🔴 Баг.</strong></p>
+<p>В описании бизнеса прямым текстом: «клиенты спрашивают… <strong>можно ли прийти вдвоём</strong>». Созданная услуга «Мастер-класс по гончарному кругу» имеет <strong>Вместимость = 1</strong>.</p>
+<p>При этом ассистент в диалоге уверенно отвечает клиенту, что вдвоём можно, и считает 7000 ₽ за двоих. То есть бот обещает то, чего настройка услуги не позволяет.</p>
+<figure><img loading="lazy" src="img/bugs/10-services-list.png" alt=""></figure>
+</article>
+<article class="def" id="d-11">
+<h3><span class="num">D-11</span> Цена детской группы выдумана</h3>
+<p><strong>🟡 Спорно.</strong></p>
+<p>Я назвал две цены: мастер-класс 3500 ₽ и курс 24000 ₽. Обе перенесены верно. Для «Детской группы (выходные)» цена <strong>2500 ₽</strong> проставлена самостоятельно — я её не называл и об этом не спросили.</p>
+<p>Опасно тем, что цена выглядит как подтверждённая пользователем.</p>
+<figure><img loading="lazy" src="img/bugs/10-services-list.png" alt=""></figure>
+</article>
+</section>
+<section>
+<h2>ИИ-ассистент</h2>
+<article class="def" id="d-12">
+<h3><span class="num">D-12</span> После онбординга пуст и выключен</h3>
+<p><strong>🔴 Баг.</strong></p>
+<p><strong>Шаги:</strong> в онбординге оставить отмеченным чип «ИИ-ассистент» → создать проект → открыть раздел «ИИ-ассистент».</p>
+<p><strong>Ожидалось:</strong> ассистент настроен по описанию бизнеса. <strong>Получилось:</strong> «Настройки бота» пусты (плейсхолдер «ТЫ - (имя бота и его роль)»), «Знания бота» пусты, статус — <strong>Выключен</strong>. Модель по умолчанию <code>DeepSeek-V4-Flash</code>.</p>
+<p>Всё, что пользователь рассказал в онбординге, до ассистента не доехало. Заполнилось только после отдельной явной просьбы в чате.</p>
+<figure><img loading="lazy" src="img/bugs/11-ai-empty-off.png" alt=""></figure>
+</article>
+<article class="def" id="d-18">
+<h3><span class="num">D-18</span> Виджет «Тестирование бота» не показывает ответ</h3>
+<p><strong>🔴 Баг.</strong></p>
+<p><strong>Шаги:</strong> ИИ-ассистент → виджет «Тестирование бота» справа → отправить сообщение «Хочу записаться на мастер-класс…».</p>
+<p><strong>Ожидалось:</strong> ответ бота в виджете. <strong>Получилось:</strong> ответа нет ни через 20 с, ни через 60 с. Виджет показывает только собственное сообщение.</p>
+<p><strong>При этом ответ существует</strong> — он лежит в разделе «Диалоги» и отправлен вовремя. То есть бот работает, а инструмент проверки бота показывает, что он сломан. Для новичка это прямой повод решить, что продукт не работает.</p>
+<figure><img loading="lazy" src="img/bugs/23-test-chat-no-reply.png" alt=""></figure>
+</article>
+<article class="def" id="d-19">
+<h3><span class="num">D-19</span> Имя и телефон из диалога не попали в CRM</h3>
+<p><strong>🔴 Баг.</strong></p>
+<p><strong>Шаги:</strong> написать боту «…запишите меня на субботу, придём вдвоём с женой. <strong>Меня зовут Игорь, телефон 9271234567</strong>».</p>
+<p><strong>Ожидалось:</strong> имя и телефон в карточке клиента. <strong>Получилось:</strong> в карточке «Номер телефона: Добавить телефон», «Email: Добавить почту», имя клиента — «Клиент 09.09 18:06».</p>
+<p>Ассистент данные распознал — он обращается «Здравствуйте, Игорь!». Но в систему они не записаны, то есть заявка есть, а контакта у бизнеса нет.</p>
+<figure><img loading="lazy" src="img/bugs/18-dialog-ai-quality.png" alt=""></figure>
+</article>
+</section>
+<section>
+<h2>Конструктор</h2>
+<article class="def" id="d-13">
+<h3><span class="num">D-13</span> Не знает контекста онбординга</h3>
+<p><strong>🔴 Баг.</strong></p>
+<p><strong>Шаги:</strong> пройти онбординг с подробным описанием бизнеса → открыть «Конструктор».</p>
+<p><strong>Получилось:</strong> холст пуст, всплывает модалка «Генерация чат-бота — <strong>Какую воронку вы хотите сгенерировать?</strong>» с вариантами «Чат-бот визитка» и «Другое — AI соберёт воронку по вашему описанию».</p>
+<p>У пользователя заново спрашивают то, что он подробно рассказал пять минут назад.</p>
+<figure><img loading="lazy" src="img/bugs/12-constructor-asks-again.png" alt=""></figure>
+</article>
+</section>
+<section>
+<h2>Мобильная версия</h2>
+<article class="def" id="d-15">
+<h3><span class="num">D-15</span> Мобильная версия содержательнее десктопной</h3>
+<p><strong>🔴 Баг (рассинхрон вёрсток).</strong></p>
+<p>В блоке «Требует внимания» на мобильном есть пункт, которого <strong>нет на десктопе</strong>:</p>
+<blockquote><strong>Каналы ещё не подключены — запись идёт вручную</strong> Пока нет ни Telegram, ни WhatsApp, клиенты не могут записаться сами и писать в чат. [Подключить]</blockquote>
+<p>На десктопе в этом блоке только строка про подписку. Один и тот же экран показывает разный набор проблем в зависимости от ширины окна.</p>
+<figure><img loading="lazy" src="img/bugs/16-mobile-overview.png" alt=""></figure>
+</article>
+</section>
+<section>
+<h2>Прочее</h2>
+<article class="def" id="d-16">
+<h3><span class="num">D-16</span> «Показать сводку» недоступна для нажатия</h3>
+<p><strong>🟡 Вопрос к продукту.</strong></p>
+<p>В шапке чата Сейла есть кнопка «Показать сводку». У неё <code>opacity: 0</code> и <code>pointer-events: none</code> — нажать нельзя, видно её тоже нельзя.</p>
+<p>Похоже, появляется по какому-то условию (свёрнутый чат?), но по названию это самая интересная для нас функция — сводка по проекту. Разобраться, при каких условиях она показывается.</p>
+</article>
+<article class="def" id="d-17">
+<h3><span class="num">D-17</span> Кнопка «Подключить бота» залипла в «Загрузке»</h3>
+<p><strong>🔴 Баг.</strong></p>
+<p><strong>Шаги:</strong> Каналы → Telegram → вставить токен → «Подключить бота».</p>
+<p><strong>Получилось:</strong> кнопка сменилась на «Загрузка» со спиннером и осталась в этом состоянии навсегда (ждал больше минуты). Страница не перешла дальше.</p>
+<p><strong>При этом бот реально подключился</strong> — на странице «Каналы» он числится со статусом «Подключён». То есть действие прошло, а интерфейс об этом не сообщил.</p>
+<p>Возможно, связано с обрывом соединения, но интерфейс обязан выйти из состояния загрузки в любом случае.</p>
+<figure><img loading="lazy" src="img/bugs/22-stuck-loading.png" alt=""></figure>
+</article>
+<article class="def" id="d-29">
+<h3><span class="num">D-29</span> Подключение WhatsApp виснет навсегда: сервер отдаёт 500</h3>
+<p><strong>🔴 Баг.</strong> Найден 14.09.2026, воспроизведён дважды подряд.</p>
+<p><strong>Шаги:</strong> Каналы → плитка <strong>WhatsApp</strong> → поставить галочку согласия → «Подключить WhatsApp».</p>
+<p><strong>Ожидалось:</strong> переход на шаг 2 «Сканирование QR» с QR-кодом.</p>
+<p><strong>Получилось:</strong> кнопка сменилась на «Загрузка» со спиннером и <strong>осталась в этом состоянии навсегда</strong> — ждал 25 и 20 секунд в двух заходах. QR не появился, шаг 2 не открылся, модалка не закрылась, <strong>ошибки пользователю не показано вообще</strong>: на странице нет ни слова «не удалось», ни «попробуйте позже».</p>
+<figure><img loading="lazy" src="img/bugs/60-whatsapp-stuck-loading.png" alt=""></figure>
+<p><strong>Причина видна в сети.</strong> Запрос <code>POST /projects/1002/whatsapp_bots</code> отвечает <strong>500</strong>, в теле — трассировка Puma:</p>
+<pre><code>SSL_connect returned=1 errno=0 peeraddr=62.84.113.147:443 state=error:
+certificate verify failed (hostname mismatch) (Faraday::SSLError)</code></pre>
+<p>Приложение идёт к шлюзу WhatsApp по HTTPS, сертификат шлюза не совпадает с именем хоста, Faraday падает, Rails отдаёт 500. То есть подключение не начинается вовсе — это не долгая операция, а мгновенная ошибка, которую интерфейс не показывает.</p>
+<p><strong>Это два дефекта в одном:</strong></p>
+<ol><li><strong>Серверный</strong> — шлюз WhatsApp недоступен из-за несовпадения сертификата.</li><li><strong>Интерфейсный</strong> — ответ 500 проглочен: обработчика ошибки нет, кнопка остаётся в загрузке бесконечно.</li></ol>
+<p><strong>Связь с <a href="#d-17">D-17</a>.</strong> Там тот же интерфейсный симптом на Telegram, и тогда было непонятно, случайность это или нет. Теперь видно: <strong>обработчика ошибки просто нет</strong> — при любом неудачном ответе кнопка залипает. Разница в том, что в D-17 действие фактически прошло (бот подключился, а интерфейс промолчал), а здесь не прошло ничего, и человек об этом не узнает.</p>
+<p><strong>Почему важно:</strong> WhatsApp — один из двух каналов, которые сам Сейл называет обязательными («пока каналы не подключены, ассистент работает только внутри настройки»). Новичок упирается в вечный спиннер: ни ошибки, ни подсказки, ни возможности повторить — только закрыть модалку и гадать, подключилось оно или нет.</p>
+<blockquote><strong>Оговорка.</strong> Проверено на стенде <code>salebot.zmservice.ru</code>. Несовпадение сертификата может быть особенностью стенда; на боевом <code>salebot.pro</code> проверить нечем — боевого аккаунта у нас нет. Интерфейсная половина дефекта от среды не зависит: 500 не показывается пользователю в любом случае.</blockquote>
+</article>
+<article class="def" id="d-22">
+<h3><span class="num">D-22</span> Гео-баннер «Salebot доступен только в РФ» на входе</h3>
+<p><strong>🟡 Вопрос к продукту.</strong></p>
+<p>На странице логина снизу висит чёрная плашка:</p>
+<blockquote>Salebot доступен только в РФ. Используйте mavibot.ai · [Открыть mavibot.ai]</blockquote>
+<p>Сработала на обычном входе. Стоит проверить логику определения региона: если она ошибается, российский пользователь получает предложение уйти на международную версию прямо на входе.</p>
+<figure><img loading="lazy" src="img/bugs/24-geo-banner-login.png" alt=""></figure>
+</article>
+<article class="def" id="d-23">
+<h3><span class="num">D-23</span> <code>docs.salebot.pro</code> отдаёт 502</h3>
+<p><strong>🔴 Баг (инфраструктура).</strong></p>
+<p>Документацию перенесли внутрь приложения — актуальные адреса <code>salebot.pro/docs</code> и <code>mavibot.ai/docs</code>. Старый домен <strong><code>docs.salebot.pro</code> не редиректит, а отдаёт 502</strong>.</p>
+<p>При этом на него ссылается вся поисковая выдача и, судя по всему, часть внешних материалов. Пользователь, пришедший за инструкцией, упирается в ошибку сервера.</p>
+<p>Проверено <code>curl</code>: <code>docs.salebot.pro</code> → HTTP 502, <code>salebot.pro/docs</code> → 200.</p>
+</article>
+</section>
+<section>
+<h2>Прогон 14.09.2026 — что видно через пять дней</h2>
+<p>Аккаунт не трогали пять суток. Пробный период за это время кончился — и это само по себе дало материал: видно, как продукт ведёт себя с остывшим проектом и просроченной подпиской.</p>
+<article class="def" id="d-25">
+<h3><span class="num">D-25</span> Расписание пустое: все семь дней «Выходной»</h3>
+<p><strong>🔴 Баг.</strong></p>
+<p><strong>Шаги:</strong> «Услуги» → иконка календаря в шапке → «Неделя».</p>
+<p><strong>Получилось:</strong> в неделе 14–20 сентября <strong>каждый из семи дней подписан «Выходной»</strong>, свободных слотов нет ни одного. Мастера, созданные Сейлом при сборке, остались без графика работы — он их завёл заглушками «Мастер-гончар 1» и «Мастер-гончар 2» и на этом остановился.</p>
+<p><strong>Почему важно, а не мелочь:</strong> ассистент в живом диалоге предлагал клиенту <strong>субботу 10:00 и 15:00</strong> (см. <a href="#d-19">D-19</a>) — времена, которых в расписании не существует. То есть «онлайн-запись собрана» на экране «Обзор», ассистент назначает встречи, а календарь при этом пуст. Это не расхождение счётчика, а обещание клиенту, которое система не может выполнить.</p>
+<figure><img loading="lazy" src="img/bugs/41-calendar-week-empty.png" alt=""></figure>
+<p>Связка с <a href="#d-10">D-10</a> (вместимость 1 при «придём вдвоём») и <a href="#d-11">D-11</a> (выдуманная цена): сборка создаёт <em>структуру</em> и не доводит её до рабочего состояния, а экран рапортует о готовности.</p>
+</article>
+<article class="def" id="d-26">
+<h3><span class="num">D-26</span> «Подписка заканчивается через 3 дня» после того, как она закончилась</h3>
+<p><strong>🔴 Баг.</strong></p>
+<p><strong>Получилось одновременно, на одном и том же экране:</strong></p>
+<div class="tw"><table>
+<tr><th>Где</th><th>Что написано</th></tr>
+<tr><td>Шапка кабинета, справа</td><td><strong>«Подписка закончилась»</strong></td></tr>
+<tr><td><code>/payment_info</code>, «Оплачен до»</td><td><strong>«Подписка закончилась»</strong></td></tr>
+<tr><td>«Обзор» → блок «Требует внимания»</td><td><strong>«Подписка заканчивается через 3 дня.</strong> После неё бот перестанет отвечать клиентам»</td></tr>
+</table></div>
+<p>Блок «Требует внимания» показывает текст пятидневной давности. Это тот же разрыв, что и <a href="#d-20">D-20</a>, только теперь на биллинге: экран не пересчитывается и сообщает неправду о собственном состоянии счёта.</p>
+<p><strong>Попутно:</strong> переход на <code>/projects/1002/</code> теперь редиректит на <code>/payment_info</code>, но все разделы по прямым адресам открываются — жёсткой блокировки нет, только корень проекта.</p>
+<p><strong>Попутно-2:</strong> шкала прогресса снова с новым знаменателем — <strong>«Готово 5 из 10 шагов», 50 %</strong> (было 11, потом 5, потом 10 — см. <a href="#d-7">D-7</a>).</p>
+<p><strong>Попутно-3:</strong> <a href="#d-20">D-20</a> воспроизводится через пять дней слово в слово. На одном кадре слева карточка «Научить ассистента ценам и расписанию — ассистент ещё не знает ваши цены», справа в чате отчёт Сейла «Роль ассистента настроена… Добавляю базу знаний — готово». И рядом «Запись пока ведётся вручную… Сейчас на это отвечаешь ты сам» при подключённом Telegram и отвечавшем ассистенте.</p>
+<figure><img loading="lazy" src="img/bugs/40-overview-contradiction-1409.png" alt=""></figure>
+</article>
+<article class="def" id="d-28">
+<h3><span class="num">D-28</span> Расписание на неделю спрятано за безымянной иконкой</h3>
+<p><strong>🟡 Спорно.</strong></p>
+<p>Экран недели <strong>есть</strong> (я сначала решил, что его нет). Живёт он не в меню, а внутри «Услуг»: в шапке рядом с названием филиала стоят две иконки-переключателя без подписей — список услуг и календарь. Внутри календаря — «День / Неделя», фильтры по группам и тегам, выгрузка, масштаб, «+ Запись». Адрес детерминированный и с параметрами: <code>settings_online_record?pipeline_id=1173&amp;mode=0&amp;main_date=2026-09-14</code> (<code>mode=0</code> неделя, <code>mode=1</code> день).</p>
+<p><strong>Почему это претензия, а не находка:</strong> у продукта с онлайн-записью главный экран владельца — его неделя. Здесь он есть, но в меню не назван, подписи у иконки нет, и попасть в него можно, только уже находясь в «Услугах» и догадавшись нажать.</p>
+<p><strong>Для концепции это плюс:</strong> переход «в четверг пусто → открыть расписание» ведёт в живой экран с готовыми параметрами периода, а не в никуда.</p>
+</article>
+</section>
+</main>
+
+<footer><div class="wrap">
+  Билд на стенде совпадает с боевым — дайджесты собранных ассетов идентичны,
+  поэтому почти всё воспроизводимо и на salebot.pro / mavibot.ai.
+  Где это не так, оговорено в самой записи.
+</div></footer>
+
+</body>
+</html>
