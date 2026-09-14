@@ -1,0 +1,685 @@
+<meta charset="utf-8">
+<title>Смена — Лавка</title>
+<style>
+  :root{
+    --bg:#080B11; --bg2:#0C1018;
+    --surf:#121724; --surf2:#161C2B;
+    --line:rgba(255,255,255,.07); --line2:rgba(255,255,255,.12);
+    --ink:#EEF2FA; --mut:#8C97AD; --faint:#5D6779;
+    --acc:#3FE0D0;            /* энергия костюма */
+    --acc2:#5B8CFF;           /* их синий, поднятый до тёмной среды */
+    --warn:#FFB648;           /* требует вас */
+    --ok:#4ADE80;
+    --r:14px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{
+    background:var(--bg); color:var(--ink);
+    font:14px/1.5 -apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    font-variant-numeric:tabular-nums;
+    overflow:hidden;
+  }
+  /* свечение сверху — «костюм под напряжением» */
+  body::before{
+    content:"";position:fixed;inset:-20% -10% auto -10%;height:70%;
+    background:radial-gradient(60% 100% at 50% 0%,rgba(63,224,208,.10),transparent 70%),
+               radial-gradient(50% 90% at 82% 0%,rgba(91,140,255,.10),transparent 70%);
+    pointer-events:none;z-index:0;
+  }
+  .app{position:relative;z-index:1;display:flex;height:100%}
+
+  /* ── рельс ─────────────────────────────────────────────── */
+  .rail{width:56px;flex:0 0 56px;background:var(--bg2);border-right:1px solid var(--line);
+    display:flex;flex-direction:column;align-items:center;padding:14px 0;gap:6px}
+  .mark{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--acc),var(--acc2));
+    display:grid;place-items:center;margin-bottom:12px;box-shadow:0 0 18px rgba(63,224,208,.35)}
+  .mark svg{width:15px;height:15px}
+  .ric{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;color:var(--faint);
+    cursor:pointer;position:relative}
+  .ric:hover{background:rgba(255,255,255,.05);color:var(--ink)}
+  .ric.on{color:var(--acc);background:rgba(63,224,208,.10)}
+  .ric svg{width:17px;height:17px}
+  .ric .bdg{position:absolute;top:1px;right:1px;min-width:15px;height:15px;border-radius:8px;
+    background:var(--warn);color:#241701;font-size:9.5px;font-weight:800;display:grid;place-items:center;padding:0 3px}
+  .rsep{width:22px;height:1px;background:var(--line);margin:7px 0}
+
+  /* ── сцена ─────────────────────────────────────────────── */
+  .stage{flex:1;min-width:0;display:flex;flex-direction:column;overflow:hidden}
+
+  /* HUD */
+  .hud{padding:15px 22px 13px;border-bottom:1px solid var(--line);position:relative;overflow:hidden}
+  .hud::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;
+    background:linear-gradient(90deg,transparent 0%,rgba(63,224,208,.0) 20%,var(--acc) 50%,rgba(63,224,208,0) 80%,transparent 100%);
+    background-size:220% 100%;animation:seam 5.5s linear infinite;opacity:.85}
+  @keyframes seam{from{background-position:-110% 0}to{background-position:110% 0}}
+  .hudtop{display:flex;align-items:center;gap:12px;margin-bottom:11px}
+  .ava{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--acc),var(--acc2));
+    display:grid;place-items:center;flex:0 0 auto;box-shadow:0 0 16px rgba(63,224,208,.4)}
+  .ava svg{width:15px;height:15px}
+  .who{font-weight:680;letter-spacing:-.01em}
+  .onair{display:inline-flex;align-items:center;gap:6px;color:var(--acc);font-size:12px;font-weight:600}
+  .dot{width:6px;height:6px;border-radius:50%;background:var(--acc);animation:bre 2s ease-in-out infinite}
+  @keyframes bre{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(63,224,208,.5)}50%{opacity:.55;box-shadow:0 0 0 5px rgba(63,224,208,0)}}
+  .wave{height:22px;width:104px;margin-left:4px}
+  .wave .base{fill:none;stroke:rgba(63,224,208,.18);stroke-width:1.6;stroke-linecap:round}
+  .wave .live{fill:none;stroke:var(--acc);stroke-width:1.8;stroke-linecap:round;
+    filter:drop-shadow(0 0 4px rgba(63,224,208,.8));
+    stroke-dasharray:38 220;animation:run 2.6s linear infinite}
+  @keyframes run{from{stroke-dashoffset:258}to{stroke-dashoffset:0}}
+  .spacer{flex:1}
+  .share{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:10px;
+    border:1px solid var(--line2);background:rgba(255,255,255,.04);color:var(--ink);
+    font-size:13px;font-weight:620;cursor:pointer}
+  .share:hover{border-color:var(--acc);color:var(--acc)}
+  .share.accept{border-color:rgba(63,224,208,.32);color:var(--acc)}
+  .share.accept[disabled]{border-color:rgba(74,222,128,.4);color:var(--ok);cursor:default;opacity:1}
+  .projbar{display:flex;align-items:center;gap:7px;margin-bottom:13px}
+  .plabel{font-size:10.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--faint);margin-right:3px}
+  .p{font-size:12.5px;font-weight:620;color:var(--mut);text-decoration:none;
+    padding:5px 11px;border-radius:8px;border:1px solid transparent;cursor:pointer}
+  .p:hover{color:var(--ink);background:rgba(255,255,255,.05)}
+  .p.on{color:var(--acc);border-color:rgba(63,224,208,.3);background:rgba(63,224,208,.08)}
+
+  .lede{font-size:13px;color:var(--mut);margin-bottom:7px}
+  .figs{display:flex;align-items:flex-end;gap:26px;flex-wrap:wrap}
+  .fig b{display:block;font-size:29px;font-weight:720;letter-spacing:-.03em;line-height:1.05}
+  .fig span{font-size:11.5px;color:var(--faint);letter-spacing:.02em}
+  .fig.hero b{color:var(--acc);text-shadow:0 0 22px rgba(63,224,208,.35)}
+  .fig.wake b{color:var(--warn)}
+
+  /* пульс */
+  .pulse{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;padding:14px 22px 4px}
+  .tile{background:var(--surf);border:1px solid var(--line);border-radius:var(--r);padding:13px 14px;
+    position:relative;overflow:hidden;transition:border-color .2s,transform .2s}
+  .tile:hover{border-color:var(--line2);transform:translateY(-1px)}
+  .tile.alert{border-color:rgba(255,182,72,.35);background:linear-gradient(180deg,rgba(255,182,72,.07),transparent 60%),var(--surf);
+    animation:halo 3.2s ease-in-out infinite}
+  @keyframes halo{0%,100%{box-shadow:0 0 0 0 rgba(255,182,72,.16)}50%{box-shadow:0 0 22px 0 rgba(255,182,72,.16)}}
+  .tl{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:3px}
+  .tl span{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--faint);font-weight:700}
+  .tl span i{font-style:normal;font-weight:600;opacity:.62}
+  .tv{font-size:24px;font-weight:720;letter-spacing:-.03em;line-height:1.15}
+  .tdelta{font-size:11.5px;font-weight:650;color:var(--ok)}
+  .spark{height:22px;margin:5px 0 7px;width:100%}
+  .spark path{fill:none;stroke:#8FB4FF;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
+    filter:drop-shadow(0 0 5px rgba(91,140,255,.55))}
+  .spark .fillp{fill:rgba(91,140,255,.16);stroke:none;filter:none}
+  .tsay{font-size:12.5px;color:var(--mut);line-height:1.45;min-height:36px}
+  .tsay b{color:var(--ink);font-weight:620}
+  .tact{margin-top:9px;display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:650;
+    color:var(--acc);background:none;border:0;padding:0;cursor:pointer;font-family:inherit}
+  .tact:hover{text-decoration:underline}
+  .tact.warn{color:var(--warn)}
+  .tquiet{margin-top:9px;font-size:12px;color:var(--faint)}
+
+  /* два столбца */
+  .cols{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) 268px;gap:18px;padding:12px 22px 0;overflow:hidden}
+  .feedwrap{min-height:0;overflow-y:auto;padding-right:4px;padding-bottom:22px}
+  .feedwrap::-webkit-scrollbar{width:7px}
+  .feedwrap::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:4px}
+
+  .ev{background:var(--surf);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;margin-bottom:11px;
+    position:relative;animation:in .45s cubic-bezier(.2,.8,.3,1) both}
+  @keyframes in{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
+  .ev::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:2px;border-radius:2px;background:var(--acc);opacity:.55}
+  .ev.need::before{background:var(--warn);opacity:1}
+  .ev.need{border-color:rgba(255,182,72,.3)}
+  .ev.thin{padding:11px 16px}
+  .evh{display:flex;align-items:center;gap:9px;margin-bottom:6px}
+  .evt{font-size:11.5px;color:var(--faint);font-variant-numeric:tabular-nums}
+  .evn{font-weight:660;letter-spacing:-.01em}
+  .tag{font-size:10.5px;font-weight:750;letter-spacing:.07em;text-transform:uppercase;
+    padding:3px 7px;border-radius:6px;background:rgba(255,182,72,.14);color:var(--warn)}
+  .evb{font-size:13.5px;color:var(--mut);line-height:1.55}
+  .evb b{color:var(--ink);font-weight:620}
+  .evlist{margin:8px 0 0;padding:0;list-style:none;font-size:13px;color:var(--mut)}
+  .evlist li{padding:4px 0 4px 18px;position:relative}
+  .evlist li::before{content:"";position:absolute;left:2px;top:11px;width:5px;height:5px;border-radius:50%;background:var(--acc);opacity:.7}
+  .evlist li.you::before{background:var(--warn);opacity:1}
+  .evlist li b{color:var(--ink);font-weight:620}
+  .evact{margin-top:11px;display:flex;gap:9px;flex-wrap:wrap}
+  .btn{padding:7px 13px;border-radius:9px;font-size:12.5px;font-weight:640;cursor:pointer;font-family:inherit;
+    border:1px solid var(--line2);background:rgba(255,255,255,.04);color:var(--ink)}
+  .btn:hover{border-color:var(--acc);color:var(--acc)}
+  .btn.pri{background:var(--warn);border-color:var(--warn);color:#221501}
+  .btn.pri:hover{filter:brightness(1.08);color:#221501}
+  .btn.gho{border-color:transparent;color:var(--faint)}
+  .btn.gho:hover{color:var(--mut);border-color:var(--line)}
+
+  .me{display:flex;justify-content:flex-end;margin-bottom:11px}
+  .me div{max-width:70%;background:rgba(91,140,255,.14);border:1px solid rgba(91,140,255,.25);
+    padding:9px 13px;border-radius:12px 12px 4px 12px;font-size:13.5px}
+  .say{margin-bottom:11px;font-size:13.5px;color:var(--mut);padding-left:2px}
+  .say b{color:var(--ink)}
+
+  /* сводка */
+  .digest{min-height:0;overflow-y:auto;border-left:1px solid var(--line);padding:0 0 8px 18px}
+  .digest::-webkit-scrollbar{width:7px}
+  .digest::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:4px}
+  .dh{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--faint);font-weight:700;margin:2px 0 10px}
+  .dr{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.045)}
+  .dr span{font-size:12.5px;color:var(--mut)}
+  .dr b{font-size:13px;font-weight:660;white-space:nowrap}
+  .dr b.up{color:var(--ok)}.dr b.dn{color:#F87171}
+
+  /* низ */
+  .foot{padding:9px 22px 14px;border-top:1px solid var(--line);background:var(--bg2)}
+  .ready{font-size:12px;color:var(--faint);margin-bottom:9px;display:flex;align-items:center;gap:9px}
+  .bar{width:120px;height:3px;border-radius:2px;background:rgba(255,255,255,.09);overflow:hidden}
+  .bar i{display:block;height:100%;width:82%;background:linear-gradient(90deg,var(--acc2),var(--acc))}
+  .chips{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:9px}
+  .chip{font-size:12px;font-weight:560;color:var(--mut);background:rgba(255,255,255,.045);
+    border:1px solid var(--line);border-radius:20px;padding:6px 12px;cursor:pointer;
+    font-family:inherit;white-space:nowrap}
+  .chip:hover{color:var(--acc);border-color:rgba(63,224,208,.35);background:rgba(63,224,208,.08)}
+  .comp{display:flex;align-items:center;gap:11px;background:var(--surf);border:1px solid var(--line);
+    border-radius:12px;padding:10px 13px}
+  .comp:focus-within{border-color:var(--acc)}
+  .comp input{flex:1;background:none;border:0;outline:0;color:var(--ink);font:inherit;font-size:13.5px}
+  .comp input::placeholder{color:var(--faint)}
+  .send{width:30px;height:30px;border-radius:8px;border:0;cursor:pointer;
+    background:linear-gradient(135deg,var(--acc),var(--acc2));display:grid;place-items:center}
+  .send svg{width:14px;height:14px}
+
+  /* постер */
+  .veil{position:fixed;inset:0;background:rgba(4,6,10,.78);backdrop-filter:blur(6px);
+    display:none;place-items:center;z-index:40}
+  .veil.on{display:grid}
+  .poster{width:390px;border-radius:20px;padding:26px 26px 20px;position:relative;
+    background:linear-gradient(165deg,#101828,#070A11 60%);border:1px solid rgba(63,224,208,.25);
+    box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 60px rgba(63,224,208,.12);
+    animation:pop .35s cubic-bezier(.2,.9,.3,1) both}
+  @keyframes pop{from{opacity:0;transform:scale(.95) translateY(10px)}to{opacity:1;transform:none}}
+  .ph{display:flex;align-items:center;gap:9px;margin-bottom:18px}
+  .ph .ava{width:26px;height:26px;border-radius:8px}
+  .ph b{font-size:13.5px}
+  .ph span{font-size:12px;color:var(--faint)}
+  .prow{display:flex;align-items:baseline;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06)}
+  .prow b{font-size:27px;font-weight:740;letter-spacing:-.03em;min-width:96px;text-align:right}
+  .prow span{font-size:13px;color:var(--mut)}
+  .pwake{margin-top:14px;background:rgba(255,182,72,.1);border:1px solid rgba(255,182,72,.25);
+    border-radius:13px;padding:13px 15px;display:flex;align-items:baseline;gap:12px}
+  .pwake b{font-size:27px;font-weight:740;color:var(--warn);min-width:96px;text-align:right}
+  .pwake span{font-size:13px;color:var(--ink)}
+  .pwake i{display:block;font-style:normal;font-size:11.5px;color:var(--faint);margin-top:2px}
+  .pf{display:flex;justify-content:space-between;align-items:center;margin-top:17px;font-size:11.5px;color:var(--faint)}
+  .close{position:absolute;top:-13px;right:-13px;width:28px;height:28px;border-radius:50%;border:1px solid var(--line2);
+    background:#0C1018;color:var(--mut);cursor:pointer;font-size:15px;line-height:1}
+</style>
+
+<div class="app">
+  <aside class="rail">
+    <div class="mark"><svg viewBox="0 0 24 24" fill="#06121A"><path d="M12 2l2.6 6.8L21.4 12l-6.8 3.2L12 22l-2.6-6.8L2.6 12l6.8-3.2z"/></svg></div>
+    <div class="ric on" title="Смена"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h4l2 6 4-14 2 8h6"/></svg></div>
+    <div class="ric" title="Диалоги"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12a8 8 0 11-3-6.2L21 4v8z"/></svg><i class="bdg">7</i></div>
+    <div class="ric" title="Заказы"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4.5 7.5h15l-1.2 11a1.5 1.5 0 01-1.5 1.3H7.2a1.5 1.5 0 01-1.5-1.3z"/><path d="M9 7.5V6a3 3 0 016 0v1.5"/></svg><i class="bdg">2</i></div>
+    <div class="ric" title="Склад"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9.5L12 4l9 5.5V20H3z"/><path d="M9 20v-6h6v6"/></svg></div>
+    <div class="ric" title="Оплаты"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.5" y="5.5" width="19" height="13" rx="2.5"/><path d="M2.5 10h19"/></svg></div>
+    <div class="ric" title="Аналитика"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 19V9M12 19V5M19 19v-7"/></svg></div>
+    <div class="rsep"></div>
+    <div class="ric" title="Каналы"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg></div>
+    <div class="ric" title="Настройки"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3"/></svg></div>
+  </aside>
+
+  <main class="stage">
+
+    <header class="hud">
+      <div class="projbar">
+        <span class="plabel">Проект</span>
+        <a class="p" href="screen.html">Онлайн-школа</a>
+        <a class="p on">Лавка</a>
+      </div>
+      <div class="hudtop">
+        <div class="ava"><svg viewBox="0 0 24 24" fill="#06121A"><path d="M12 2l2.6 6.8L21.4 12l-6.8 3.2L12 22l-2.6-6.8L2.6 12l6.8-3.2z"/></svg></div>
+        <div>
+          <div class="who">Сейл</div>
+          <div class="onair" id="onair" title="Смена — это время, пока вас не было"><i class="dot"></i> смена идёт 18 ч 00 мин</div>
+        </div>
+        <svg class="wave" viewBox="0 0 104 22" preserveAspectRatio="none">
+          <path class="base" d="M0 11h12l4-8 5 16 5-12 4 4h13l4-7 5 14 5-11 4 4h13l4-6 5 12 3-6h15"/>
+          <path class="live" d="M0 11h12l4-8 5 16 5-12 4 4h13l4-7 5 14 5-11 4 4h13l4-6 5 12 3-6h15"/>
+        </svg>
+        <div class="spacer"></div>
+        <button class="share accept" id="acceptBtn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 12.5l5.5 5.5L20 7"/></svg>
+          Принять смену
+        </button>
+        <button class="share" id="shareBtn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 16V4M8 8l4-4 4 4M4 16v3a1 1 0 001 1h14a1 1 0 001-1v-3"/></svg>
+          Поделиться сменой
+        </button>
+      </div>
+      <div class="lede" id="lede">Пока вас не было — с 22:00 вчера до 16:00 сегодня</div>
+      <div class="figs">
+        <div class="fig"><b id="fAns">28</b><span>ОТВЕТИЛ</span></div>
+        <div class="fig"><b id="fPay">14</b><span>ЗАКАЗОВ СОБРАЛ</span></div>
+        <div class="fig hero"><b id="fRub">96 300 ₽</b><span>ПРИНЯЛ ЗА СМЕНУ</span></div>
+        <div class="fig"><b id="fBack">3</b><span>ВЕРНУЛ КОРЗИН</span></div>
+        <div class="fig wake"><b>1</b><span>РАЗ РАЗБУДИЛ ВАС</span></div>
+      </div>
+    </header>
+
+    <section class="pulse">
+      <div class="tile">
+        <div class="tl"><span>Деньги <i>· сутки</i></span><b class="tdelta">+9% к прошлой неделе</b></div>
+        <div class="tv" id="tRub">112 800 ₽</div>
+        <svg class="spark" viewBox="0 0 120 22" preserveAspectRatio="none">
+          <path class="fillp" d="M0 17L15 14L30 16L45 10L60 12L75 9L90 6L105 7L120 4V22H0z"/>
+          <path d="M0 17L15 14L30 16L45 10L60 12L75 9L90 6L105 7L120 4"/>
+        </svg>
+        <div class="tsay">Три оплаты по СБП <b>не долетели до заказов</b> — свёл руками по сумме и времени.</div>
+        <button class="tact" data-say="покажи три оплаты, которые ты свёл руками">Показать три →</button>
+      </div>
+
+      <div class="tile">
+        <div class="tl"><span>Заказы <i>· сутки</i></span><b class="tdelta">14 собрано</b></div>
+        <div class="tv">2 <span style="font-size:14px;color:var(--faint);font-weight:500">ждут адрес</span></div>
+        <svg class="spark" viewBox="0 0 120 22" preserveAspectRatio="none">
+          <path class="fillp" d="M0 12L20 14L40 9L60 11L80 7L100 8L120 5V22H0z"/>
+          <path d="M0 12L20 14L40 9L60 11L80 7L100 8L120 5"/>
+        </svg>
+        <div class="tsay">Двое не подтвердили пункт выдачи. Написал обоим, <b>один ответил</b> — собираю.</div>
+        <button class="tact" data-say="кто не подтвердил адрес">Открыть второго →</button>
+      </div>
+
+      <div class="tile alert">
+        <div class="tl"><span>Корзины <i>· сутки</i></span><b class="tdelta" style="color:var(--warn)">9 брошено</b></div>
+        <div class="tv">6 <span style="font-size:14px;color:var(--faint);font-weight:500">из-за доставки</span></div>
+        <svg class="spark" viewBox="0 0 120 22" preserveAspectRatio="none">
+          <path class="fillp" style="fill:rgba(255,182,72,.13)" d="M0 12L20 10L40 13L60 9L80 8L100 6L120 5V22H0z"/>
+          <path style="stroke:#FFC86B;filter:drop-shadow(0 0 5px rgba(255,182,72,.6))" d="M0 12L20 10L40 13L60 9L80 8L100 6L120 5"/>
+        </svg>
+        <div class="tsay">Шесть из девяти споткнулись об одно: <b>в их города расчёт доставки не проходит</b> и корзина зависает.</div>
+        <button class="tact warn" id="wakeBtn">Посчитать шестерым руками →</button>
+      </div>
+
+      <div class="tile">
+        <div class="tl"><span>Остатки <i>· сейчас</i></span><b class="tdelta" style="color:var(--faint)">4 на нуле</b></div>
+        <div class="tv">12 <span style="font-size:14px;color:var(--faint);font-weight:500">предзаказов</span></div>
+        <svg class="spark" viewBox="0 0 120 22" preserveAspectRatio="none">
+          <path class="fillp" d="M0 4L20 6L40 7L60 11L80 12L100 16L120 18V22H0z"/>
+          <path d="M0 4L20 6L40 7L60 11L80 12L100 16L120 18"/>
+        </svg>
+        <div class="tsay">Кончились глазурь белая, две формы и термометр. Продажи не останавливал — <b>перевёл в предзаказ</b>.</div>
+        <button class="tact" data-say="что заканчивается на складе">Что заказать →</button>
+      </div>
+    </section>
+
+    <div class="cols">
+      <div class="feedwrap" id="feed">
+
+        <div class="ev need">
+          <div class="evh"><span class="evt">15:10</span><span class="evn">Партия глазури задержана на неделю</span><span class="tag">нужны вы</span></div>
+          <div class="evb">Поставщик сдвинул отгрузку на 22-е. На белой глазури висят <b>12 предзаказов</b>
+            на 38 400 ₽, семеро из них ждут уже пятый день. Сам я такое не решаю: любой вариант
+            меняет обещание, которое мы дали людям.</div>
+          <ul class="evlist">
+            <li class="you"><b>Предложить замену</b> — глазурь другого производителя, на 180 ₽ дороже, разницу берём на себя</li>
+            <li class="you"><b>Вернуть деньги</b> — вернём 38 400 ₽ и потеряем двенадцать оплаченных заказов</li>
+            <li class="you"><b>Ждать до 22-го</b> — честно предупредить и дать отменить кому захочется</li>
+          </ul>
+          <div class="evact">
+            <button class="btn pri" data-done="Предлагаю замену всем двенадцати: пишу каждому лично, разницу закрываем мы. Кто откажется — верну деньги в тот же день.">Предложить замену</button>
+            <button class="btn" data-done="Возвращаю деньги двенадцати и снимаю позицию с витрины до поставки. Предзаказ открою обратно 22-го.">Вернуть деньги</button>
+            <button class="btn gho" data-say="напиши всем, что ждём до 22-го">Предупредить и ждать</button>
+          </div>
+        </div>
+
+        <div class="ev">
+          <div class="evh"><span class="evt">13:35</span><span class="evn">Собрал и отправил 14 заказов</span></div>
+          <div class="evb">Одиннадцать в пункты выдачи, три курьером. Трек-номера ушли покупателям
+            сразу, не дожидаясь вопроса «где заказ».</div>
+          <ul class="evlist">
+            <li><b>13</b> собраны по составу без замен</li>
+            <li><b>1</b> — не хватило одной формы: предложил другую того же размера, покупатель согласился</li>
+          </ul>
+          <div class="evact"><button class="btn" data-say="покажи четырнадцать заказов">Открыть заказы</button></div>
+        </div>
+
+        <div class="ev">
+          <div class="evh"><span class="evt">11:50</span><span class="evn">Три доставки опаздывают на сутки</span></div>
+          <div class="evb">Служба сдвинула рейс по Северо-Западу. <b>Написал всем троим сам</b>,
+            до того как они спросили: извинился и назвал новую дату. Один попросил отменить —
+            оформил возврат, деньги ушли обратно за четыре минуты.</div>
+          <div class="evact"><button class="btn" data-say="покажи три задержанные доставки">Открыть три</button></div>
+        </div>
+
+        <div class="ev">
+          <div class="evh"><span class="evt">09:05</span><span class="evn">Ночью было девятнадцать обращений</span></div>
+          <div class="evb">Четырнадцать — «есть ли в наличии» и «когда приедет», ответил из остатков
+            и трекинга. Три — про размеры форм, дал таблицу. Два — <b>про белую глазурь</b>,
+            это те самые предзаказы, они выше.</div>
+        </div>
+
+        <div class="ev thin">
+          <div class="evh"><span class="evt">08:40</span><span class="evn" style="font-weight:520;color:var(--mut)">Упаковки осталось на 40 отправлений — при вашем темпе это два дня</span></div>
+          <div class="evact"><button class="btn gho" data-say="закажи упаковку">Заказать →</button></div>
+        </div>
+
+      </div>
+
+      <aside class="digest">
+        <div class="dh">Сводка · 7 дней</div>
+        <div class="dr"><span>Средний чек</span><b>4 180 ₽</b></div>
+        <div class="dr"><span>Заходы → заказ</span><b class="up">3,8%</b></div>
+        <div class="dr"><span>Выкуп</span><b>91%</b></div>
+        <div class="dr"><span>Брошенных корзин</span><b class="dn">62</b></div>
+        <div class="dr"><span>Время сборки</span><b>26 мин</b></div>
+        <div class="dr"><span>Доставка в срок</span><b class="dn">88%</b></div>
+        <div class="dr"><span>Возвраты</span><b>4</b></div>
+        <div class="dr"><span>Повторные покупки</span><b class="up">23%</b></div>
+        <div class="dr"><span>Новых покупателей</span><b>47</b></div>
+        <div class="dr"><span>Отзывы за неделю</span><b>11</b></div>
+        <div class="dr"><span>Средняя оценка</span><b>4,8</b></div>
+        <div class="dr"><span>Позиций на нуле</span><b class="dn">4</b></div>
+        <div class="dr"><span>Оборачиваемость</span><b>21 день</b></div>
+        <div class="dr"><span>Нагрузка на вас</span><b class="up">1 решение</b></div>
+      </aside>
+    </div>
+
+    <div class="foot">
+      <div class="ready">
+        <span>Сейл готов на 74%</span>
+        <span class="bar"><i style="width:74%"></i></span>
+        <span>не подключён склад и нет автоответа по трек-номерам — из-за этого четырнадцать раз за ночь спрашивали «где заказ»</span>
+      </div>
+      <div class="chips">
+        <button class="chip">что с деньгами</button>
+        <button class="chip">что с корзинами</button>
+        <button class="chip">что на складе</button>
+        <button class="chip">где заказы</button>
+        <button class="chip">что с глазурью</button>
+        <button class="chip">что ты делал ночью</button>
+      </div>
+      <div class="comp">
+        <input id="inp" placeholder="Напишите Сейлу словами — «что с деньгами», «что на складе»…" autocomplete="off">
+        <button class="send" id="sendBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#06121A" stroke-width="2.4"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<div class="veil" id="veil">
+  <div class="poster">
+    <button class="close" id="closeBtn">×</button>
+    <div class="ph">
+      <div class="ava"><svg viewBox="0 0 24 24" fill="#06121A"><path d="M12 2l2.6 6.8L21.4 12l-6.8 3.2L12 22l-2.6-6.8L2.6 12l6.8-3.2z"/></svg></div>
+      <div><b>Сейл</b> <span>· смена 13→14 сентября, 18 часов</span></div>
+    </div>
+    <div class="prow"><b id="pAns">28</b><span>покупателям ответил</span></div>
+    <div class="prow"><b id="pPay">14</b><span>заказов собрал</span></div>
+    <div class="prow" style="border:0"><b id="pRub" style="color:var(--acc)">96 300 ₽</b><span>принял за смену</span></div>
+    <div class="pwake"><b>1</b><span>раз вас разбудил<i>партия глазури задержана, двенадцать предзаказов ждут решения</i></span></div>
+    <div class="pf"><span>18 часов без вас · лавка</span><span>salebot</span></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const feed = document.getElementById('feed');
+  const inp  = document.getElementById('inp');
+
+  // Шапка считает смену, плитка — календарные сутки. Разные окна, общий прирост.
+  const elShift = document.getElementById('fRub');
+  const elDay   = document.getElementById('tRub');
+  let mShift = 96300, mDay = 112800;
+  const fmt = n => n.toLocaleString('ru-RU') + ' ₽';
+  function bump(add){
+    const toS = mShift + add, toD = mDay + add, step = Math.max(1, Math.round(add/18));
+    const t = setInterval(() => {
+      mShift = Math.min(toS, mShift + step);
+      mDay   = Math.min(toD, mDay + step);
+      elShift.textContent = fmt(mShift);
+      elDay.textContent   = fmt(mDay);
+      document.getElementById('pRub').textContent = fmt(mShift);
+      if (mShift >= toS) clearInterval(t);
+    }, 28);
+  }
+
+  function scrollTop(){ feed.scrollTop = 0; }
+  function insertTop(el){
+    const pin = feed.querySelector('.ev.need');
+    if (pin && pin.parentNode === feed) feed.insertBefore(el, pin.nextSibling);
+    else feed.insertBefore(el, feed.firstChild);
+    scrollTop();
+  }
+  function addEv(name, body, extra){
+    const el = document.createElement('div');
+    el.className = 'ev';
+    const now = new Date();
+    const hh = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+    el.innerHTML = '<div class="evh"><span class="evt">'+hh+'</span><span class="evn">'+name+'</span></div>'
+                 + '<div class="evb">'+body+'</div>' + (extra || '');
+    insertTop(el);
+    return el;
+  }
+  function addSay(text){
+    const el = document.createElement('div');
+    el.className = 'say';
+    el.innerHTML = '<b>Сейл:</b> ' + text;
+    insertTop(el);
+  }
+  function addMe(text){
+    const el = document.createElement('div');
+    el.className = 'me';
+    el.innerHTML = '<div>' + text + '</div>';
+    insertTop(el);
+  }
+
+  const answers = {
+    'покажи три оплаты, которые ты свёл руками':
+      'Открываю «Оплаты», фильтр «без заказа за сутки». Свёл по сумме и минуте: 4 180 ₽ в 02:14, 6 900 ₽ в 05:40, 3 260 ₽ в 07:02. Если хоть одна сведена неверно — отменю в один клик, ничего не удалено.',
+    'кто не подтвердил адрес':
+      'Открываю заказ №1184, Тимур Н., набор «Старт» — выбрал пункт выдачи, которого больше нет. Предложил два ближайших, жду ответа второй час.',
+    'что заканчивается на складе':
+      'На нуле: глазурь белая, форма «Круг 18», форма «Овал 24», термометр. По темпу последних двух недель нужно 60 · 25 · 20 · 15. Составить заявку поставщику?',
+    'напиши всем, что ждём до 22-го':
+      'Хорошо, но скажу честно: пятеро ждут пятый день, двое уже спрашивали дважды. Напишу всем с точной датой и кнопкой «вернуть деньги» — чтобы решали они, а не мы за них.',
+    'покажи четырнадцать заказов':
+      'Открываю «Заказы», фильтр «собраны за смену». Тринадцать без замен, один с заменой формы — она помечена, чтобы вы увидели.',
+    'покажи три задержанные доставки':
+      'Открываю «Заказы», фильтр «доставка просрочена». Два в пути с новой датой, один отменён и возвращён.',
+    'закажи упаковку':
+      'Заявку составлю, отправить поставщику не смогу — интеграции с ним нет. Подготовлю список и сумму, отправите сами одним нажатием.'
+  };
+
+  document.addEventListener('click', e => {
+    const t = e.target.closest('[data-say],[data-done]');
+    if (!t) return;
+
+    if (t.dataset.done){
+      const card = t.closest('.ev');
+      card.classList.remove('need');
+      const tag = card.querySelector('.tag'); if (tag) tag.remove();
+      card.querySelector('.evact').innerHTML =
+        '<span style="font-size:12.5px;color:var(--ok);font-weight:620">✓ принято — дальше я сам</span>';
+      addSay(t.dataset.done);
+      return;
+    }
+
+    addMe(t.textContent.replace(/\s*→\s*$/,''));
+    const key = t.dataset.say;
+    setTimeout(() => addSay(answers[key] || 'Сделаю и покажу здесь же.'), 520);
+  });
+
+  // главный цикл лавки: доставка, которую считает человек, потому что калькулятор не умеет
+  document.getElementById('wakeBtn').addEventListener('click', function(){
+    if (this.disabled) return;
+    this.disabled = true; this.textContent = 'считаю…'; this.style.opacity = .6;
+
+    const card = addEv('Считаю доставку шестерым вручную',
+      'Калькулятор в их города не отвечает, поэтому беру тариф по весу и габаритам и пишу каждому цену числом — без «уточните у менеджера».',
+      '<ul class="evlist" id="wakeList"></ul>');
+    const list = card.querySelector('#wakeList');
+
+    const steps = [
+      'Калининград, набор «Старт», 2,4 кг — 640 ₽, написал',
+      'Сочи, две формы, 1,8 кг — 520 ₽, написал',
+      'Улан-Удэ, набор «Полный», 5,1 кг — 1 180 ₽, написал',
+      'Мурманск, глазури 6 цветов, 3,0 кг — 790 ₽, написал',
+      'Симферополь, термометр и формы, 1,2 кг — 480 ₽, написал',
+      'Петропавловск-Камчатский, набор «Старт», 2,4 кг — 1 640 ₽, предупредил про срок'
+    ];
+    let i = 0;
+    const tick = setInterval(() => {
+      const li = document.createElement('li');
+      li.textContent = steps[i++];
+      list.appendChild(li);
+      if (i === steps.length){
+        clearInterval(tick);
+        setTimeout(() => {
+          const li2 = document.createElement('li');
+          li2.innerHTML = '<b>Трое оформили за семь минут</b> — 11 240 ₽. Остальным дал сутки на решение';
+          list.appendChild(li2);
+          bump(11240);
+          const p = document.getElementById('fPay');
+          p.textContent = String(parseInt(p.textContent, 10) + 3);
+          const bk = document.getElementById('fBack');
+          bk.textContent = String(parseInt(bk.textContent, 10) + 3);
+          document.querySelector('.tile.alert .tv').innerHTML =
+            '3 <span style="font-size:14px;color:var(--faint);font-weight:500">осталось решить</span>';
+          document.querySelector('.tile.alert .tsay').innerHTML =
+            'Трое из шести оформили сразу, как увидели цену числом. <b>Проблема не в цене, а в том, что её не показывали.</b>';
+          const b = document.getElementById('wakeBtn');
+          b.textContent = 'готово'; b.style.color = 'var(--ok)'; b.style.opacity = 1;
+        }, 900);
+      }
+    }, 750);
+  });
+
+  // ── ввод: намерения лавки ────────────────────────────────────────
+  const norm = t => t.toLowerCase().replace(/ё/g, 'е').replace(/[^a-zа-я0-9 ]/g, ' ');
+  const has = (t, ...ws) => ws.some(w => t.indexOf(w) > -1);
+  function go(url){ location.href = url; }
+
+  const INTENTS = [
+    { test: t => has(t, 'деньг', 'выручк', 'заработ', 'оплат'),
+      run(){
+        addEv('Разобрал выручку смены',
+          'За 18 часов пришло <b>' + fmt(mShift) + '</b> с четырнадцати заказов. Средний чек — 4 180 ₽.',
+          '<ul class="evlist">'
+          + '<li><b>11 заказов</b> оплачены картой, зачислены сразу</li>'
+          + '<li><b>3 оплаты по СБП</b> — не долетели до заказов, свёл руками по сумме и минуте</li>'
+          + '<li class="you"><b>12 предзаказов</b> на 38 400 ₽ висят на задержанной глазури — карточка вверху</li>'
+          + '</ul>');
+      } },
+
+    { test: t => has(t, 'корзин', 'бросил', 'не купил'),
+      run(){ document.getElementById('wakeBtn').click(); } },
+
+    { test: t => has(t, 'остат', 'склад', 'кончил', 'закончил', 'заказать'),
+      run(){
+        addEv('Проверил остатки',
+          'На нуле четыре позиции: <b>глазурь белая</b>, формы «Круг 18» и «Овал 24», термометр. '
+          + 'Продажи не останавливал — перевёл в предзаказ, люди видят срок.',
+          '<ul class="evlist">'
+          + '<li>По темпу двух недель нужно 60 · 25 · 20 · 15</li>'
+          + '<li>Упаковки осталось на 40 отправлений — это два дня</li>'
+          + '<li class="you">Заявку поставщику соберу, <b>отправить не смогу</b> — интеграции с ним нет</li>'
+          + '</ul>');
+      } },
+
+    { test: t => has(t, 'доставк', 'опазд', 'курьер', 'трек'),
+      run(){
+        addSay('Три доставки по Северо-Западу сдвинулись на сутки — написал всем троим сам, '
+          + 'до того как спросили. Один попросил отменить, оформил возврат за четыре минуты. '
+          + 'Доставка в срок за неделю — 88%.');
+      } },
+
+    { test: t => has(t, 'заказ'),
+      run(){
+        addSay('Открываю «Заказы» за смену: четырнадцать собраны, два ждут подтверждения адреса.');
+        setTimeout(() => go('tasks.html'), 900);
+      } },
+
+    { test: t => has(t, 'диалог', 'переписк', 'клиент', 'покупател', 'обращен'),
+      run(){
+        addSay('Открываю «Диалоги» за смену — двадцать восемь разговоров, без ответа никого.');
+        setTimeout(() => go('dialogs.html'), 900);
+      } },
+
+    { test: t => has(t, 'глазур', 'предзаказ', 'партия', 'поставщик'),
+      run(){
+        addSay('Партия сдвинута на 22-е. Двенадцать предзаказов на 38 400 ₽, семеро ждут пятый день. '
+          + 'Варианты — в закреплённой карточке вверху: замена, возврат или честно ждать. '
+          + 'Сам не решаю: любой вариант меняет обещание, которое мы дали людям.');
+      } },
+
+    { test: t => has(t, 'ночь', 'что ты делал', 'что делал', 'отчет за'),
+      run(){
+        addSay('За смену: ответил 28 покупателям, собрал и отправил 14 заказов, принял ' + fmt(mShift)
+          + ', вернул три корзины. Разбудил вас один раз — из-за глазури.');
+      } },
+
+    { test: t => has(t, 'отчет', 'постер', 'поделит', 'скрин'),
+      run(){ document.getElementById('shareBtn').click(); } },
+
+    { test: t => has(t, 'умеешь', 'помощь', 'помоги', 'что можешь'),
+      run(){
+        addSay('Смотрю за деньгами, заказами, корзинами и остатками. Могу посчитать доставку руками, '
+          + 'написать тем, у кого зависла корзина, свести оплаты с заказами и собрать заявку поставщику. '
+          + 'Чего не могу — отправить её: интеграции с поставщиком нет.');
+      } }
+  ];
+
+  function handle(raw){
+    const t = norm(raw);
+    const hit = INTENTS.find(i => i.test(t));
+    if (hit) { setTimeout(hit.run, 520); return; }
+    setTimeout(() => addSay('Так я пока не умею. Зато умею: разобрать выручку, посчитать доставку '
+      + 'брошенным корзинам, проверить остатки, показать заказы. Спросите словами — я пойму.'), 520);
+  }
+
+  function send(){
+    const v = inp.value.trim();
+    if (!v) return;
+    addMe(v); inp.value = '';
+    handle(v);
+  }
+  document.getElementById('sendBtn').addEventListener('click', send);
+  inp.addEventListener('keydown', e => { if (e.key === 'Enter') send(); });
+
+  document.querySelectorAll('.chip').forEach(c => c.addEventListener('click', () => {
+    const v = c.textContent.trim();
+    addMe(v);
+    handle(v);
+  }));
+
+
+  // сдача смены
+  document.getElementById('acceptBtn').addEventListener('click', function(){
+    if (this.disabled) return;
+    this.disabled = true;
+    this.innerHTML = '&#10003; смена сдана';
+    document.getElementById('lede').innerHTML =
+      '<b style="color:var(--ink);font-weight:620">Смена сдана в 16:04.</b> ' +
+      'Итог за 18 ч 04 мин — ниже. Дальше работаю при вас: буду спрашивать сразу, а не копить в отчёт.';
+    document.getElementById('onair').innerHTML =
+      '<i class="dot" style="background:var(--ok);animation:none"></i> с вами с 16:04';
+    document.querySelectorAll('.fig span').forEach(e => { e.style.opacity = .62; });
+    addEv('Смена сдана',
+      'Принял. Новую смену открою, когда вы уйдёте, — а до тех пор всё показываю сразу, без отчёта.');
+  });
+
+  const veil = document.getElementById('veil');
+  document.getElementById('shareBtn').addEventListener('click', () => {
+    document.getElementById('pAns').textContent = document.getElementById('fAns').textContent;
+    document.getElementById('pPay').textContent = document.getElementById('fPay').textContent;
+    veil.classList.add('on');
+  });
+  document.getElementById('closeBtn').addEventListener('click', () => veil.classList.remove('on'));
+  veil.addEventListener('click', e => { if (e.target === veil) veil.classList.remove('on'); });
+
+  // экран живёт сам
+  setTimeout(() => {
+    addEv('Пришёл заказ', 'Набор «Глазури, 6 цветов» — <b>5 900 ₽</b>. Собрал, упаковал, трек-номер ушёл покупателю.');
+    bump(5900);
+    document.getElementById('fPay').textContent =
+      String(parseInt(document.getElementById('fPay').textContent, 10) + 1);
+  }, 9000);
+})();
+</script>
