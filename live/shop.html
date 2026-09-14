@@ -282,7 +282,7 @@
           <path d="M0 12L20 14L40 9L60 11L80 7L100 8L120 5"/>
         </svg>
         <div class="tsay">Двое не подтвердили пункт выдачи. Написал обоим, <b>один ответил</b> — собираю.</div>
-        <button class="tact" data-say="кто не подтвердил адрес">Открыть второго →</button>
+        <button class="tact" data-go="orders.html?p=shop&from=orders-addr#adres">Открыть второго →</button>
       </div>
 
       <div class="tile alert">
@@ -336,7 +336,7 @@
             <li><b>13</b> собраны по составу без замен</li>
             <li><b>1</b> — не хватило одной формы: предложил другую того же размера, покупатель согласился</li>
           </ul>
-          <div class="evact"><button class="btn" data-say="покажи четырнадцать заказов">Открыть заказы</button></div>
+          <div class="evact"><button class="btn" data-go="orders.html?p=shop&from=orders-14">Открыть заказы</button></div>
         </div>
 
         <div class="ev">
@@ -344,7 +344,7 @@
           <div class="evb">Служба сдвинула рейс по Северо-Западу. <b>Написал всем троим сам</b>,
             до того как они спросили: извинился и назвал новую дату. Один попросил отменить —
             оформил возврат, деньги ушли обратно за четыре минуты.</div>
-          <div class="evact"><button class="btn" data-say="покажи три задержанные доставки">Открыть три</button></div>
+          <div class="evact"><button class="btn" data-go="orders.html?p=shop&from=orders-late#dostavka">Открыть три</button></div>
         </div>
 
         <div class="ev">
@@ -535,6 +535,8 @@
           const li2 = document.createElement('li');
           li2.innerHTML = '<b>Трое оформили за семь минут</b> — 11 240 ₽. Остальным дал сутки на решение';
           list.appendChild(li2);
+          card.querySelector('.evlist').insertAdjacentHTML('afterend',
+            '<div class="evact"><button class="btn" data-go="dialogs.html?p=shop&from=dialogs-carts">Открыть три диалога</button></div>');
           bump(11240);
           const p = document.getElementById('fPay');
           p.textContent = String(parseInt(p.textContent, 10) + 3);
@@ -593,13 +595,13 @@
     { test: t => has(t, 'заказ'),
       run(){
         addSay('Открываю «Заказы» за смену: четырнадцать собраны, два ждут подтверждения адреса.');
-        setTimeout(() => go('tasks.html'), 900);
+        setTimeout(() => go('orders.html?p=shop&from=ask&q=' + encodeURIComponent(lastAsk)), 900);
       } },
 
     { test: t => has(t, 'диалог', 'переписк', 'клиент', 'покупател', 'обращен'),
       run(){
         addSay('Открываю «Диалоги» за смену — двадцать восемь разговоров, без ответа никого.');
-        setTimeout(() => go('dialogs.html'), 900);
+        setTimeout(() => go('dialogs.html?p=shop&from=ask&q=' + encodeURIComponent(lastAsk)), 900);
       } },
 
     { test: t => has(t, 'глазур', 'предзаказ', 'партия', 'поставщик'),
@@ -626,7 +628,9 @@
       } }
   ];
 
+  let lastAsk = '';
   function handle(raw){
+    lastAsk = raw;
     const t = norm(raw);
     const hit = INTENTS.find(i => i.test(t));
     if (hit) { setTimeout(hit.run, 520); return; }

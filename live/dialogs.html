@@ -13,10 +13,12 @@
 
   <aside class="rail">
     <div class="logo">salebot</div>
-    <a class="ric" href="screen.html" title="Смена"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h4l2 6 4-14 2 8h6"/></svg></a>
-    <a class="ric on" href="dialogs.html" title="Диалоги"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12a8 8 0 11-3-6.2L21 4v8z"/></svg><i class="bdg">5</i></a>
-    <a class="ric" href="tasks.html" title="Задачи"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6h16M4 12h16M4 18h10"/></svg><i class="bdg">12</i></a>
-    <a class="ric" href="services.html" title="Услуги"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7l9-4 9 4-9 4-9-4zM5 11v5l7 3 7-3v-5"/></svg></a>
+    <a class="ric" data-nav="shift" href="screen.html" title="Смена"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h4l2 6 4-14 2 8h6"/></svg></a>
+    <a class="ric" data-nav="dialogs.html" href="dialogs.html" title="Диалоги"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12a8 8 0 11-3-6.2L21 4v8z"/></svg><i class="bdg">5</i></a>
+    <a class="ric" data-p="school" data-nav="tasks.html" href="tasks.html" title="Задачи"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6h16M4 12h16M4 18h10"/></svg><i class="bdg">12</i></a>
+    <a class="ric" data-p="school" data-nav="services.html" href="services.html" title="Услуги"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7l9-4 9 4-9 4-9-4zM5 11v5l7 3 7-3v-5"/></svg></a>
+    <a class="ric" data-p="shop" data-nav="orders.html" href="orders.html" title="Заказы"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4.5 7.5h15l-1.2 11a1.5 1.5 0 01-1.5 1.3H7.2a1.5 1.5 0 01-1.5-1.3z"/><path d="M9 7.5V6a3 3 0 016 0v1.5"/></svg><i class="bdg">2</i></a>
+    <div class="ric" data-p="shop" title="Склад"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9.5L12 4l9 5.5V20H3z"/><path d="M9 20v-6h6v6"/></svg></div>
     <div class="ric" title="Оплаты"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.5" y="5.5" width="19" height="13" rx="2.5"/><path d="M2.5 10h19"/></svg></div>
     <div class="ric" title="Аналитика"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 19V9M12 19V5M19 19v-7"/></svg></div>
     <div class="rsep"></div>
@@ -27,14 +29,15 @@
   <main class="stage">
 
     <div class="trace">
-      <a href="screen.html">← Вернуться в смену</a>
+      <a href="screen.html" data-back="label">← Вернуться в смену</a>
       <span class="dot"></span>
-      <span>сюда вас привела карточка «Написал девятерым, кто молчал две недели» от 11:20</span>
-      <span class="who">Фильтр поставил <b>Сейл</b>: вернулись за 24 часа</span>
+      <span data-trace="сюда вас привела карточка «Написал девятерым, кто молчал две недели» от 11:20"></span>
+      <span class="who">Фильтр поставил <b>Сейл</b>: <span data-filter>вернулись за 24 часа</span></span>
     </div>
 
     <div class="top">
       <h1>Диалоги</h1>
+      <span class="tag gray" data-project>Онлайн-школа</span>
       <span class="tag green">0 без ответа</span>
       <div class="sp"></div>
       <button class="btn">Все каналы</button>
@@ -43,20 +46,20 @@
 
     <div class="body">
 
-      <div class="tabs">
+      <div class="tabs" data-p="school">
         <a class="on" href="#">Вернулись · 3</a>
         <a href="#smena">За смену · 41</a>
         <a href="#">Требуют внимания · 0</a>
         <a href="#">Все · 1 284</a>
       </div>
 
-      <div class="hint">
+      <div class="hint" data-p="school">
         <b>Все сорок один разговор за смену закрыты Сейлом.</b> Среднее время до ответа — девять секунд.
         Ниже — те трое, кто ответил на его письма молчавшим: разговор уже начат, вам остаётся
         решить только там, где он отметил.
       </div>
 
-      <div class="card">
+      <div class="card" data-p="school">
         <div class="hd"><h2>Ответили после письма</h2><span class="cnt">3</span>
           <div class="sp"></div><span class="tag ai">написал Сейл · 11:20</span></div>
         <div class="tw"><table>
@@ -85,7 +88,7 @@
         </table></div>
       </div>
 
-      <div class="card" id="smena">
+      <div class="card" data-p="school" id="smena">
         <div class="hd"><h2>За смену</h2><span class="cnt">41</span>
           <div class="sp"></div><span class="tag ai">все закрыты без вас</span></div>
         <div class="tw"><table>
@@ -99,8 +102,59 @@
         </table></div>
       </div>
 
+      <div class="tabs" data-p="shop">
+        <a class="on" href="#">Ответили после расчёта · 3</a>
+        <a href="#smena-shop">За смену · 28</a>
+        <a href="#">Требуют внимания · 0</a>
+        <a href="#">Все · 2 106</a>
+      </div>
+
+      <div class="hint" data-p="shop">
+        <b>Все двадцать восемь разговоров за смену закрыты Сейлом.</b> Четырнадцать из них —
+        «где мой заказ»: это те, кому трек-номер ушёл не сразу, потому что нет автоответа
+        по трекингу. Ниже — трое, кто оформил заказ, как только увидел цену доставки числом.
+      </div>
+
+      <div class="card" data-p="shop">
+        <div class="hd"><h2>Оформили после расчёта доставки</h2><span class="cnt">3</span>
+          <div class="sp"></div><span class="tag ai">посчитал Сейл вручную</span></div>
+        <div class="tw"><table>
+          <tr><th>Покупатель</th><th>Куда</th><th>Что было в корзине</th><th>Доставка</th><th>Итог</th></tr>
+          <tr>
+            <td class="n"><div class="row"><span class="ava">ОР</span><span>Ольга Р.<div class="mini">корзина висела 3 дня</div></span></div></td>
+            <td>Сочи</td><td>Две формы, 1,8 кг</td><td>520 ₽<div class="mini">калькулятор не отвечал</div></td>
+            <td><span class="tag green">оформила · 24 800 ₽</span></td>
+          </tr>
+          <tr>
+            <td class="n"><div class="row"><span class="ava">АК</span><span>Анна К.<div class="mini">корзина висела сутки</div></span></div></td>
+            <td>Калининград</td><td>Набор «Старт», 2,4 кг</td><td>640 ₽</td>
+            <td><span class="tag green">оформила · 8 200 ₽</span></td>
+          </tr>
+          <tr>
+            <td class="n"><div class="row"><span class="ava">СМ</span><span>Сергей М.</span></div></td>
+            <td>Улан-Удэ</td><td>Набор «Полный», 5,1 кг</td><td>1 180 ₽</td>
+            <td><span class="tag green">оформил · 11 240 ₽</span></td>
+          </tr>
+        </table></div>
+      </div>
+
+      <div class="card" data-p="shop" id="smena-shop">
+        <div class="hd"><h2>За смену</h2><span class="cnt">28</span>
+          <div class="sp"></div><span class="tag ai">все закрыты без вас</span></div>
+        <div class="tw"><table>
+          <tr><th>Покупатель</th><th>Тема</th><th>Кто ответил</th><th>Время ответа</th><th>Итог</th></tr>
+          <tr><td class="n">14 человек</td><td>«Где мой заказ»</td><td><span class="tag ai">Сейл</span></td><td>11 с в среднем</td><td><span class="tag amber">трек вручную</span></td></tr>
+          <tr><td class="n">6 человек</td><td>Наличие и сроки поставки</td><td><span class="tag ai">Сейл</span></td><td>8 с</td><td><span class="tag green">ответил из остатков</span></td></tr>
+          <tr><td class="n">3 человека</td><td>Размеры форм</td><td><span class="tag ai">Сейл</span></td><td>9 с</td><td><span class="tag green">дал таблицу</span></td></tr>
+          <tr><td class="n">2 человека</td><td>Белая глазурь, когда будет</td><td><span class="tag ai">Сейл</span></td><td>6 с</td><td><span class="tag amber">предзаказ, ждут решения</span></td></tr>
+          <tr><td class="n">Юлия С.</td><td>Отмена из-за задержки доставки</td><td><span class="tag ai">Сейл</span></td><td>4 с</td><td><span class="tag green">возврат за 4 мин</span></td></tr>
+          <tr><td class="n">…ещё 2</td><td>Оплата по СБП не прошла</td><td><span class="tag ai">Сейл</span></td><td>7 с</td><td><span class="tag green">свёл вручную</span></td></tr>
+        </table></div>
+      </div>
+
     </div>
   </main>
 </div>
+<script src="sections.js"></script>
 </body>
 </html>

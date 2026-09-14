@@ -336,8 +336,8 @@
             <li class="you"><b>12</b> — живые, и одна горит: «Не передаётся НДС 7%» — клиент пишет об этом третий раз</li>
           </ul>
           <div class="evact">
-            <button class="btn" data-say="покажи двенадцать живых задач">Открыть двенадцать</button>
-            <button class="btn gho" data-say="покажи, что ты снял">Показать, что снял</button>
+            <button class="btn" data-go="tasks.html?from=tasks-100">Открыть двенадцать</button>
+            <button class="btn gho" data-go="tasks.html?from=tasks-hidden#snyatye">Показать, что снял</button>
           </div>
         </div>
 
@@ -345,7 +345,7 @@
           <div class="evh"><span class="evt">11:20</span><span class="evn">Написал девятерым, кто молчал две недели</span></div>
           <div class="evb">Не рассылкой — каждому про то, где он остановился. <b>Трое ответили</b>, двое попросили счёт,
             один отписался. Оплат пока нет, но двое открыли программу курса.</div>
-          <div class="evact"><button class="btn" data-say="покажи диалоги с тремя вернувшимися">Открыть три диалога</button></div>
+          <div class="evact"><button class="btn" data-go="dialogs.html?from=dialogs-wake">Открыть три диалога</button></div>
         </div>
 
         <div class="ev">
@@ -577,7 +577,7 @@
           + '<li class="you"><b>2 оплаты зависли на эквайринге</b> — 14 900 ₽: люди ушли с формы, деньги не списались</li>'
           + '</ul>'
           + '<div class="evact"><button class="btn" data-say="вернуть двоих с формы">Вернуть двоих</button>'
-          + '<button class="btn gho" data-go="dialogs.html?f=pay">Открыть оплаты</button></div>');
+          + '<button class="btn gho" data-go="dialogs.html?from=pay">Открыть оплаты</button></div>');
       } },
 
     { id: 'debt', test: t => has(t, 'не плат', 'должн', 'долг', 'просроч плат', 'рассрочк'),
@@ -606,20 +606,20 @@
     { id: 'tasks', test: t => has(t, 'задач', 'просроч'),
       run(){
         addSay('Открываю «Задачи» с фильтром «живые, просрочено» — двенадцать штук, сверху НДС 7%.');
-        setTimeout(() => go('tasks.html'), 900);
+        setTimeout(() => go('tasks.html?from=ask&q=' + encodeURIComponent(lastAsk)), 900);
       } },
 
     { id: 'dialogs', test: t => has(t, 'диалог', 'переписк', 'клиент', 'кто писал', 'обращен'),
       run(){
         addSay('Открываю «Диалоги» за смену — сорок один разговор, все закрыты, без ответа никого.');
-        setTimeout(() => go('dialogs.html'), 900);
+        setTimeout(() => go('dialogs.html?from=ask&q=' + encodeURIComponent(lastAsk)), 900);
       } },
 
     { id: 'schedule', test: t => has(t, 'расписан', 'календар', 'недел', 'загрузк', 'окна'),
       run(){
         addSay('Открываю расписание на неделю. Сразу скажу, что увижу: вебинар в четверг и два разбора, ' +
           'свободных окон много — под курс это нормально.');
-        setTimeout(() => go('services.html'), 900);
+        setTimeout(() => go('services.html?from=ask&q=' + encodeURIComponent(lastAsk)), 900);
       } },
 
     { id: 'module', test: t => has(t, 'модул', 'домашк', 'доходим', 'застря'),
@@ -670,7 +670,9 @@
       } }
   ];
 
+  let lastAsk = '';
   function handle(raw){
+    lastAsk = raw;
     const t = norm(raw);
     const hit = INTENTS.find(i => i.test(t));
     if (hit) { setTimeout(hit.run, 520); return; }
