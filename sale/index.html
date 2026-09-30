@@ -13,7 +13,7 @@
 html { -webkit-text-size-adjust: 100%; }
 body { margin: 0; }
 img { max-width: 100%; }
-/* Layout: one reading column; the product speaks through messenger bubbles (owner right, Sale left), "online" green as the only accent */
+/* Layout: one thought, told loud — hero with a live chat, three big quality cards, owner requests as messenger bubbles, "online" green as the only accent */
 :root {
   --bg: #F2F4F7;
   --surface: #FFFFFF;
@@ -25,8 +25,6 @@ img { max-width: 100%; }
   --owner: #1D3A8A;
   --owner-ink: #FFFFFF;
   --sale: #FFFFFF;
-  --draft: #8A5A00;
-  --draft-bg: #FFF3D6;
   --f-display: "Unbounded", "Arial Black", system-ui, sans-serif;
   --f-body: "Onest", "Segoe UI", system-ui, -apple-system, sans-serif;
   --shadow: 0 1px 2px rgba(19,26,42,.06), 0 8px 24px rgba(19,26,42,.06);
@@ -34,16 +32,14 @@ img { max-width: 100%; }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #0E131D; --surface: #161D2B; --ink: #E9EDF5; --muted: #9AA4B8; --line: #263045;
-    --accent: #2DC89F; --accent-soft: #123A31; --owner: #3558C4; --owner-ink: #FFFFFF;
-    --sale: #1C2536; --draft: #F1C267; --draft-bg: #2E2616;
+    --accent: #2DC89F; --accent-soft: #123A31; --owner: #3558C4; --owner-ink: #FFFFFF; --sale: #1C2536;
     --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --bg: #0E131D; --surface: #161D2B; --ink: #E9EDF5; --muted: #9AA4B8; --line: #263045;
-  --accent: #2DC89F; --accent-soft: #123A31; --owner: #3558C4; --owner-ink: #FFFFFF;
-  --sale: #1C2536; --draft: #F1C267; --draft-bg: #2E2616;
+  --accent: #2DC89F; --accent-soft: #123A31; --owner: #3558C4; --owner-ink: #FFFFFF; --sale: #1C2536;
   --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
   color-scheme: dark;
 }
@@ -52,15 +48,12 @@ body { background: var(--bg); color: var(--ink); font-family: var(--f-body); fon
 .wrap { max-width: 1040px; margin: 0 auto; padding-inline: 20px; padding-block: 0 72px; }
 .col { max-width: 660px; }
 
-.draft { display: flex; justify-content: center; padding-block: 10px; }
-.draft span { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; font-weight: 600; color: var(--draft); background: var(--draft-bg); padding: 4px 12px; border-radius: 999px; }
-
 /* Hero */
-.hero { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 48px; align-items: center; padding-block: 40px 56px; }
+.hero { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 48px; align-items: center; padding-block: 48px 56px; }
 .eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
 .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); flex: none; }
 h1 { font-family: var(--f-display); font-weight: 800; font-size: clamp(34px, 6vw, 64px); line-height: 1.02; letter-spacing: -.02em; margin: 16px 0 0; text-wrap: balance; }
-h1 .sub { display: block; font-weight: 500; font-size: .5em; letter-spacing: -.01em; margin-top: 14px; color: var(--muted); }
+h1 .sub { display: block; font-weight: 500; font-size: .44em; line-height: 1.25; letter-spacing: -.01em; margin-top: 16px; color: var(--muted); }
 h1 .sub b { color: var(--ink); font-weight: 700; }
 .lead { font-size: 19px; color: var(--muted); margin: 22px 0 0; max-width: 34em; }
 
@@ -75,7 +68,7 @@ h1 .sub b { color: var(--ink); font-weight: 700; }
 .msg { max-width: 88%; padding: 10px 14px; border-radius: 16px; font-size: 15px; line-height: 1.45; }
 .msg.owner { align-self: flex-end; background: var(--owner); color: var(--owner-ink); border-bottom-right-radius: 5px; }
 .msg.sale { align-self: flex-start; background: var(--sale); border: 1px solid var(--line); border-bottom-left-radius: 5px; }
-.msg.sale ul { margin: 6px 0 6px; padding-left: 18px; }
+.msg.sale ul { margin: 6px 0; padding-left: 18px; }
 .msg .time { display: block; text-align: right; font-size: 11px; opacity: .65; margin-top: 2px; }
 .hero .msg { animation: pop .45s ease-out both; }
 .hero .msg:nth-of-type(2) { animation-delay: .25s; }
@@ -83,62 +76,42 @@ h1 .sub b { color: var(--ink); font-weight: 700; }
 @keyframes pop { from { transform: translateY(8px); opacity: .01; } to { transform: none; opacity: 1; } }
 
 /* Sections */
-section { padding-block: 40px; border-top: 1px solid var(--line); }
-h2 { font-family: var(--f-display); font-weight: 700; font-size: clamp(24px, 3.4vw, 32px); line-height: 1.15; letter-spacing: -.01em; margin: 0 0 18px; text-wrap: balance; }
+section { padding-block: 44px; border-top: 1px solid var(--line); }
+h2 { font-family: var(--f-display); font-weight: 700; font-size: clamp(24px, 3.4vw, 34px); line-height: 1.15; letter-spacing: -.01em; margin: 0 0 18px; text-wrap: balance; }
 p { margin: 0 0 14px; }
 p:last-child { margin-bottom: 0; }
 .accent { color: var(--accent); }
+.punch { font-family: var(--f-display); font-weight: 700; font-size: clamp(20px, 2.8vw, 26px); line-height: 1.25; margin-top: 18px; }
 
-.vs { margin: 24px 0 26px; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); overflow: hidden; }
-.vs-row { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1fr) minmax(0, 1.2fr); gap: 20px; padding: 16px 22px; border-top: 1px solid var(--line); font-size: 15px; line-height: 1.45; align-items: start; }
-.vs-row > * { min-width: 0; }
-.vs-row b { font-weight: 700; }
-.vs-row span:nth-child(2) { color: var(--muted); }
-.vs-row span:nth-child(3) { font-weight: 500; }
-.vs-head { border-top: 0; padding-block: 12px; font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; background: var(--bg); }
-.vs-head span:nth-child(3) { font-weight: 700; }
-.punch { font-family: var(--f-display); font-weight: 700; font-size: clamp(20px, 2.8vw, 26px); line-height: 1.25; margin-top: 8px; }
+/* Qualities */
+.qualities { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.q { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; box-shadow: var(--shadow); padding: 26px 24px; min-width: 0; }
+.q h3 { font-family: var(--f-display); font-weight: 800; font-size: clamp(22px, 2.6vw, 28px); letter-spacing: -.01em; margin: 0 0 12px; color: var(--accent); }
+.q p { font-size: 16px; }
 
-.shift { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 8px; }
-.shift > div { border-radius: 18px; padding: 22px; min-width: 0; }
-.was { border: 1px dashed var(--line); color: var(--muted); }
-.now { background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); }
-.tag { display: inline-block; font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 10px; }
-.now .tag { color: var(--accent); }
-.shift p { font-size: 16px; }
+/* Requests */
+.asks { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; margin: 22px 0 24px; max-width: 520px; }
+.asks .msg { font-size: 16px; }
 
-.tasks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 22px; }
-.task { display: flex; flex-direction: column; gap: 8px; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 16px; min-width: 0; }
-.task .msg { max-width: 92%; }
-.task .msg.sale { background: var(--bg); }
-
-.promise { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; }
-.promise h2 { font-size: clamp(20px, 2.6vw, 24px); }
-.modes { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-.mode { font-size: 14px; font-weight: 600; padding: 6px 12px; border-radius: 999px; background: var(--accent-soft); color: var(--ink); }
-
-.cta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 8px; }
+/* CTA */
+.cta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
 .cta > div { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 22px; min-width: 0; }
 .cta h3 { font-family: var(--f-display); font-weight: 700; font-size: 18px; margin: 0 0 10px; }
-.cta .ask { display: inline-block; margin-top: 6px; background: var(--owner); color: var(--owner-ink); padding: 8px 14px; border-radius: 14px; border-bottom-right-radius: 5px; font-weight: 500; }
+.cta .ask { display: inline-block; margin-block: 4px 0; background: var(--owner); color: var(--owner-ink); padding: 8px 14px; border-radius: 14px; border-bottom-right-radius: 5px; font-weight: 500; }
 
-.sign { padding-top: 40px; border-top: 1px solid var(--line); }
-.sign p { font-size: 18px; }
-.sign .brand { font-family: var(--f-display); font-weight: 700; font-size: 22px; }
+.final { padding-top: 44px; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 28px; }
+.final .big { font-family: var(--f-display); font-weight: 800; font-size: clamp(26px, 4.4vw, 44px); line-height: 1.1; letter-spacing: -.02em; margin: 0; text-wrap: balance; }
+.final .sign { font-size: 18px; margin: 0; }
+.final .brand { font-family: var(--f-display); font-weight: 700; font-size: 22px; }
 
 @media (max-width: 820px) {
-  .hero { grid-template-columns: minmax(0, 1fr); gap: 32px; padding-block: 24px 40px; }
-  .promise { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  .hero { grid-template-columns: minmax(0, 1fr); gap: 32px; padding-block: 28px 40px; }
+  .qualities { grid-template-columns: minmax(0, 1fr); }
 }
 @media (max-width: 600px) {
   body { font-size: 16px; }
   .wrap { padding-inline: 16px; }
-  .shift, .tasks, .cta { grid-template-columns: minmax(0, 1fr); }
-  .vs-head { display: none; }
-  .vs-row { grid-template-columns: minmax(0, 1fr); gap: 6px; border-top: 1px solid var(--line); }
-  .vs .vs-row:nth-child(2) { border-top: 0; }
-  .vs-row span:nth-child(2)::before { content: "Обычный сотрудник: "; font-weight: 600; }
-  .vs-row span:nth-child(3)::before { content: "Сейл: "; font-weight: 700; color: var(--accent); }
+  .cta { grid-template-columns: minmax(0, 1fr); }
   .lead { font-size: 17px; }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -152,8 +125,8 @@ p:last-child { margin-bottom: 0; }
   <header class="hero">
     <div>
       <span class="eyebrow"><span class="dot"></span>Новое в Salebot</span>
-      <h1>Salebot-революция <span class="sub"><b>Сейл</b> вышел на работу</span></h1>
-      <p class="lead">Восемь лет Salebot был инструментом. Теперь в нём работает умный помощник. Ему не нужно объяснять, как работать: скажите, что нужно, и он заработает это для вас.</p>
+      <h1>Salebot-революция <span class="sub">В вашем бизнесе новый сотрудник. Его зовут <b>Сейл</b></span></h1>
+      <p class="lead">Он не спит, не устаёт и не ждёт указаний. Он уже знает ваш проект и уже ищет, где вы можете заработать больше.</p>
     </div>
 
     <div class="chat" aria-label="Пример разговора с Сейлом">
@@ -179,112 +152,62 @@ p:last-child { margin-bottom: 0; }
 
   <section>
     <div class="col">
-      <h2>Лучше обычного сотрудника</h2>
-      <p>Обычного сотрудника приходится учить, объяснять ему каждый шаг и проверять за ним. Сейлу достаточно сказать, чего вы хотите: «верни клиентов», «нужны продажи к выходным», «разберись с заявками». Он сам поймёт, что сделать, сделает и заработает эти деньги для вас.</p>
-    </div>
-    <div class="vs" role="table" aria-label="Обычный сотрудник и Сейл">
-      <div class="vs-row vs-head" role="row">
-        <span role="columnheader"></span>
-        <span role="columnheader">Обычный сотрудник</span>
-        <span role="columnheader" class="accent">Сейл</span>
-      </div>
-      <div class="vs-row" role="row">
-        <b role="rowheader">Сообразительный</b>
-        <span role="cell">Нужно объяснить, как сделать. Иногда дважды.</span>
-        <span role="cell">Понимает с полуслова. Достаточно сказать, что нужно.</span>
-      </div>
-      <div class="vs-row" role="row">
-        <b role="rowheader">Исполнительный</b>
-        <span role="cell">Забывает, откладывает, путается в разделах.</span>
-        <span role="cell">Делает сразу и доводит до конца. Знает каждый уголок вашего проекта.</span>
-      </div>
-      <div class="vs-row" role="row">
-        <b role="rowheader">Инициативный</b>
-        <span role="cell">Ждёт, пока ему скажут.</span>
-        <span role="cell">Сам находит, где можно заработать, и приходит с готовым решением.</span>
-      </div>
-    </div>
-    <div class="col">
-      <p class="punch">Вы говорите, что нужно. <span class="accent">Он зарабатывает.</span></p>
+      <h2>Он перевернёт ваш бизнес</h2>
+      <p>Представьте сотрудника, который знает о вашем деле всё: каждого клиента, каждую сделку, каждую оплату. Утром он приходит не с вопросом «что делать?», а с готовым планом: вот кого вернуть, что предложить, где лежат деньги. Ему достаточно сказать «делай», и работа сделана.</p>
+      <p class="punch">Такой сотрудник <span class="accent">теперь есть у вас.</span></p>
     </div>
   </section>
 
   <section>
-    <div class="col"><h2>Был инструмент, стал сотрудник</h2></div>
-    <div class="shift">
-      <div class="was">
-        <span class="tag">Было</span>
-        <p>Мощный инструмент: через Salebot с клиентами общаются больше 15&nbsp;000 компаний. Но всё делали вы сами: настраивали, проверяли, следили, разбирались. Чтобы зарабатывать, нужно было знать, где какая кнопка.</p>
+    <div class="qualities">
+      <div class="q">
+        <h3>Неутомим</h3>
+        <p>Работает днём и ночью, в выходные и праздники. Пока вы отдыхаете, он следит за каждым клиентом.</p>
       </div>
-      <div class="now">
-        <span class="tag">Стало</span>
-        <p>В вашем проекте работает Сейл. Он знает каждую переписку, сделку, оплату, запись и воронку. Он не ждёт, пока вы спросите: открываете проект, и он уже рассказывает, кто ждёт ответа, кого можно вернуть, где зависли деньги и что сломалось. К каждой находке сразу предлагает решение. Вам остаётся сказать «делай».</p>
+      <div class="q">
+        <h3>Инициативен</h3>
+        <p>Не ждёт поручений. Сам замечает, где можно заработать, и приходит с идеей.</p>
+      </div>
+      <div class="q">
+        <h3>Креативен</h3>
+        <p>Придумает акцию, напишет текст, соберёт воронку, запустит рассылку. Вы называете цель, путь к ней он находит сам.</p>
       </div>
     </div>
   </section>
 
   <section>
     <div class="col">
-      <h2>Поручайте ему, как сотруднику</h2>
-      <p>Не нужно искать раздел и разбираться в настройках. Напишите Сейлу своими словами.</p>
+      <h2>Вы занимаетесь делом. <span class="accent">Он зарабатывает</span></h2>
+      <p>Больше не нужно разбираться в настройках, искать кнопки и объяснять, как надо. Просто скажите, чего хотите:</p>
     </div>
-    <div class="tasks">
-      <div class="task">
-        <div class="msg owner">Верни тех, кто бросил оплату на этой неделе</div>
-        <div class="msg sale">Нашёл их и подготовил сообщение. Отправляю после вашего «да».</div>
-      </div>
-      <div class="task">
-        <div class="msg owner">Запускаем акцию к выходным</div>
-        <div class="msg sale">Собрал воронку и рассылку. Посмотрите перед запуском?</div>
-      </div>
-      <div class="task">
-        <div class="msg owner">Почему перестали приходить заявки с сайта?</div>
-        <div class="msg sale">Разберусь, найду причину и починю.</div>
-      </div>
-      <div class="task">
-        <div class="msg owner">Что с учениками нового потока?</div>
-        <div class="msg sale">Вот кто отстаёт. Предлагаю вернуть их так.</div>
-      </div>
+    <div class="asks">
+      <div class="msg owner">Хочу больше продаж к выходным</div>
+      <div class="msg owner">Верни клиентов, которые давно не заходили</div>
+      <div class="msg owner">Придумай, как продать новый курс</div>
     </div>
-    <div class="col" style="margin-top:24px">
-      <p>Он не устаёт, не болеет и не уходит в отпуск. О таком помощнике мечтает любой владелец малого бизнеса, и теперь он есть у каждого клиента Salebot.</p>
-    </div>
-  </section>
-
-  <section class="promise">
-    <div>
-      <h2>Решаете вы</h2>
-      <p>Всё, что касается денег и сообщений вашим клиентам, Сейл делает только с вашего согласия. Если хотите, чтобы он брал на себя больше, включите режим:</p>
-      <div class="modes"><span class="mode">Работа в фоне</span><span class="mode">Делает сам</span></div>
-      <p style="margin-top:12px">Сколько свободы ему дать, выбираете вы.</p>
-    </div>
-    <div>
-      <h2>Всегда под рукой</h2>
-      <p>Вы ведёте бизнес: проводите урок, принимаете клиентов, едете на встречу. А Сейл всегда рядом и держит всё под контролем. Заглянули в проект на минуту и уже знаете, что происходит и что сделать прямо сейчас.</p>
+    <div class="col">
+      <p>И Сейл возьмётся за работу. Всё, что касается денег и сообщений вашим клиентам, он сделает только после вашего «да».</p>
     </div>
   </section>
 
   <section>
-    <div class="col"><h2>Попробуйте сегодня</h2></div>
+    <div class="col"><h2>Познакомьтесь с ним прямо сейчас</h2></div>
     <div class="cta">
       <div>
         <h3>Уже работаете в Salebot?</h3>
-        <p>Сейл уже в вашем проекте. Откройте проект и спросите его:</p>
-        <span class="ask">Что я пропустил?</span>
-        <p style="margin-top:12px">Возможно, он найдёт то, чего вы давно не замечали.</p>
+        <p>Сейл ждёт в вашем проекте. Откройте проект и напишите ему:</p>
+        <span class="ask">Что ты можешь сделать для моего бизнеса сегодня?</span>
       </div>
       <div>
         <h3>Ещё не с нами?</h3>
-        <p>Зарегистрируйтесь, дальше Сейл проведёт вас сам. Он расспросит о вашем бизнесе и соберёт всё, чтобы клиенты начали приходить. Без инструкций и обучения.</p>
+        <p>Зарегистрируйтесь, и через пару минут Сейл будет знать ваш бизнес и возьмётся за работу.</p>
       </div>
-    </div>
-    <div class="col" style="margin-top:24px">
-      <p>И расскажите нам, что Сейл для вас нашёл и сделал. Он учится каждый день, и ваши истории определяют, чему он научится дальше.</p>
     </div>
   </section>
 
-  <footer class="sign">
-    <p>Всегда рядом,<br><span class="brand">ваш Salebot</span></p>
+  <footer class="final">
+    <p class="big">Он уже на работе. <span class="accent">Дело за вами.</span></p>
+    <p class="sign">Всегда рядом,<br><span class="brand">ваш Salebot</span></p>
   </footer>
 </div>
 </body>
