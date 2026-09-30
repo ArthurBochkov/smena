@@ -89,9 +89,14 @@ p { margin: 0 0 14px; }
 p:last-child { margin-bottom: 0; }
 .accent { color: var(--accent); }
 
-.losses { list-style: none; padding: 0; margin: 20px 0 22px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-.losses li { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; font-size: 15px; line-height: 1.4; display: flex; gap: 10px; align-items: flex-start; }
-.losses li::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--muted); opacity: .5; margin-top: 7px; flex: none; }
+.vs { margin: 24px 0 26px; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); overflow: hidden; }
+.vs-row { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1fr) minmax(0, 1.2fr); gap: 20px; padding: 16px 22px; border-top: 1px solid var(--line); font-size: 15px; line-height: 1.45; align-items: start; }
+.vs-row > * { min-width: 0; }
+.vs-row b { font-weight: 700; }
+.vs-row span:nth-child(2) { color: var(--muted); }
+.vs-row span:nth-child(3) { font-weight: 500; }
+.vs-head { border-top: 0; padding-block: 12px; font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; background: var(--bg); }
+.vs-head span:nth-child(3) { font-weight: 700; }
 .punch { font-family: var(--f-display); font-weight: 700; font-size: clamp(20px, 2.8vw, 26px); line-height: 1.25; margin-top: 8px; }
 
 .shift { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 8px; }
@@ -128,7 +133,12 @@ p:last-child { margin-bottom: 0; }
 @media (max-width: 600px) {
   body { font-size: 16px; }
   .wrap { padding-inline: 16px; }
-  .losses, .shift, .tasks, .cta { grid-template-columns: minmax(0, 1fr); }
+  .shift, .tasks, .cta { grid-template-columns: minmax(0, 1fr); }
+  .vs-head { display: none; }
+  .vs-row { grid-template-columns: minmax(0, 1fr); gap: 6px; border-top: 1px solid var(--line); }
+  .vs .vs-row:nth-child(2) { border-top: 0; }
+  .vs-row span:nth-child(2)::before { content: "Обычный сотрудник: "; font-weight: 600; }
+  .vs-row span:nth-child(3)::before { content: "Сейл: "; font-weight: 700; color: var(--accent); }
   .lead { font-size: 17px; }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -143,7 +153,7 @@ p:last-child { margin-bottom: 0; }
     <div>
       <span class="eyebrow"><span class="dot"></span>Новое в Salebot</span>
       <h1>Salebot-революция <span class="sub"><b>Сейл</b> вышел на работу</span></h1>
-      <p class="lead">Восемь лет Salebot был инструментом. Теперь в нём работает сотрудник, который знает ваш проект целиком и сам приходит с решениями.</p>
+      <p class="lead">Восемь лет Salebot был инструментом. Теперь в нём работает умный помощник. Ему не нужно объяснять, как работать: скажите, что нужно, и он заработает это для вас.</p>
     </div>
 
     <div class="chat" aria-label="Пример разговора с Сейлом">
@@ -169,18 +179,33 @@ p:last-child { margin-bottom: 0; }
 
   <section>
     <div class="col">
-      <h2>Деньги уходят тихо</h2>
-      <p>Каждый день бизнес теряет деньги, и никто этого не замечает.</p>
+      <h2>Лучше обычного сотрудника</h2>
+      <p>Обычного сотрудника приходится учить, объяснять ему каждый шаг и проверять за ним. Сейлу достаточно сказать, чего вы хотите: «верни клиентов», «нужны продажи к выходным», «разберись с заявками». Он сам поймёт, что сделать, сделает и заработает эти деньги для вас.</p>
     </div>
-    <ul class="losses">
-      <li>Клиент написал вечером и не дождался ответа.</li>
-      <li>Человек дошёл до оплаты и закрыл страницу.</li>
-      <li>Ученик купил курс и ни разу не зашёл.</li>
-      <li>Сделка третью неделю стоит без движения.</li>
-    </ul>
+    <div class="vs" role="table" aria-label="Обычный сотрудник и Сейл">
+      <div class="vs-row vs-head" role="row">
+        <span role="columnheader"></span>
+        <span role="columnheader">Обычный сотрудник</span>
+        <span role="columnheader" class="accent">Сейл</span>
+      </div>
+      <div class="vs-row" role="row">
+        <b role="rowheader">Сообразительный</b>
+        <span role="cell">Нужно объяснить, как сделать. Иногда дважды.</span>
+        <span role="cell">Понимает с полуслова. Достаточно сказать, что нужно.</span>
+      </div>
+      <div class="vs-row" role="row">
+        <b role="rowheader">Исполнительный</b>
+        <span role="cell">Забывает, откладывает, путается в разделах.</span>
+        <span role="cell">Делает сразу и доводит до конца. Знает каждый уголок вашего проекта.</span>
+      </div>
+      <div class="vs-row" role="row">
+        <b role="rowheader">Инициативный</b>
+        <span role="cell">Ждёт, пока ему скажут.</span>
+        <span role="cell">Сам находит, где можно заработать, и приходит с готовым решением.</span>
+      </div>
+    </div>
     <div class="col">
-      <p>Обычно об этом узнают, когда клиент уже ушёл к другим.</p>
-      <p class="punch">Теперь это замечает Сейл. <span class="accent">И раньше вас.</span></p>
+      <p class="punch">Вы говорите, что нужно. <span class="accent">Он зарабатывает.</span></p>
     </div>
   </section>
 
@@ -222,7 +247,7 @@ p:last-child { margin-bottom: 0; }
       </div>
     </div>
     <div class="col" style="margin-top:24px">
-      <p>Сообразительный и исполнительный сотрудник, который знает ваш проект целиком, не устаёт и не уходит в отпуск. О таком мечтает любой владелец малого бизнеса. Теперь он есть у каждого клиента Salebot.</p>
+      <p>Он не устаёт, не болеет и не уходит в отпуск. О таком помощнике мечтает любой владелец малого бизнеса, и теперь он есть у каждого клиента Salebot.</p>
     </div>
   </section>
 
